@@ -1,5 +1,5 @@
-php-UitzendingGemist4DuneHD
-===========================
+Uitzending Gemist Index on Dune HD (PHP Script)
+===============================================
 Server side scripts to enabling watching Uitzending Gemist on Dune HD media player.
 
 PHP script for indexing 'Uitzending Gemist' on Dune HD media player
