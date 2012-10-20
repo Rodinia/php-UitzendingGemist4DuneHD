@@ -1,11 +1,10 @@
 php-UitzendingGemist4DuneHD
 ===========================
+Server side scripts to enabling watching Uitzending Gemist on Dune HD media player.
 
 PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 
-*********************************************************************
-How to use uitzendinggemist PHP script with Dune HD player.
------------------------------------------------------------
+## How to use uitzendinggemist PHP script with Dune HD player.
  
 Requirements:
 - Dune HD Player
@@ -22,12 +21,13 @@ Create a folder on some media accessable by your Dune HD player.
 
 Create an empty folder such as 'Uitzending gemist' and create a text-file 'dune_folder.txt'. 
 Put the following text in 'dune_folder.txt':
-------------------------------------------------------------
-# Redirected to 'Uitzending Gemist' PHP index
-media_url = dune_http://diskstation/uitzendinggemist/dune/  
-------------------------------------------------------------
+<code>
+    # Redirected to 'Uitzending Gemist' PHP index  
+    media_url = dune_http://diskstation/uitzendinggemist/dune/
+</code>
+
 Make sure you adjest media_url to you needs.
-It should start with 'dune_http://' and end with 'dune/'
+It should start with 'dune_http://' and end the URL with 'dune/'.
 
 Update 'ugconfig.xml' to your needs.
 
