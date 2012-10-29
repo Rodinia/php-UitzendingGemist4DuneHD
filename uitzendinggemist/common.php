@@ -168,7 +168,39 @@
 		}
 		return 0;
 	}
+    
+   
+    function wgetProgramPrefixLinks()
+    {
+        $ug_url = 'http://www.uitzendinggemist.nl/programmas/';
+
+		$doc = new DOMDocument();
+        $doc->loadHTMLFile($ug_url);
+
+		$xpath = new DOMXpath($doc);
+
+        return $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[1]/div[@id='series-index-letters']/ol/li/a");
+    }   
 
 
+    function wgetPrograms($suffix, $page_offset = 0)
+    {
+        $ug_url = 'http://www.uitzendinggemist.nl'.$suffix;
+
+        $doc = new DOMDocument();
+        $doc->loadHTMLFile($ug_url);
+        $doc->strictErrorChecking = false;
+
+        $xpath = new DOMXpath($doc);
+
+		$episodes = array(); // result
+
+        $xpath = new DOMXpath($doc);
+
+        //return $xpath->query("/html/body/div[@id='content']");
+        return $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a");
+    }
+
+         
 
 ?>

@@ -24,7 +24,8 @@ paint_scrollbar = no
 
 	function vara_play($nr, $title, $mediaid)
 	{
-		writeItem($nr, $title, 'dune_http://diskstation/uitzendinggemist/dune/vara_play.php?mediaid='.$mediaid, 'play');
-	}
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$mediaid;
+        writeItem($nr, $title, $url, 'play');
+ 	}
 
 ?>

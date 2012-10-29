@@ -6,11 +6,21 @@
    </head>
 
    <body>
-		<h1><img src="html/png/ug-header-logo.png" width="50" />Uitzending Gemist</h1>
+      <h1><img src="html/png/ug-header-logo.png" width="50" />Uitzending Gemist</h1>
+      <h2>HTML Pages</h2>
       <table>
-		<tr><td><a href="html/">HTML verie</a/></td></tr>
-		<tr><td><a href="dune/">Dune-HD player versie</a></td></tr>
+		<tr><td><a href="html/">Uitzending Gemist: Favoriete Programma's</a/></td></tr>
+		<tr><td><a href="html/programmas.php">Uitzending Gemist: Programma's A-Z</a/></td></tr>
+		<tr><td><a href="html/vara_gemist.php">VARA Gemist</a/></td></tr>
 	  </table>
+      
+      <h2>Dune HD pagina's</h2>
+      <table>
+		<tr><td><a href="dune/">Dune-HD: Home</a></td></tr>
+		<tr><td><a href="dune/favorites.php">Dune-HD: Favoriete Programma's</a></td></tr>
+		<tr><td><a href="dune/programmas.php">Dune-HD: Programma's A-Z</a></td></tr>
+	  </table>
+      
    </body>
 
    <h2>Dune Installatie</h2>
@@ -27,6 +37,6 @@ media_url = dune_<?php
    </pre>
 <p>Voor meer informatie over dune_folder.txt zie <a href="http://dune-hd.com/firmware/misc/dune_folder_howto.txt">DUNE_FOLDER.TXT MECHANISM</a>
 
-	<p>Pas '<a href="ugconfig.xml">ugconfig.xml</a>' config handmatig aan om gewenste programma's van uitzending gemist te indexeren.</p>
+	<p>Pas '<a href="ugconfig.xml">ugconfig.xml</a>' config handmatig aan om gewenste programma's in favorieten te plaatsen.</p>
 
 </html>
