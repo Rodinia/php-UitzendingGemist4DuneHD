@@ -33,6 +33,8 @@ Update 'ugconfig.xml' to your needs.
 
 Source code available at: https://github.com/Rodinia/php-UitzendingGemist4DuneHD
 
+Related, discussion thread at MPC Club: http://www.mpcclub.com/forum/showthread.php?t=29984
+
 Have fun,
 
 Rodinia
