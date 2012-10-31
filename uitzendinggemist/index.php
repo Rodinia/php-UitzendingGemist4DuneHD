@@ -13,14 +13,14 @@
 		<tr><td><a href="html/programmas.php">Uitzending Gemist: Programma's A-Z</a/></td></tr>
 		<tr><td><a href="html/vara_gemist.php">VARA Gemist</a/></td></tr>
 	  </table>
-      
+
       <h2>Dune HD pagina's</h2>
       <table>
 		<tr><td><a href="dune/">Dune-HD: Home</a></td></tr>
 		<tr><td><a href="dune/favorites.php">Dune-HD: Favoriete Programma's</a></td></tr>
 		<tr><td><a href="dune/programmas.php">Dune-HD: Programma's A-Z</a></td></tr>
 	  </table>
-      
+
    </body>
 
    <h2>Dune Installatie</h2>

@@ -155,6 +155,17 @@
 	}
 
 	// Download session key
+	/* ToDo
+	function wgetSessionKey($sessionUrl)
+	{
+		$doc = new DOMDocument();
+		$html = $doc->loadHTMLFile($sessionUrl);
+		$xpath = new DOMXpath($doc);
+        return $xpath->query("/session/key")->nodeValue;
+	}*/
+	
+	// Download session key
+	
 	function wgetSessionKey($sessionUrl)
 	{
 		$dom = new DOMDocument();
@@ -168,39 +179,75 @@
 		}
 		return 0;
 	}
-    
-   
+
     function wgetProgramPrefixLinks()
     {
-        $ug_url = 'http://www.uitzendinggemist.nl/programmas/';
+        $result = array();
+		
+		$ug_url = 'http://www.uitzendinggemist.nl/programmas/';
 
 		$doc = new DOMDocument();
         $doc->loadHTMLFile($ug_url);
 
 		$xpath = new DOMXpath($doc);
 
-        return $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[1]/div[@id='series-index-letters']/ol/li/a");
-    }   
+        $elements = $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[1]/div[@id='series-index-letters']/ol/li/a");
+		
+		foreach($elements as $element)
+        {
+            $href = $element->getAttribute('href');
+			$programId=substr($href, 12);
+			$result[] = $programId;
+        }
+		
+		return $result;
+    }
+	
+	function getMaxPage($xpath)
+	{
+		$elements = $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/div[@class='pagination']/a");
+		$maxPage = 1;
+		foreach ($elements as $element)
+		{
+			$value = $element->nodeValue;
+			if(is_numeric($value))
+					$maxPage = $value;
+		}
+		return $maxPage;
+	}
 
-
-    function wgetPrograms($suffix, $page_offset = 0)
+    function wgetPrograms($suffix)
     {
-        $ug_url = 'http://www.uitzendinggemist.nl'.$suffix;
+        $query="/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a";
+		$xpath = getProgamHtmlXpath($suffix, 1);
+		$maxPage = getMaxPage($xpath);
+		
+		$result = array();
+		$nodeList = $xpath->query($query);
+		foreach ($nodeList as $href) $result[] = $href;
+		
+		for($page=2;$page<=$maxPage;++$page)
+		{
+			$xpath = getProgamHtmlXpath($suffix, $page);
+			$nodeList = $xpath->query($query);
+			foreach ($nodeList as $href) $result[] = $href;
+		}
+		return $result;
+    }
+	
+	function getProgamHtmlXpath($suffix, $page)
+	{
+		$ug_url = 'http://www.uitzendinggemist.nl/programmas/'.$suffix.'?page='.$page;
 
         $doc = new DOMDocument();
         $doc->loadHTMLFile($ug_url);
         $doc->strictErrorChecking = false;
 
-        $xpath = new DOMXpath($doc);
+        return new DOMXpath($doc);
+	}
+	
+	
 
-		$episodes = array(); // result
 
-        $xpath = new DOMXpath($doc);
-
-        //return $xpath->query("/html/body/div[@id='content']");
-        return $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a");
-    }
-
-         
 
 ?>
