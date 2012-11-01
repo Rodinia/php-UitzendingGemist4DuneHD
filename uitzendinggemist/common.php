@@ -1,6 +1,9 @@
 <?php
 	// -------------------- Functions ----------------------
 
+    # Suppress DOM warnings
+    libxml_use_internal_errors(true);
+    
 	function wgetEpisodes($programma, $max_pages, $page_offset = 1)
 	{
 		$ug_search_url = 'http://www.uitzendinggemist.nl/programmas/'.$programma.'/afleveringen?';

@@ -1,12 +1,14 @@
-use_icon_view = yes
+<?php
+    error_reporting(E_ERROR);
+
+    header('Content-type: text/plain');
+?>use_icon_view = yes
 paint_captions = yes
 media_action = browse
 num_cols = 3
 num_rows = 3
 async_icon_loading = yes
-
 <?php
-	header('Content-type: text/plain');
 
 	$num = 0;
 

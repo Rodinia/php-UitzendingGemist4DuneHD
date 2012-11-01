@@ -25,8 +25,8 @@
 
    <h2>Dune Installatie</h2>
    <p>Maak in op bron, waar de Dune media speler toegang toe heeft, een folder aan 'Uitzending gemist'.
-   In die folder maak je een text-bestand aan 'dune_folder.txt'.
-   Kopieer de volgende text in 'dune_folder.txt':
+   In die folder plaats je het bestand: '<a href="dune/dunefolder.php">dune_folder.txt</a>'.
+   Deze ziet er als volg uit:
    </p>
 	<pre># Redirected to 'Uitzending Gemist' PHP index
 media_url = dune_<?php
