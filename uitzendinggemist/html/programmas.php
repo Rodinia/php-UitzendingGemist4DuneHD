@@ -23,7 +23,7 @@
         echo "<ul>\n";
         foreach (wgetProgramPrefixLinks() as $prefix)
 		{
-			echo '<li><a href="?suffix='.urlencode($prefix).'">'.$prefix."</a></li>\n";
+			echo '<li><a href="?suffix='.urlencode($prefix).'">'.strtoupper($prefix)."</a></li>\n";
 		}
         echo "</ul>\n";
     }

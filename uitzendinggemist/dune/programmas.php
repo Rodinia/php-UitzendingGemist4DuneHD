@@ -1,12 +1,3 @@
-use_icon_view = exlist
-paint_captions = yes
-async_icon_loading = yes
-paint_help_line = no
-paint_path_box = no
-paint_icon_selection_box = yes
-paint_content_box_background = no
-paint_scrollbar = no
-
 <?php
 	include '../common.php';
     include 'dune.php';
@@ -23,21 +14,24 @@ paint_scrollbar = no
 
     if(is_null($suffix))
     {
+?>use_icon_view = yes
+num_cols = 9
+num_rows = 4
+async_icon_loading = yes
+<?php      
         $baseurl = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
 
-        $elements = wgetProgramPrefixLinks();
-
         echo "# A-Z list\n";
-        foreach ($elements as $element)
+        foreach (wgetProgramPrefixLinks() as $prefix)
         {
-            $suffix = $element->getAttribute('href');
-
-            $url = $baseurl.'?suffix='.urlencode($suffix);
-            writeItem($num++, $element->nodeValue, 'dune_'.$url);
+            $url = $baseurl.'?suffix='.urlencode($prefix);
+            writeItem($num++, strtoupper($prefix), 'dune_'.$url);
         }
     }
     else
     {
+        echo "use_icon_view = no\n";
+        
         $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/afleveringen.php?program=';
 
         echo "# $suffix \n";
@@ -49,6 +43,7 @@ paint_scrollbar = no
             $programId=substr($href, 12);
             $url = $baseurl.urlencode($programId);
             writeItem($num++, $element->nodeValue, 'dune_'.$url);
+            
         }
     }
 
