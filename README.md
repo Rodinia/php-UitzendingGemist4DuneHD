@@ -27,12 +27,8 @@ Put the following text in 'dune_folder.txt':
 media_url = dune_http://diskstation/uitzendinggemist/dune/
 ```
 
-Rather running your own, you can use an external service:
-
-```
-# Reference to Uitzending Gemist on http://uitzendinggemist.zxq.net/
-media_url = dune_http://uitzendinggemist.zxq.net/dune/
-```
+Rather running your own, or look at the Wiki how you can use an externel hosted script: 
+http://github.com/Rodinia/php-UitzendingGemist4DuneHD/wiki
 
 Make sure you adjest media_url to you needs.
 It should start with 'dune_http://' and end the URL with 'dune/'.
