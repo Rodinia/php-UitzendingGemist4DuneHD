@@ -21,10 +21,18 @@ Create a folder on some media accessable by your Dune HD player.
 
 Create an empty folder such as 'Uitzending gemist' and create a text-file 'dune_folder.txt'. 
 Put the following text in 'dune_folder.txt':
-<code>
-    # Redirected to 'Uitzending Gemist' PHP index  
-    media_url = dune_http://diskstation/uitzendinggemist/dune/
-</code>
+
+```
+# Redirected to your 'Uitzending Gemist' dune folder  
+media_url = dune_http://diskstation/uitzendinggemist/dune/
+```
+
+Rather running your own, you can use an external service:
+
+```
+# Reference to Uitzending Gemist on http://uitzendinggemist.zxq.net/
+media_url = dune_http://uitzendinggemist.zxq.net/dune/
+```
 
 Make sure you adjest media_url to you needs.
 It should start with 'dune_http://' and end the URL with 'dune/'.
