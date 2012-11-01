@@ -8,8 +8,8 @@
 	include '../common.php';
 
     #Enable display errors
-	ini_set('display_errors',1);
-	error_reporting(E_ERROR);
+	//ini_set('display_errors',1);
+	error_reporting(E_WARNING);
 	
 	//header('Content-type: text/plain');
 
@@ -17,9 +17,8 @@
 
     if(is_null($suffix))
     {
-        echo "<h1>Programmas</h1>\n";
-        echo "<i>Pagina nog in ontwikkeling...</i>\n";
-
+        echo "<h1>Programma Index</h1>\n";
+        
         echo "<ul>\n";
         foreach (wgetProgramPrefixLinks() as $prefix)
 		{

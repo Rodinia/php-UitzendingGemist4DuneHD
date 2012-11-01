@@ -4,7 +4,7 @@
 
     #Enable display errors
 	//ini_set('display_errors',1);
-	error_reporting(E_ERROR);
+	error_reporting(E_WARNING);
 
     header('Content-type: text/plain; charset=utf-8');
 

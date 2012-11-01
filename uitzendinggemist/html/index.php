@@ -5,11 +5,11 @@
 </head>
 <body>
 	<div id="content">
-		<div id="header"><h1>Uitzending Gemist</h1></div>
-		<table>
+	<div id="header"><h1>Uitzending Gemist</h1></div>
+	<table>
 <?php
 	#Enable display errors
-	ini_set('display_errors',1);
+	//ini_set('display_errors',1);
 	error_reporting(E_ERROR);
 
 	$dom = new DOMDocument();
