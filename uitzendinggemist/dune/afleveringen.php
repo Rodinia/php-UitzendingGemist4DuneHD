@@ -26,7 +26,7 @@
 	{
 		$epiid = $episode['epiid'];
 		//$url = 'http://dune-gemist.xoomsite.com/?epiid='.$epiid.'&stap=3&dune=true';
-		$url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/duneplay?epiid='.$epiid;
+		$url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/duneplay.php?epiid='.$epiid;
 		writeItem($num++, $episode['caption'], 'dune_'.$url, 'play');
 		echo "\n";
 	}

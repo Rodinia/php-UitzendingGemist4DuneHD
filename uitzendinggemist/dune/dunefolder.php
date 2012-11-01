@@ -4,5 +4,5 @@
 
     header('Content-type: text/plain; charset=utf-8');
     header('Content-Disposition: attachment; filename="dune_folder.txt"');
-    print('dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/');
+    print('media_url = dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/');
 ?>
