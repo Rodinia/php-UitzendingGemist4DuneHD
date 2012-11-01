@@ -10,8 +10,8 @@ paint_scrollbar = no
 <?php
 
 	#Enable display errors
-	ini_set('display_errors',1);
-	error_reporting(E_ERROR);
+	//ini_set('display_errors',1);
+	//error_reporting(E_ERROR);
 
 	header('Content-type: text/plain; charset=utf-8');
 
