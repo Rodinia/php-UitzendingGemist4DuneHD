@@ -10,5 +10,6 @@
     echo "use_icon_view = no\n";
     writeItem($num++, 'Favorieten', 'dune_'.$baseurl.'/favorites.php');
     writeItem($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas.php');
+    writeItem($num++, 'VARA (Giel)', 'dune_'.$baseurl.'/vara_list.php');
 
 ?>

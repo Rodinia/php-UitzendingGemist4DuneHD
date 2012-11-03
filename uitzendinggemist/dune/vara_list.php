@@ -9,18 +9,20 @@ paint_scrollbar = no
 
 <?php
 
-	#Enable display errors
-	//ini_set('display_errors',1);
-	//error_reporting(E_ERROR);
-
 	header('Content-type: text/plain; charset=utf-8');
 
+    #Enable display errors
+	//ini_set('display_errors',1);
+	error_reporting(E_ALL);
+	
 	include 'dune.php';
+    include '../common.php';
 
 	$nr = 0;
-	vara_play($nr++, 'Bang Bang Boom Boom', 187251);
-	vara_play($nr++, 'Beth Hart - I need a dollar', 187252);
-	vara_play($nr++, 'Beth Hart - Baddest', 187258);
+    foreach(readFavorites('../favorieten_vara.xml') as $programma)
+	{
+		vara_play($nr++, $programma['caption'], $programma['id']);
+	}
 
 	function vara_play($nr, $title, $mediaid)
 	{

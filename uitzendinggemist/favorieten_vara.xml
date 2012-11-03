@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ugconfig version="1.0">
+    <programma>
+		<caption>Triggerfinger: I Follow Rivers, maar dan met kopjes!</caption>
+		<id>84673</id>
+	</programma>
+    
+	<programma>
+		<caption>Bang Bang Boom Boom</caption>
+		<id>187251</id>
+	</programma>
+	<programma>
+		<caption>Beth Hart - I need a dollar</caption>
+		<id>187252</id>
+	</programma>
+	<programma>
+		<caption>Beth Hart - Baddest</caption>
+		<id>187258</id>
+	</programma>
+</ugconfig>

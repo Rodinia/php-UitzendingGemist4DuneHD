@@ -1,5 +1,5 @@
 <?php
-    error_reporting(E_ERROR);
+    error_reporting(E_ALL);
 
     header('Content-type: text/plain');
 ?>use_icon_view = yes
@@ -8,30 +8,14 @@ media_action = browse
 num_cols = 3
 num_rows = 3
 async_icon_loading = yes
+
 <?php
+    include '../common.php';
 
-	$num = 0;
-
-	$dom = new DOMDocument();
-	$xml = $dom->loadHtmlFile('../ugconfig.xml');
-	if(!xml)
-		error('Failed to load Uitzending Gemist XML configuration: ugconfig.xml');
-
-	$num = 0;
-	foreach($dom->documentElement->getElementsByTagName('programma') as $programma)
+    $num = 0;
+	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
 	{
-		$caption = getSingleElement($programma, 'caption')->nodeValue;
-		$url_icon = getSingleElement($programma, 'banner')->nodeValue;
-		$id = getSingleElement($programma, 'id')->nodeValue;
-
-		writeProgramma($num++, $caption, $url_icon, $id);
-	}
-
-	function getSingleElement($parent, $name)
-	{
-		foreach($parent->getElementsByTagName($name) as $element)
-			return $element;
-		return 0;
+		writeProgramma($num++, $programma['caption'], $programma['banner'], $programma['id']);
 	}
 
 	function writeProgramma($num, $caption, $url_icon, $aflevering_key)

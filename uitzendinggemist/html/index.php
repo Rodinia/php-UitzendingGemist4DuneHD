@@ -10,31 +10,16 @@
 <?php
 	#Enable display errors
 	//ini_set('display_errors',1);
-	error_reporting(E_ERROR);
+	error_reporting(E_WARNING);
+    
+    include '../common.php';
 
-	$dom = new DOMDocument();
-	$xml = $dom->loadHtmlFile('../ugconfig.xml');
-	if(!xml)
-		error('Failed to load Uitzending Gemist XML configuration: ugconfig.xml');
-
-	$num = 0;
-	foreach($dom->documentElement->getElementsByTagName('programma') as $programma)
+	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
 	{
-		$caption = getSingleElement($programma, 'caption')->nodeValue;
-		$url_icon = getSingleElement($programma, 'banner')->nodeValue;
-		$id = getSingleElement($programma, 'id')->nodeValue;
-
-		writeProgramma($num++, $caption, $url_icon, $id);
+		writeProgramma($programma['caption'], $programma['banner'], $programma['id']);
 	}
 
-	function getSingleElement($parent, $name)
-	{
-		foreach($parent->getElementsByTagName($name) as $element)
-			return $element;
-		return 0;
-	}
-
-	function writeProgramma($num, $caption, $url_icon, $programma)
+	function writeProgramma($caption, $url_icon, $programma)
 	{
 		$url = 'afleveringen.php?programma='.urlencode($programma);
 
