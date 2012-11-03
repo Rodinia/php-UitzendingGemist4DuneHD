@@ -6,7 +6,7 @@
 
     include '../lib_vara.php';
     
-	function vara_play($nr, $title, $mediaid)
+    function vara_play($title, $mediaid)
 	{
 		$configXmlUrl = makeConfigXmlUrl($mediaid);
         $configXml = getConfigXml($configXmlUrl);
@@ -14,12 +14,13 @@
 		$configVideo = getVideoConfigXml($videoConfigUrl);
 		$mediaLocation = $configVideo['location'];
 		
-		echo '<li>';
-        echo '<a href="'.$mediaLocation.'">'.$title.'</a>';
-		echo ' <a href="'.dune_url($mediaid).'">(Dune)</a>';
-		echo "</li>\n";
+		echo "<tr>\n";
+        echo '<td><a href="'.$mediaLocation.'">'.$title.'</a></td>';
+        echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
+		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
+        echo "</tr>\n";
 	}
-    
+   
     function dune_url($mediaid)
 	{
 		return '../dune/vara_play.php?mediaid='.$mediaid;
@@ -34,19 +35,29 @@
 
    <h1>VARA Gemist</h1>
    
-   <p>
-     <i>Word nog aan gewerkt...</i>
-   </p>
-   
-   <h2>Giel</h2>
-   <ul>
+   <h2>Dune</h2>
+   <table>
  <?php
- 	vara_play($nr++, 'Bang Bang Boom Boom', 187251);
-	vara_play($nr++, 'Beth Hart - I need a dollar', 187252);
-	vara_play($nr++, 'Beth Hart - Baddest', 187258);
+ 	include '../common.php';
+    
+    foreach(getRecent() as $item)
+    {
+        vara_play($item['caption'], $item['id']);
+    }
  ?>
-    </ul>
-     
+   </table>
+   
+   <h2>Favorieten</h2>
+   <p>Configureer met <a href="../favorieten_vara.xml">favorieten_vara.xml</a>.</p>
+   <table>
+ <?php
+    foreach(readFavorites('../favorieten_vara.xml') as $programma)
+	{
+		vara_play($programma['caption'], $programma['id']);
+	}
+ ?>
+   </table>
+   <h2>Dune</h2>  
    <p>
         <a href="../dune/vara_list.php">VARA Gemist Index for Dune</a>
    </p>  

@@ -18,8 +18,14 @@ paint_scrollbar = no
 	include 'dune.php';
     include '../common.php';
 
-	$nr = 0;
-    foreach(readFavorites('../favorieten_vara.xml') as $programma)
+    $nr = 0;
+    
+    foreach(getRecent() as $item)
+    {
+        vara_play($nr++, $item['caption'], $item['id']);
+    }
+    
+	foreach(readFavorites('../favorieten_vara.xml') as $programma)
 	{
 		vara_play($nr++, $programma['caption'], $programma['id']);
 	}
