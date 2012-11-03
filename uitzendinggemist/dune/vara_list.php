@@ -17,6 +17,7 @@ paint_scrollbar = no
 	
 	include 'dune.php';
     include '../common.php';
+    include '../lib_vara.php';
 
     $nr = 0;
     
