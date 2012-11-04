@@ -21,7 +21,7 @@ paint_scrollbar = no
 
     $nr = 0;
     
-    foreach(getRecent() as $item)
+    foreach(getDezeWeek() as $item)
     {
         vara_play($nr++, $item['caption'], $item['id']);
     }

@@ -1,88 +1,57 @@
-/* orange color: rgb(255, 163, 26);*/
-
-*
-{
-	margin: 0;
-	padding: 0;
-}
-img
-{
-	border: 0;
+html { 
+	background-color: #f3f3f3;
 }
 
-h1,h2,h3,h4
-{
-	font-weight: normal;
-}
 h1
 {
-	font-family: "OmroepBold","Arial Rounded MT Bold";
-	font-weight: normal;
+	color: #99A;
+	background-color: #FFF;
+	font-size: 34px;
+    padding-left: 70px;
+	
+	font-family: "Arial Rounded MT Bold";
 }
 
-h3
-{
-	font-family: "Helvetica Neue",Arial,sans-serif;
-	font-size: 16px;
-	font-weight: bold;
-	margin-top: 3px;
-	color: black;
-}
-h3 a
-{
-	text-decoration: none;
-}
 body
 {
-	background-color: #f3f3f3;
-	font-family: "Helvetica Neue",Arial,sans-serif;
-	font-size: 11px;
-	line-height: 18px;
-	text-rendering: optimizeLegibility;
+	font-size: 120%;
+	width: auto;
+
 }
 
-div#content table
+table.touch
 {
-	clear: left;
-	float: left;
-	margin-left: 30px;
-	width: 700px;
-	/*background-color: black;*/
+	border-spacing: 10px;
 }
 
 
-div#content
+table.touch td
 {
-	background-image: url(png/main.png);
-	background-repeat: repeat-y;
-	margin-left: auto;
-	margin-right: auto;
-	overflow: hidden;
-	padding-bottom: 20px;
-	top: 28px;
-	width: 1000px;
+  -moz-border-radius: 10px !important;
+  border-radius: 10px;
+  padding:10px;
+  border-collapse: collapse !important;
+  border: none !important;
+  background-color: black;
+  width: 35px;
+  text-align:center;
 }
-div#header
+
+
+table.touch td:hover 
+{ 
+	background-color: #8C8C8C !important;
+}
+
+a
 {
-	background-image: url(png/top-header.png);
-	background-repeat: repeat-x;
-	height: 72px;
-	line-height: 70px;
-	margin-left: 10px;
-	margin-right: 10px;
-	padding-left: 20px;
-	padding-right: 20px;
-	width: 940px;
+	color: #4D2E00;
 }
-div#header h1
+
+table.touch a
 {
-	background-image: url(png/ug-header-logo.png);
-	background-position: 10px 3px;
-	background-repeat: no-repeat;
-	color: #99a7a3;
-	float: left;
-	font-size: 34px;
-	padding-left: 70px;
-	padding-top: 3px;
-	text-decoration: none;
+	font-family: "Arial Rounded MT Bold";
+	font-size: 28px;
+	color: #FFA31A;
 }
+

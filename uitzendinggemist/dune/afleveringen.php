@@ -26,14 +26,14 @@
 	{
 		$epiid = $episode['epiid'];
 		//$url = 'http://dune-gemist.xoomsite.com/?epiid='.$epiid.'&stap=3&dune=true';
-		$url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/duneplay.php?epiid='.$epiid;
-		writeItem($num++, $episode['caption'], 'dune_'.$url, 'play');
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/duneplay.php?epiid='.$epiid;
+		writeItem($num++, $episode['caption'], $url, 'play');
 		echo "\n";
 	}
 
 	$pageOffset += $max_pages;
-	$nextPageUrl = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].'?program='.urlencode($programma).'&page='.$pageOffset;
-	writeItem($num++, 'Next...', $nextPageUrl, 'browse');
+	$nextPageUrl = 'dune_http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].'?program='.urlencode($programma).'&page='.$pageOffset;
+	writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
 
 	//var_dump($_SERVER);
 

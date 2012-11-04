@@ -53,7 +53,7 @@
 		return $result;
 	}
     
-    function getRecent()
+    function getDezeWeek()
 	{
 		$doc = new DOMDocument();
         $url = 'http://omroep.vara.nl/gemist';
@@ -67,19 +67,41 @@
 			// Extract media id
             $a = $ankeiler->getElementsByTagName('a')->item(0);
             $href = $a->getAttribute('href');
-            $item['id'] = substr($href,7);
-            
-            // Extract text
-            $imgbox = $a->getElementsByTagName('div')->item(0);
-                        
-            // Extract text
-            $heading = $imgbox->getElementsByTagName('div')->item(0);
-            $textbox = $heading->getElementsByTagName('div')->item(1);
-            $item['caption'] = $textbox->getElementsByTagName('h3')->item(0)->nodeValue;
-            
-            $result[] = $item;
+            if(startsWith($href,'/media/'))
+            {
+                $item['id'] = substr($href, 7);
+                
+                // Extract text
+                $imgbox = $a->getElementsByTagName('div')->item(0);
+                
+                if($imgbox instanceof DOMElement)
+                {
+                    // Extract text
+                    $heading = $imgbox->getElementsByTagName('div')->item(0);
+                    if($heading instanceof DOMElement)
+                    {
+                        $textbox = $heading->getElementsByTagName('div')->item(1);
+                        if($textbox instanceof DOMElement)
+                        {
+                            $h3 = $textbox->getElementsByTagName('h3')->item(0);
+							if($h3)
+							{
+								$item['caption'] = $h3->nodeValue;
+							}
+							else $item['caption'] = "$h3=null";
+                        }
+                    }
+                }
+                
+                $result[] = $item;
+            }
 		}
 
 		return $result;
 	}
+    
+    function startsWith($haystack, $needle)
+    {
+        return !strncmp($haystack, $needle, strlen($needle));
+    }
  ?>

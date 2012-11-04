@@ -1,12 +1,12 @@
 <html>
 <head>
-	<link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 	<title>Programma's</title>
+	<link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="content">
 	<div id="header"><h1>Uitzending Gemist</h1></div>
-	<table>
+	<table class="touch">
 <?php
 	#Enable display errors
 	//ini_set('display_errors',1);
@@ -24,11 +24,9 @@
 		$url = 'afleveringen.php?programma='.urlencode($programma);
 
 		echo '<tr>';
-		echo '<td><a href="'.$url.'"><img alt="'.$caption.'" src="'.$url_icon.'"/></a></td>';
-		echo '<td><a href="'.$url.'"><h3>'.$caption.'</h3></a></td>';
+		echo '<td class="touch"><a href="'.$url.'"><img alt="'.$caption.'" src="'.$url_icon.'"/>'.$caption.'</a></td>';
 		echo "<tr>\n";
 	}
-
 
 
 ?>

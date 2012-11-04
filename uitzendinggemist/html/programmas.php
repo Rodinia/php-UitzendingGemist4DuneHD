@@ -1,6 +1,7 @@
 <html>
 <head>
   <title>Programmas</title>
+  <link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -14,17 +15,28 @@
 	//header('Content-type: text/plain');
 
     $suffix = $_GET['suffix'];
+	
 
     if(is_null($suffix))
     {
+		$cols = 8;
+        $nr = 0;
         echo "<h1>Programma Index</h1>\n";
         
-        echo "<ul>\n";
+        echo "<table class=\"touch\">\n";
+        echo "<tr>\n";
+		#
         foreach (wgetProgramPrefixLinks() as $prefix)
 		{
-			echo '<li><a href="?suffix='.urlencode($prefix).'">'.strtoupper($prefix)."</a></li>\n";
+			if($nr++%$cols == 0)
+			{
+				echo "</tr>\n";
+				echo "<tr>\n";
+			}
+			echo '<td><a href="?suffix='.urlencode($prefix).'">'.strtoupper($prefix)."</a></td>\n";
 		}
-        echo "</ul>\n";
+        echo "</tr>\n";
+        echo "</table>\n";
     }
     else
     {

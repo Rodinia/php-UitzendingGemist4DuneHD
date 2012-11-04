@@ -2,7 +2,7 @@
 
     #Enable display errors
 	//ini_set('display_errors',1);
-	error_reporting(E_ERROR);
+	error_reporting(E_ALL);
 
     include '../lib_vara.php';
     
@@ -29,18 +29,19 @@
 ?><html>
 <head>
   <title>VARA Gemist</title>
+  <link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
    <h1>VARA Gemist</h1>
    
-   <h2>Dune</h2>
+   <h2>Deze Week</h2>
    <table>
  <?php
  	include '../common.php';
     
-    foreach(getRecent() as $item)
+    foreach(getDezeWeek() as $item)
     {
         vara_play($item['caption'], $item['id']);
     }
