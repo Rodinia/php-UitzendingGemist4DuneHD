@@ -1,8 +1,8 @@
 <?php
 	include '../common.php';
     include 'dune.php';
-
-    #Enable display errors
+    
+        #Enable display errors
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
 
@@ -10,6 +10,8 @@
 
     $suffix = $_GET['suffix'];
 
+    $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+    
     $num = 0;
 
     if(is_null($suffix))
@@ -18,10 +20,12 @@
 num_cols = 9
 num_rows = 4
 async_icon_loading = yes
-<?php      
-        $baseurl = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+background_order=before_all
+<?php
+        echo "background_path=$baseurl/dune-wide.jpg\n";
 
         echo "# A-Z list\n";
+        
         foreach (wgetProgramPrefixLinks() as $prefix)
         {
             $url = $baseurl.'?suffix='.urlencode($prefix);
@@ -32,8 +36,6 @@ async_icon_loading = yes
     {
         echo "use_icon_view = no\n";
         
-        $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/afleveringen.php?program=';
-
         echo "# $suffix \n";
         $elements = wgetPrograms($suffix);
 
@@ -41,7 +43,7 @@ async_icon_loading = yes
         {
             $href=$element->getAttribute('href');
             $programId=substr($href, 12);
-            $url = $baseurl.urlencode($programId);
+            $url = $baseurl.'/afleveringen.php?program='.urlencode($programId);
             writeItem($num++, $element->nodeValue, 'dune_'.$url);
             
         }

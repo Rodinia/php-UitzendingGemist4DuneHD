@@ -5,7 +5,7 @@
    </head>
 
    <body>
-      <h1><img src="png/ug-header-logo.png" width="50"/>Uitzending Gemist</h1>
+      <h1><img src="img/ug-header-logo.png" width="50"/>Uitzending Gemist</h1>
       <h2>HTML Pages</h2>
       <table>
 		<tr><td><a href="favorieten.php">Favorieten</a/></td></tr>

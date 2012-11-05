@@ -2,6 +2,8 @@
 
 function writeItem($nr, $caption, $url, $action = 0)
 {
+	$caption = str_replace("\n", ' ', $caption);
+	$caption = str_replace("\r", '', $caption);
 	echo "item.$nr.caption = $caption\n";
 	echo "item.$nr.media_url = $url\n";
 	if($action)

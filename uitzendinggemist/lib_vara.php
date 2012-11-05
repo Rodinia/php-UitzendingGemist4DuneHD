@@ -64,7 +64,8 @@
         $result = array();
 		foreach($divs as $ankeiler)
 		{
-			// Extract media id
+			$item = array();
+            // Extract media id
             $a = $ankeiler->getElementsByTagName('a')->item(0);
             $href = $a->getAttribute('href');
             if(startsWith($href,'/media/'))
@@ -99,6 +100,74 @@
 
 		return $result;
 	}
+    
+	# Get decoded JSON document descrbing VARA program list
+	function getVaraProgramList()
+	{
+		return json_decode(  file_get_contents('http://omroep.vara.nl/typo3conf/ext/vara_media/class.tx_varamedia_programpicker.php', "r") );
+	}
+	
+	function getVaraProgramFragments($program_url)
+	{
+		$doc = new DOMDocument();
+        $url = 'http://omroep.vara.nl/gemist';
+		$doc->loadHTMLFile($program_url) || error($url);
+        $xpath = new DOMXpath($doc);
+        $xpres = $xpath->query("//a/div[@class='textbox']");
+        
+        $result = array();
+		foreach($xpres as $textbox)
+		{
+			$item = array();
+            // Extract media id
+			$a = $textbox->parentNode;
+			$href = $a->getAttribute('href');
+                
+			if(startsWith($href,'/media/'))
+            {
+				$item['id'] = substr($href, 7);
+                
+                $item['caption'] = $textbox->nodeValue == '' ? "_no_name_" : $textbox->nodeValue;
+                
+                $result[] = $item;
+            }
+		}
+
+		return $result;
+	}
+	
+	/*
+	function getVaraProgramFragments($program_url)
+	{
+		$doc = new DOMDocument();
+        $url = 'http://omroep.vara.nl/gemist';
+		$doc->loadHTMLFile($program_url) || error($url);
+        $xpath = new DOMXpath($doc);
+        $divs = $xpath->query("//li[@class='ankeiler video']/a");
+        
+        $result = array();
+		foreach($divs as $a)
+		{
+			$item = array();
+            // Extract media id
+            $href = $a->getAttribute('href');
+            if(startsWith($href,'/media/'))
+            {
+                $item['id'] = substr($href, 7);
+                
+                // Extract text
+				foreach($a->getElementsByTagName('div') as $div)
+				{
+					if($div->getAttribute('class') == 'textbox')
+						$item['caption'] = $div->nodeValue == '' ? '?' :  $div->nodeValue;
+				}
+                
+                $result[] = $item;
+            }
+		}
+
+		return $result;
+	}*/
     
     function startsWith($haystack, $needle)
     {

@@ -37,7 +37,7 @@
 
 		echo '<tr>';
 		echo '<td>'.$episode['caption'].'</td>';
-		echo '<td><a href="../asx.php?epiid='.$epiid.'"><img alt="play" src="png/button-play-icon_32.png"/></a></td>';
+		echo '<td><a href="../asx.php?epiid='.$epiid.'"><img alt="play" src="img/button-play-icon_32.png"/></a></td>';
 		echo '<td><a href="episode.php?epiid='.$epiid.'">Info</a></td>';
 		echo '<td><a href="'.makeStreamInfoUrl($epiid, $sessionKey).'">Stream Info</a></td>';
 		echo '<td><a href="'.makeAfleveringMetaDataUrl($epiid, $sessionKey).'">Meta Data Aflevering</a></td>';

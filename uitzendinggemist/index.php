@@ -5,7 +5,7 @@
    </head>
 
    <body>
-      <h1><img src="html/png/ug-header-logo.png" width="50" />Uitzending Gemist</h1>
+      <h1><img src="html/img/ug-header-logo.png" width="50" />Uitzending Gemist</h1>
       <h2>HTML Pages</h2>
       <table>
 		<tr><td><a href="html/">HTML Pages</a/></td></tr>
@@ -16,6 +16,7 @@
 		<tr><td><a href="dune/">Dune-HD: Home</a></td></tr>
 		<tr><td><a href="dune/favorites.php">Dune-HD: Favoriete Programma's</a></td></tr>
 		<tr><td><a href="dune/programmas.php">Dune-HD: Programma's A-Z</a></td></tr>
+        <tr><td><a href="dune/vara_list.php">Dune-HD: VARA Gemist</a></td></tr>
 	  </table>
 
    </body>

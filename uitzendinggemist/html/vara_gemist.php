@@ -5,6 +5,7 @@
 	error_reporting(E_ALL);
 
     include '../lib_vara.php';
+ 	include '../common.php';
     
     function vara_play($title, $mediaid)
 	{
@@ -33,13 +34,11 @@
 </head>
 
 <body>
-
    <h1>VARA Gemist</h1>
    
    <h2>Deze Week</h2>
    <table>
  <?php
- 	include '../common.php';
     
     foreach(getDezeWeek() as $item)
     {
@@ -58,6 +57,34 @@
 	}
  ?>
    </table>
+   
+   <h2>Programma's</h2>
+   <table>
+ <?php
+ 	
+	$json = getVaraProgramList();
+    echo "<pre>";
+	//var_dump($json);
+    echo "</pre>";
+	
+	foreach(getVaraProgramList()->allProgramsAndSites as $program)
+    {
+		echo "<pre>";
+		//var_dump($program);
+		echo "</pre>";
+		$id=substr($program->url, 28);str_replace('http://omroep.vara.nl/media/', '', $program->url);
+        echo "<tr>\n";
+        echo '<td><a href="vara_programma.php?url='.urlencode($program->url).'">'.$program->title.'</a></td>';
+        //echo '<td>'.$program->tvChannelIndex || "".'</td>';
+        //echo '<td>'.$program->radioChannelIndex || "".'</td>';
+		echo '<td><a href="'.$program->url.'">omroep.vara.nl</a></td>';
+        echo "</tr>\n";
+    }
+	
+	
+ ?>
+   </table>
+   
    <h2>Dune</h2>  
    <p>
         <a href="../dune/vara_list.php">VARA Gemist Index for Dune</a>
