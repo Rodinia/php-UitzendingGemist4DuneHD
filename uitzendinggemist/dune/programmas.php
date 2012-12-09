@@ -28,7 +28,7 @@ background_order=before_all
         
         foreach (wgetProgramPrefixLinks() as $prefix)
         {
-            $url = $baseurl.'?suffix='.urlencode($prefix);
+            $url = $baseurl.'/programmas.php?suffix='.urlencode($prefix);
             writeItem($num++, strtoupper($prefix), 'dune_'.$url);
         }
     }

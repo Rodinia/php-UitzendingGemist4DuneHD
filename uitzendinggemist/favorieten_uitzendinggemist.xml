@@ -120,4 +120,9 @@
 		<banner>http://mediadb.omroep.nl/assets/000/100/824/500x140.jpg</banner>
 		<id>1102-koefnoen</id>
 	</programma>
+    <programma>
+		<caption>Reporter</caption>
+		<banner></banner>
+		<id>605-kro-reporter</id>
+	</programma>
 </ugconfig>
