@@ -1,5 +1,7 @@
 <?php
 
+include '../util.php';
+
 function writeItem($nr, $caption, $url, $action = 0)
 {
 	$caption = str_replace("\n", ' ', $caption);
@@ -116,12 +118,6 @@ function checkRedirectUrl($url, &$contentType)
 	curl_close($ch);
 
 	return $location;
-}
-
-function startsWith($haystack, $needle)
-{
-	$length = strlen($needle);
-	return (substr($haystack, 0, $length) === $needle);
 }
 
 
