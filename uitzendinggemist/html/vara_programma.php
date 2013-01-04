@@ -4,8 +4,8 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_ALL);
 
-    include '../lib_vara.php';
- 	include '../common.php';
+    include_once '../lib_vara.php';
+ 	include_once '../common.php';
     
     function vara_play($title, $mediaid)
 	{

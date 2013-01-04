@@ -1,6 +1,6 @@
 <?php
 
-	include 'util.php';
+	include_once 'util.php';
 
     libxml_use_internal_errors(true);
     
