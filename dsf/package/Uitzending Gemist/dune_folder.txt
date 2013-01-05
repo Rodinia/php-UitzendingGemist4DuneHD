@@ -1,0 +1,7 @@
+media_url = dune_http://uitzendinggemist.comule.com/dune/
+media_url_check = no
+icon_path = uitzendinggemist_160.png
+icon_valign = center
+icon_scale_factor = 1.000000
+item_paint_caption = yes
+item_padding_top = 0
