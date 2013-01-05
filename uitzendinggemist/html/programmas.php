@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Programmas</title>
@@ -21,21 +22,42 @@
 	
 	function listSeries($elements)
 	{
-		echo "<table>\n";
-        echo "<tr><th>Programma</th><th>ID</th><th>Externe link</th></tr>\n";
+		echo "<table class=\"touch\">\n";
+        //echo "<tr><th>Programma</th><th>ID</th><th>Externe link</th></tr>\n";
 
+		$cols = 3;
+		$nr = 0;
+		
 		foreach ($elements as $element)
         {
             $href=$element->getAttribute('href');
             $programId=substr($href, 12);
+			$nlimg=$element->getElementsByTagName('img');
+			$title=$element->getAttribute('title');
+			$imgsrc='';
+			if($nlimg->length>0)
+			{
+				$dataimages = $nlimg->item(0)->getAttribute('data-images');
+				$imgsrc=trim($dataimages, '[]"');
+				$imgsrc= str_replace('140x79','280x100', $imgsrc);
+				//echo "<p>dataimages=$imgsrc</p>\n";
+			}
 
-            echo '<tr>';
-            echo '<td><a href="afleveringen.php?programma='.urlencode($programId).'">'.$element->nodeValue.'</a></td>';
-            echo '<td>'.$programId.'</td>';
-            echo '<td><a href="http://www.uitzendinggemist.nl'.$href.'">Naar Uitzending Gemist</a></td>';
-            echo "</tr>\n";
+			if($nr++%$cols == 0)
+			{
+				if($nr>1)
+					echo "</tr>\n";
+				echo "<tr>\n";
+			}			
+			
+			echo '<td><a href="afleveringen.php?programma='.urlencode($programId).'">';
+            if(strlen($imgsrc)>0)
+				echo '<img src="'.$imgsrc.'" />';
+            echo $title;
+			echo '</a></td>';
         }
 
+        echo '<tr>';
         echo "</table>\n";
 	}
 	
@@ -57,14 +79,14 @@
 		{
 			echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/zapp-header.jpg\" alt=\"Programma's op Zapp\"/></h1>\n";
 			showDuneLink();
-			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zapp', 'category-series');
+			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zapp?display_mode=detail', 'category-series');
 			listSeries($elements);
 		}
 		else if($type == "zappelin")
 		{
 			echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/zappelin-header.jpg\" alt=\"Programma's op Zappelin\"/></h1>\n";
 			showDuneLink();
-			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zappelin', 'category-series');
+			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zappelin?display_mode=detail', 'category-series');
 			listSeries($elements);
 		}
 	}
@@ -72,7 +94,7 @@
 	{
 		echo "<h1>Omroep $omroep</h1>\n";
 		showDuneLink();
-		$elements = wgetPrograms('http://www.uitzendinggemist.nl/omroepen/'.$omroep, 'category-series');
+		$elements = wgetPrograms('http://www.uitzendinggemist.nl/omroepen/'.$omroep, 'category-series', 'series series-image');
 		listSeries($elements);
 	}
 

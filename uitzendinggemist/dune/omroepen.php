@@ -32,12 +32,7 @@ async_icon_loading = yes
 		$url = $baseurl.'/programmas.php?omroep='.urlencode($omroepId);
 		echo "\n";
 		//writeItem($num++, $title, 'dune_'.$url);
-		
-		echo "item.$num.icon_path = $imgsrc\n";
-		echo "item.$num.scale_factor = 1\n";
-		echo "item.$num.caption = $title\n";
-		echo "item.$num.media_url = dune_$url\n";
-		++$num;
+		writeIcon($num++, $title, 'dune_'.$url, $imgsrc);
 	}
 
 ?>

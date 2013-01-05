@@ -32,6 +32,7 @@ table.touch td
   padding:10px;
   border-collapse: collapse !important;
   border: none !important;
+  color: blue;
   background-color: black;
   width: 35px;
   text-align:center;
@@ -51,7 +52,7 @@ a
 table.touch a
 {
 	font-family: "Arial Rounded MT Bold";
-	font-size: 28px;
+	font-size: 20px;
 	color: #FFA31A;
 }
 

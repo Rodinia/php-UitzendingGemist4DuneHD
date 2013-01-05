@@ -220,14 +220,14 @@
 	
 	function wgetProgramsAZ($suffix)
     {
-        return wgetPrograms('http://www.uitzendinggemist.nl/programmas/'.$suffix, 'series-index-series');
+        return wgetPrograms('http://www.uitzendinggemist.nl/programmas/'.$suffix.'?display_mode=detail', 'series-index-series');
     }
 
     function wgetPrograms($url, $divid)
     {
         //$query="/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a";
 		//$query="/html/body//div[@id='".$divid."']/ol/li/h2/a";
-		$query="/html/body//div[@id='".$divid."']/ol/li//a[@class='series knav_link']";
+		$query="/html/body//div[@id='".$divid."']/ol/li//a[@class='series series-image']";
 		$xpath = getProgamHtmlXpath($url, 1);
 		$maxPage = getMaxPage($xpath, $divid);
 		
@@ -246,8 +246,8 @@
 	
 	function getProgamHtmlXpath($url, $page)
 	{
-		$ug_url = $url.'?page='.$page;
-
+		$ug_url = $url.(strpos($url, '?') === false ? '?' : '&' . 'page=').$page;
+		
         $doc = new DOMDocument();
         $doc->loadHTMLFile($ug_url);
         $doc->strictErrorChecking = false;
