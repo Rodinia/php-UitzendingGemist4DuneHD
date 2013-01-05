@@ -9,7 +9,10 @@
 
     echo "use_icon_view = no\n";
     writeItem($num++, 'Favorieten', 'dune_'.$baseurl.'/favorites.php');
-    writeItem($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas.php');
+    writeItem($num++, 'Zapp (6 - 12 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zapp');
+    writeItem($num++, 'Zappelin (2 - 5 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zappelin');
+    writeItem($num++, 'Omroepen', 'dune_'.$baseurl.'/omroepen.php');
+    writeItem($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas_az.php');
     writeItem($num++, 'VARA Gemist', 'dune_'.$baseurl.'/vara_list.php');
 
 ?>

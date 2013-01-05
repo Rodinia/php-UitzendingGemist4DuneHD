@@ -5,7 +5,7 @@
 	error_reporting(E_ALL);
 
     include_once '../lib_vara.php';
- 	include_once '../common.php';
+ 	include_once '../lib_ugemist.php';
     
     function vara_play($title, $mediaid)
 	{

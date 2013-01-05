@@ -1,6 +1,6 @@
 <?php
-	include '../common.php';
-    include 'dune.php';
+	include_once '../lib_ugemist.php';
+    include_once 'dune.php';
     
         #Enable display errors
 	//ini_set('display_errors',1);
@@ -8,45 +8,56 @@
 
     header('Content-type: text/plain; charset=utf-8');
 
-    $suffix = $_GET['suffix'];
-
-    $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
-    
-    $num = 0;
-
-    if(is_null($suffix))
-    {
-?>use_icon_view = yes
-num_cols = 9
-num_rows = 4
-async_icon_loading = yes
-background_order=before_all
-<?php
-        echo "background_path=$baseurl/dune-wide.jpg\n";
-
-        echo "# A-Z list\n";
+    echo "use_icon_view = no\n";
         
-        foreach (wgetProgramPrefixLinks() as $prefix)
-        {
-            $url = $baseurl.'/programmas.php?suffix='.urlencode($prefix);
-            writeItem($num++, strtoupper($prefix), 'dune_'.$url);
-        }
-    }
-    else
-    {
-        echo "use_icon_view = no\n";
-        
-        echo "# $suffix \n";
-        $elements = wgetPrograms($suffix);
-
+	function listSeries($elements)
+	{
+        $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+		$num = 0;
         foreach ($elements as $element)
-        {
-            $href=$element->getAttribute('href');
-            $programId=substr($href, 12);
-            $url = $baseurl.'/afleveringen.php?program='.urlencode($programId);
-            writeItem($num++, $element->nodeValue, 'dune_'.$url);
-            
-        }
+		{
+			$href=$element->getAttribute('href');
+			$programId=substr($href, 12);
+			$url = $baseurl.'/afleveringen.php?program='.urlencode($programId);
+			writeItem($num++, $element->nodeValue, 'dune_'.$url);
+			
+		}
+	}
+	
+	$suffix = $_GET['suffix'];
+	$type = $_GET['type'];
+	$omroep = $_GET['omroep'];
+
+	if($suffix)
+    {
+        echo "# $suffix\n";
+        $elements = wgetProgramsAZ($suffix);
+		listSeries($elements);
     }
+	else if($type)
+	{
+ 
+		if($type == "zapp")
+		{
+			echo "# Programma's op Zapp\n";
+			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zapp', 'category-series');
+			listSeries($elements);
+		}
+		else if($type == "zappelin")
+		{
+			echo "# Programma's op Zappelin\n";
+			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zappelin', 'category-series');
+			listSeries($elements);
+		}
+	}
+	else if($omroep)
+	{
+		echo "# Omroep: $omroep\n";
+		$elements = wgetPrograms('http://www.uitzendinggemist.nl/omroepen/'.$omroep, 'category-series');
+		listSeries($elements);
+	}
+
+	
+
 
 ?>

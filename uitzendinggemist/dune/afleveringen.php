@@ -5,7 +5,7 @@
 
 	header('Content-type: text/plain; charset=utf-8'); // is this the best charset?
 
-    include '../common.php';
+    include_once '../lib_ugemist.php';
 	include 'dune.php';
 
 	echo "use_icon_view = no\n";

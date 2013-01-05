@@ -10,7 +10,8 @@ num_rows = 3
 async_icon_loading = yes
 
 <?php
-    include '../common.php';
+    include_once '../lib_ugemist.php';
+	include_once '../lib_favorites.php';
 
     $num = 0;
 	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)

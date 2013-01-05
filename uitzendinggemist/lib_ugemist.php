@@ -205,9 +205,9 @@
 		return $result;
     }
 	
-	function getMaxPage($xpath)
+	function getMaxPage($xpath, $divid)
 	{
-		$elements = $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/div[@class='pagination']/a");
+		$elements = $xpath->query("/html/body//div[@id='".$divid."']/div[@class='pagination']/a");
 		$maxPage = 1;
 		foreach ($elements as $element)
 		{
@@ -217,12 +217,19 @@
 		}
 		return $maxPage;
 	}
-
-    function wgetPrograms($suffix)
+	
+	function wgetProgramsAZ($suffix)
     {
-        $query="/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a";
-		$xpath = getProgamHtmlXpath($suffix, 1);
-		$maxPage = getMaxPage($xpath);
+        return wgetPrograms('http://www.uitzendinggemist.nl/programmas/'.$suffix, 'series-index-series');
+    }
+
+    function wgetPrograms($url, $divid)
+    {
+        //$query="/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a";
+		//$query="/html/body//div[@id='".$divid."']/ol/li/h2/a";
+		$query="/html/body//div[@id='".$divid."']/ol/li//a[@class='series knav_link']";
+		$xpath = getProgamHtmlXpath($url, 1);
+		$maxPage = getMaxPage($xpath, $divid);
 		
 		$result = array();
 		$nodeList = $xpath->query($query);
@@ -230,16 +237,16 @@
 		
 		for($page=2;$page<=$maxPage;++$page)
 		{
-			$xpath = getProgamHtmlXpath($suffix, $page);
+			$xpath = getProgamHtmlXpath($url, $page);
 			$nodeList = $xpath->query($query);
 			foreach ($nodeList as $href) $result[] = $href;
 		}
 		return $result;
     }
 	
-	function getProgamHtmlXpath($suffix, $page)
+	function getProgamHtmlXpath($url, $page)
 	{
-		$ug_url = 'http://www.uitzendinggemist.nl/programmas/'.$suffix.'?page='.$page;
+		$ug_url = $url.'?page='.$page;
 
         $doc = new DOMDocument();
         $doc->loadHTMLFile($ug_url);
@@ -247,35 +254,17 @@
 
         return new DOMXpath($doc);
 	}
-    
-    function readFavorites($filename)
+	
+	function wgetBroadcasters()
     {
-        $doc = new DOMDocument();
-        $doc->loadHtmlFile($filename) || error('Failed to load Favorites XML configuration: $filename');
-            
-        $result = array();
-        
-        $num = 0;
-        foreach($doc->documentElement->getElementsByTagName('programma') as $programma)
-        {
-            $entry = array();
-            $entry['caption'] = getElementValue($programma, 'caption');
-            $entry['banner'] = getElementValue($programma, 'banner');
-            $entry['id'] = getElementValue($programma, 'id');
-            
-            $result[] = $entry;
-        }
-        return $result;
+		$query="/html/body//div[@id='broadcasters-page']/ol[@class='broadcasters']/li/a";
+		$xpath = getProgamHtmlXpath('http://www.uitzendinggemist.nl/omroepen', 1);
+		
+		$result = array();
+		$nodeList = $xpath->query($query);
+		
+		foreach ($nodeList as $href) $result[] = $href;
+		
+		return $result;
     }
-
-	function getElementValue($parent, $tagname)
-	{
-		$item = $parent->getElementsByTagName($tagname)->item(0);
-        return $item instanceof DOMElement ? $item->nodeValue : null; 
-	}
-	
-	
-
-
-
 ?>

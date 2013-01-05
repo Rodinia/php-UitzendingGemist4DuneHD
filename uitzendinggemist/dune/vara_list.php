@@ -15,9 +15,10 @@ paint_scrollbar = no
 	//ini_set('display_errors',1);
 	//error_reporting(E_ALL);
 	
-	include 'dune.php';
-    include '../common.php';
-    include '../lib_vara.php';
+	include_once 'dune.php';
+    include_once '../lib_ugemist.php';
+    include_once '../lib_vara.php';
+	include_once '../lib_favorites.php';
 
     $what = $_GET['what'];
     

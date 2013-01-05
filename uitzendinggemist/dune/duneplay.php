@@ -3,7 +3,7 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
 
-	include '../common.php';
+	include_once '../lib_ugemist.php';
 	include 'dune.php';
 
 	header('Content-type: text/plain');

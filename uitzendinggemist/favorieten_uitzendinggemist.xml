@@ -85,6 +85,11 @@
 		<id>290-het-klokhuis</id>
 	</programma>
 	<programma>
+		<caption>SpangaS</caption>
+		<banner>http://mediadb.omroep.nl/assets/000/012/607/500x140.jpg</banner>
+		<id>1153-spangas</id>
+	</programma>
+	<programma>
 		<caption>NOS Journaal</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/006/790/500x140.png</banner>
 		<id>6-nos-journaal</id>
@@ -104,13 +109,22 @@
 		<banner>http://mediadb.omroep.nl/assets/000/012/589/500x140.jpg</banner>
 		<id>989-de-wereld-draait-door</id>
 	</programma>
-		</programma>
+	<programma>
+		<caption> Pauw en Witteman</caption>
+		<banner>http://mediadb.omroep.nl/assets/000/012/604/500x140.jpg</banner>
+		<id>962-pauw-witteman</id>
+	</programma>
+	</programma>
 		<programma>
 		<caption>Opgelicht</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/012/973/500x140.jpg</banner>
 		<id>994-opgelicht</id>
 	</programma>
 	<programma>
+		<caption>De Rijdende Rechter</caption>
+		<banner>http://mediadb.omroep.nl/assets/000/199/901/500x140.jpg</banner>
+		<id>535-de-rijdende-rechter</id>
+	</programma>	<programma>
 		<caption>PowNews</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/057/107/500x140.jpg</banner>
 		<id>1225-pownews</id>

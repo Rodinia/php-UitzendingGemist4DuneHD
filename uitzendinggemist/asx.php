@@ -1,5 +1,5 @@
 <?php
-	include 'common.php';
+	include_once 'lib_ugemist.php';
 
 	$sessionKey = getSessionKey();
 
