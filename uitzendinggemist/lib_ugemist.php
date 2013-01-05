@@ -248,7 +248,7 @@
 	{
 		$ug_url = $url.(strpos($url, '?') === false ? '?' : '&').'page='.$page;
 		$doc = new DOMDocument();
-        echo "# Loading url: $ug_url\n";
+        //echo "# Loading url: $ug_url\n";
         $doc->loadHTMLFile($ug_url);
         $doc->strictErrorChecking = false;
 
