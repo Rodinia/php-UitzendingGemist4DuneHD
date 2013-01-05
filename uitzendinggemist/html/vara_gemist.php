@@ -6,7 +6,8 @@
 
     include_once '../lib_vara.php';
  	include_once '../lib_ugemist.php';
-    
+   	include_once '../lib_favorites.php';
+  
     function vara_play($title, $mediaid)
 	{
 		$configXmlUrl = makeConfigXmlUrl($mediaid);

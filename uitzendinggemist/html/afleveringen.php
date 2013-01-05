@@ -9,14 +9,17 @@
 
 	$pageOffset = $_GET['page'];
 
-?><html>
+?><!DOCTYPE html>
+<html>
 <head>
 	<title><?php print $programma; ?></title>
-
+    <link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <?php
 	echo '<h1>'.$programma."</h1>\n";
+    
+    echo '<a href="../dune/afleveringen.php?program='.$programma.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 
 	echo "<table>\n";
 	echo "<tr><th>caption</th><th>Select</th><th>Play</th></tr>\n";
