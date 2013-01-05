@@ -12,13 +12,14 @@ function writeItem($nr, $caption, $url, $action = 0)
 		echo "item.$nr.media_action = $action\n";
 }
 
-function writeIcon($num, $caption, $url, $url_icon)
+function writeIcon($num, $caption, $url, $url_icon = 0)
 {
 	$caption = str_replace("\n", ' ', $caption);
 	$caption = str_replace("\r", '', $caption);
 	
     echo "item.$num.caption = $caption\n";
-    echo "item.$num.icon_path = $url_icon\n";
+    if($url_icon)
+        echo "item.$num.icon_path = $url_icon\n";
     echo "item.$num.scale_factor = 1\n";
     echo "item.$num.media_url = $url\n";    
 }
