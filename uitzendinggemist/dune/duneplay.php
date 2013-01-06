@@ -4,40 +4,47 @@
 	error_reporting(E_WARNING);
 
 	include_once '../lib_ugemist.php';
-	include 'dune.php';
+	include_once 'dune.php';
 
 	header('Content-type: text/plain');
 
 	$epiid = $_GET['epiid'];
 
 	$sessionKey = getSessionKey();
-	// wvc1:std 1.1 MBit MP4/H.264 640x360
-	// mov|std 1.0 MBit MP4/H.264 640x360
-	// wmv|bb 500 kbit WMV 320x180
-	foreach(array("mov|std", "wvc1:std", "wmv|std", "mov|bb", "wvc1:bb", "wmv|bb", "mov|sb", "wvc1:sb", "wmv|sb") as $fq)
-	{
-		$fq = explode('|', $fq);
-		$streamurl = getStreamUrl($epiid, $sessionKey, $fq[0], $fq[1]);
-		if($streamurl) break;
-	}
+	
+	$streams = getStreams($epiid, $sessionKey);
 
-	if($streamurl == null)
+	if(count($streams) == 0)
 	{
-		duneError("No valid stream found");
+		duneError("No streams found");
 		exit;
 	}
 
-	// Eliminate redirects
-
-	// Check for redirects
-	$streamurl = followRedirects($streamurl, $contentType);
-
-	if($streamurl == null)
+		// Check for redirects
+	foreach($streams as $stream)
 	{
-		duneError("To many redirects.");
-		exit;
-	}
+		$format =  $stream->getAttribute('compressie_formaat');
+		$quality = $stream->getAttribute('compressie_kwaliteit');
+		$streamurl = trim($stream->getElementsByTagName('streamurl')->item(0)->nodeValue);
+		
+		echo "# checking: [$format/$quality] $streamurl\n";
+		// Eliminate redirects
+		$streamurl = followRedirects($streamurl, $contentType);
+		
+		if($contentType == 'application/smil')
+		{
+			echo "# Skip Apple (application/smil) stream, cotinue with next best stream";
+			continue;
+		}
 
-	dunePlay($streamurl, $contentType);
+		if($streamurl == null)
+		{
+			duneError("To many redirects.");
+			exit;
+		}
+		
+		dunePlay($streamurl, $contentType);
+		break;
+	}
 
  ?>

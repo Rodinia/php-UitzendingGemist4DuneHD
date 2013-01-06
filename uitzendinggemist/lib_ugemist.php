@@ -1,4 +1,6 @@
 <?php
+	include_once 'util.php';
+	
 	// -------------------- Functions ----------------------
 
     # Suppress DOM warnings
@@ -76,12 +78,7 @@
 	// compressie_kwaliteit  should be one of: sb|bb|std (low to high)
 	function getStreamUrl($epiid, $secret, $compressie_formaat = 'mov', $compressie_kwaliteit = 'bb')
 	{
-		$infoUrl = makeStreamInfoUrl($epiid, $secret);
-
-		$dom = new DOMDocument();
-		$html = $dom->loadHTMLFile($infoUrl);
-
-		foreach($dom->documentElement->getElementsByTagName('stream') as $stream)
+		foreach(getStreams($epiid, $secret) as $stream)
 		{
 			if( $stream->getAttribute('compressie_formaat') == $compressie_formaat && $stream->getAttribute('compressie_kwaliteit') == $compressie_kwaliteit)
 			{
@@ -91,6 +88,168 @@
 		}
 		return NULL;
 	}
+	
+	// stream attribute "compressie_formaat"   should is likely one of: wmv|mov|wvc1
+	// stream attribute "compressie_kwaliteit" should is likely one of: sb|bb|std    (low to high)
+	function getStreams($epiid, $secret)
+	{
+		$infoUrl = makeStreamInfoUrl($epiid, $secret);
+
+		$dom = new DOMDocument();
+		//echo "# wget Stream Info: $infoUrl\n";
+		$html = $dom->loadHTMLFile($infoUrl);
+		
+		$xpath = new DOMXpath($dom);
+     	$domnodelist = $xpath->query("//stream");
+		// Convert to array
+		$streams = array();
+		foreach($domnodelist as $stream)
+		{
+			$streams[] = $stream;
+		}
+		// Sort array
+		return sortStreams($streams);
+	}
+
+	// Sort streams on quality, and most suitable for Dune HD
+	function sortStreams($streams)
+	{
+		usort($streams, "stream_cmp");
+		return $streams;
+	}
+	
+	// lowest number, first in stream list
+	function stream_cmp($stra, $strb)
+	{
+		// Compare format
+		$cfa = $stra->getAttribute('compressie_formaat');
+		$cfb = $strb->getAttribute('compressie_formaat');
+		if($cfa == $cfb)
+		{
+			// Compare bandwith
+			$cka = $stra->getAttribute('compressie_kwaliteit');
+			$ckb = $strb->getAttribute('compressie_kwaliteit');
+			return compressieKwaliteitToNum($cka) - compressieKwaliteitToNum($ckb);
+		}
+		return compressieFormaatToNum($cfa) - compressieFormaatToNum($cfb);
+	}
+	
+	function compressieFormaatToNum($compressieFormaat)
+	{
+		switch($compressieFormaat)
+		{
+			case 'mov' : return 0; // MP4/H.264
+			case 'wvc1': return 1; // MP4/H.264
+			case 'wmv' : return 2; // WMV
+		}
+		trigger_error('Unsupported compressie-formaat: '.$compressieFormaat);
+	}
+	
+	function compressieKwaliteitToNum($compressieKwaliteit)
+	{
+		switch($compressieKwaliteit)
+		{
+			case 'std': return 0; // ?? best quality 640x360
+			case 'bb' : return 1; // broadband 320x180 = (WMA 9.1 / 500 Kbps)
+			case 'sb' : return 2; // slowband 160 x 90 = (WMA 9.1 / 100 Kbps)
+		}
+		trigger_error('Unsupported compressie-kwaliteit: '.$compressieKwaliteit);
+	}
+	
+	// Utility which follow redirects since the Dune HD does not support HTTP redirects
+	function followRedirects($streamurl, &$contentType, $maxRedirects = 4)
+	{
+		$numRedirects=0;
+		while($numRedirects<$maxRedirects)
+		{
+			$newUrl = checkRedirectUrl($streamurl, $contentType);
+			// echo "#   content-type: $contentType\n";
+			if(!$newUrl)
+			{
+				// Would expect  video/x-ms-asf is returned for ASX, but typically UG returns video/x-ms-wmv
+				if( $contentType == "video/x-ms-wmv" || $contentType == "video/x-ms-asf")
+				{
+					$asxRef = getAsxRef($streamurl);
+					//echo "# getAsxRef()=$asxRef\n";
+					if( startsWith($asxRef, 'mms://') )
+						return $asxRef;
+					$newUrl = $asxRef;
+				}
+				else
+					break;
+			}
+			$streamurl = $newUrl;
+			echo "# redirected.\n";
+			++$numRedirects;
+		}
+		return $streamurl;
+	}
+	
+	function checkRedirectUrl($url, &$contentType)
+{
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+	curl_setopt($ch, CURLOPT_HEADER, true); // Only get header (will do HEAD-request, rather then GET-request)
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_NOBODY, true);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'GET'); // Override HEAD-request
+
+	$out = curl_exec($ch);
+
+	// line endings is the wonkiest piece of this whole thing
+	$out = str_replace("\r", "", $out);
+
+	// only look at the headers
+	$headers_end = strpos($out, "\n\n");
+	if( $headers_end !== false )
+	{
+		$out = substr($out, 0, $headers_end);
+	}
+
+	$location = NULL;
+	$contentType = NULL;
+
+	$headers = explode("\n", $out);
+	foreach($headers as $header)
+	{
+		// echo "# header: $header\n";
+		if( startsWith($header, 'Location: ') )
+		{
+			$location = substr($header, 10);
+		}
+		else if(  startsWith($header, 'Content-Type: ') )
+		{
+			$contentType = substr($header, 14);
+		}
+		else if(  startsWith($header, 'Content-Type: ') )
+		{
+			$contentType = substr($header, 14);
+		}
+	}
+
+	curl_close($ch);
+
+	return $location;
+}
+
+function getAsxRef($url_asx)
+{
+	$dom = new DOMDocument();
+	$html = $dom->loadHTMLFile($url_asx);
+
+	if(!$html) return null;
+
+	foreach($dom->getElementsByTagName('entry') as $entry)
+	{
+		foreach($entry->getElementsByTagName('ref') as $ref)
+		{
+			return trim( $ref->getAttribute('href') );
+		}
+	}
+}
 
 	function makeStreamInfoUrl($epiid, $secret)
 	{
@@ -192,7 +351,6 @@
         $doc->loadHTMLFile($ug_url) || error('Failed to load HTML file: $ug_url');
 
 		$xpath = new DOMXpath($doc);
-
         $elements = $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[1]/div[@id='series-index-letters']/ol/li/a");
 		
 		foreach($elements as $element)

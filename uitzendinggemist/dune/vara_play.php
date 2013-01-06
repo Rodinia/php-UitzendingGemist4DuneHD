@@ -1,10 +1,11 @@
 <?php
 	#Enable display errors
-	ini_set('display_errors',1);
+	//ini_set('display_errors',1);
 	error_reporting(E_ERROR);
 
-	include 'dune.php';
-    include '../lib_vara.php';
+	include_once 'dune.php';
+    include_once '../lib_ugemist.php';
+    include_once '../lib_vara.php';
 
 	header('Content-type: text/plain');
 

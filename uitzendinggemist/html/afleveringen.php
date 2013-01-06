@@ -44,6 +44,7 @@
 		echo '<td><a href="episode.php?epiid='.$epiid.'">Info</a></td>';
 		echo '<td><a href="'.makeStreamInfoUrl($epiid, $sessionKey).'">Stream Info</a></td>';
 		echo '<td><a href="'.makeAfleveringMetaDataUrl($epiid, $sessionKey).'">Meta Data Aflevering</a></td>';
+		echo '<td><a href="../dune/duneplay.php?epiid='.$epiid.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
 		//echo '<td><a href="'.makeSerieMetaDataUrl($amd['serie_id'], $sessionKey).'">Meta Data Serie</a></td>';
 		echo "</tr>\n";
 	}

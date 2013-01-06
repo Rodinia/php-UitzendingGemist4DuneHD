@@ -1,16 +1,29 @@
 <?php
 	include_once 'lib_ugemist.php';
 
-	$sessionKey = getSessionKey();
-
 	$epiid = $_GET['epiid'];
 
-	foreach(array("mov|std", "mov|bb", "wmv|bb") as $fq)
+	$streams = getStreams($epiid, getSessionKey());
+	
+	$streamurl = null;
+	// Check for redirects
+	foreach($streams as $stream)
 	{
-		$fq = explode('|', $fq);
-		$streamurl=getStreamUrl($epiid, $sessionKey, $fq[0], $fq[1]);
-		if($streamurl) break;
+		$format =  $stream->getAttribute('compressie_formaat');
+		$quality = $stream->getAttribute('compressie_kwaliteit');
+		$streamurl = trim($stream->getElementsByTagName('streamurl')->item(0)->nodeValue);
+		
+		$streamurl = followRedirects($streamurl, $contentType);
+		
+		if($contentType == 'application/smil')
+		{
+			// Skip Apple (application/smil) stream, cotinue with next best stream";
+			continue;
+		}
+		break;
 	}
+	
+	
 
 	if($streamurl)
 	{
