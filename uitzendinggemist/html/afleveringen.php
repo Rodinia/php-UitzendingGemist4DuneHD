@@ -25,7 +25,7 @@
 <body>
 <?php
 	
-	function writeEpisodes($url_ug, $max_pages, $pageOffset, $program_id)
+	function writeEpisodes($url_ug, $max_pages, $pageOffset, $program_id = null)
 	{
 		$episodes = wgetEpisodes($url_ug, $max_pages, $pageOffset, $program_id);
 		
@@ -37,15 +37,15 @@
 
 		foreach($episodes as $episode)
 		{
-			$epiid=$episode['epiid'];
-
-			//$amd = getAfleveringMetaDataUrl($epiid, $sessionKey);
-
+			$q_episode = 'localepiid='.$episode['localepiid'];
+			if($program_id)
+				$q_episode .= '&programid='.$program_id; 
+			
 			echo '<tr>';
 			echo '<td>'.htmlspecialchars($episode['caption']).'</td>';
-			echo '<td><a href="../asx.php?epiid='.$epiid.'"><img alt="play" src="img/button-play-icon_32.png"/></a></td>';
-			echo '<td><a href="episode.php?epiid='.$epiid.'&programid='.$program_id.'">Meta Data</a></td>';
-			echo '<td><a href="../dune/duneplay.php?epiid='.$epiid.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
+			echo '<td><a href="../asx.php?'.$q_episode.'"><img alt="play" src="img/button-play-icon_32.png"/></a></td>';
+			echo '<td><a href="episode.php?'.$q_episode.'">Meta Data</a></td>';
+			echo '<td><a href="../dune/duneplay.php?'.$q_episode.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
 			//echo '<td><a href="'.makeSerieMetaDataUrl($amd['serie_id'], $sessionKey).'">Meta Data Serie</a></td>';
 			echo "</tr>\n";
 		}

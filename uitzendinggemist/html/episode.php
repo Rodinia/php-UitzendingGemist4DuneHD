@@ -2,18 +2,17 @@
   <html>
 <?php
 	#Enable display errors
-	ini_set('display_errors',1);
-	error_reporting(E_ERROR);
+	error_reporting(E_WARNING);
 
 	include_once '../lib_ugemist.php';
 
-	$epiid = $_GET['epiid'];
+	//$epiid = $_GET['epiid'];
 	$program_id = $_GET['programid'];
+	$localepiid = $_GET['localepiid'];
+	
+	$epiid = wgetEpisodeId($localepiid);
 
 	$sessionKey = getSessionKey();
-
-	//echo "/public/ug-od/wm/3/media/wm3c2/ceres/1/teleacnot/rest/2012/NPS_1207084/std.20120905.wmv";
-
 
 	$streamUrl = getStreamUrl($epiid, $sessionKey, 'wmv', 'bb');
 
@@ -50,7 +49,8 @@
 <body>
 	<table>
 		<tr><th colspan="2">Aflevering:</th></tr>
-		<tr><td>Episode</td><td><?php print $epiid; ?></td></tr>
+		<tr><td>Local Episode ID</td><td><?php print $localepiid; ?></td></tr>
+		<tr><td>Remote Episode ID</td><td><?php print $epiid; ?></td></tr>
 		<tr><td>sessionKey</td><td><?php print  join('|',$sessionKey); ?></td></tr>
 		<tr><td>Stream Info</td><td><a href="<?php print makeStreamInfoUrl($epiid, $sessionKey); ?>">Stream Info</a></td>
 		<tr><td>Meta Data</td><td><a href="<?php print $metaDataUrl; ?>">Meta Data Episode <?php print $epiid ?></a></td></tr>
@@ -59,11 +59,12 @@
 		<tr><td>ASX</td><td><a href="<?php print "../asx.php?epiid=$epiid"; ?>">ASX</a></td></tr>
 		<tr><td>Dune</td><td><a href="<?php print "../dune/duneplay.php?epiid=$epiid"; ?>">Dune link</a></td></tr>
 		<tr><td>Player URL</td><td><a href="<?php print $playerUrl; ?>">Player URL</a></td></tr>
-		<tr><th colspan="2">Serie:</th></tr>
+		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/afleveringen/$localepiid"; ?>">Aflevering op Uitzending Gemist</a></td></tr>
+		<tr><th colspan="2">Programma / Serie:</th></tr>
 		<tr><td>Programma ID</td><td><?php print $program_id; ?></td></tr>
 		<tr><td>Serie ID</td><td><?php print $metaData['serie_id']; ?></td></tr>
 		<tr><td>Playlist Serie Meta Data</td><td><?php print '<a href="'.$playlistSerieMetaDataUrl.'">Meta Data Serie '.$metaData['serie_id'].'</a>'; ?></td></tr>
-		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/programmas/$program_id"; ?>">Uitzending Gemist</a></td></tr>
+		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/programmas/$program_id"; ?>">Programma op Uitzending Gemist</a></td></tr>
 	</table>
 </body>
 </html>

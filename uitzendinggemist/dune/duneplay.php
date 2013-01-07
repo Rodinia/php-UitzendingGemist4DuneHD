@@ -8,7 +8,8 @@
 
 	header('Content-type: text/plain');
 
-	$epiid = $_GET['epiid'];
+	$epiid = isset($_GET['epiid']) ? $_GET['epiid'] : wgetEpisodeId($_GET['localepiid']);
+	echo "# remote-episode-ID: $epiid\n";
 
 	$sessionKey = getSessionKey();
 	

@@ -4,8 +4,8 @@
 	
 	include_once 'lib_ugemist.php';
 
-	$epiid = $_GET['epiid'];
-
+	$epiid = isset($_GET['epiid']) ? $_GET['epiid'] : wgetEpisodeId($_GET['localepiid']);
+	
 	$streams = getStreams($epiid, getSessionKey());
 	
 	$streamurl = null;

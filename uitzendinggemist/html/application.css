@@ -7,11 +7,15 @@ html
 h1
 {
 	color: #99A;
-	background-color: #FFF;
 	font-size: 34px;
-    padding-left: 70px;
-	
+    
 	font-family: "Arial Rounded MT Bold";
+}
+
+h1 img
+{
+	vertical-align: middle;
+	padding-right: 10px;
 }
 
 body
@@ -43,6 +47,11 @@ table.touch td
 table.touch td:hover 
 { 
 	background-color: black !important;
+}
+
+:focus 
+{
+    outline: 0;
 }
 
 a

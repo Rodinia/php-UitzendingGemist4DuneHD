@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
    <head>
       <title>Uitzending Gemist</title>
@@ -5,7 +6,7 @@
    </head>
 
    <body>
-      <h1><img src="img/ug-header-logo.png" width="50"/>Uitzending Gemist</h1>
+      <h1><img src="img/uitzendinggemist_60.png"/>Uitzending Gemist</h1>
 	  <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
 
       <table class="touch">

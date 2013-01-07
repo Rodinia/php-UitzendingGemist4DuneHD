@@ -26,9 +26,9 @@
         $num = 0;
 		foreach($episodes as $episode)
 		{
-			$epiid = $episode['epiid'];
+			$localepiid = $episode['localepiid'];
 			//$url = 'http://dune-gemist.xoomsite.com/?epiid='.$epiid.'&stap=3&dune=true';
-			$url = 'dune_'.$baseurl.'/duneplay.php?epiid='.$epiid;
+			$url = 'dune_'.$baseurl.'/duneplay.php?localepiid='.$localepiid;
 			echo "\n";
 			writeItem($num++, $episode['caption'], $url, 'play');
 		}

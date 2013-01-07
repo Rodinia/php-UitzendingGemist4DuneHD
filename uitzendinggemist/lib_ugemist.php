@@ -35,24 +35,26 @@
 			// Find all images
             foreach($xpath->query("//li[@class='episode active knav' or @class='broadcast active']") as $element)
 			{
-				// Extract ID
-                $epiid = $element->getAttribute('id');
+				// Extract local episode ID
+                $localid = $element->getAttribute('id');
                 $data_remote_id = $element->getAttribute('data-remote-id');
+//				if($data_remote_id)
+//					$data_remote_id = $element->getAttribute('id');
 
-                $epiid = substr($epiid, 8);
                 $pagefound = true;
 
 				// Extract caption
                 $h2list = $xpath->query("div/h2/a", $element);
                 $h2_title = $h2list->length==0 ? null : $h2list->item(0)->getAttribute('title');
-				$h3_title = $xpath->query("div/h3/a", $element)->item(0)->getAttribute('title');
-                
+				$h3_anchor = $xpath->query("div/h3/a", $element)->item(0);
+				
+				$h3_title = $h3_anchor->getAttribute('title');
                 $caption = $h2_title ? $h2_title." - ".$h3_title : $h3_title;
+				$localepiid = substr($h3_anchor->getAttribute('href'), 14);
 
                 $episodes[$num++] = array(
-                    "epiid" => $data_remote_id,
-                    "localid" => $epiid,
-                    "caption" => $caption
+					'localepiid' => $localepiid,
+                    'caption' => $caption
                 );
 
                 $pagefound = true;
@@ -61,6 +63,17 @@
 		while($pagefound && $page<($page_offset + $max_pages));
 
 		return $episodes;
+	}
+	
+	// Resolve remote-episode-ID base on local-episode-ID 
+	function wgetEpisodeId($localepiid)
+	{
+		$dom = new DOMDocument();
+		//echo "# wget Stream Info: $infoUrl\n";
+		$dom->loadHTMLFile('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
+		$xpath = new DOMXpath($dom);
+     	$domnodelist = $xpath->query("//span[@id='episode-data']");
+		return $domnodelist->item(0)->getAttribute('data-episode-id');
 	}
 	
 	// compressie_formaat should be one of:  wmv|mov|wvc1
@@ -421,9 +434,9 @@
         //$doc = new DOMDocument();
         //$doc->loadHTMLFile($ug_url);
         $dom = loadHtmlAsDom($ug_url);
-        $doc->strictErrorChecking = false;
+        $dom->strictErrorChecking = false;
 
-        return new DOMXpath($doc);
+        return new DOMXpath($dom);
 	}
 	
 	function wgetBroadcasters()

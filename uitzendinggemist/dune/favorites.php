@@ -21,12 +21,12 @@ async_icon_loading = yes
     $num = 0;
 	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
 	{
-		writeProgramma($num++, $programma['caption'], $programma['banner'], $programma['id']);
+		writeProgramma($baseurl, $num++, $programma['caption'], $programma['banner'], $programma['id']);
 	}
 
-	function writeProgramma($num, $caption, $url_icon, $aflevering_key)
+	function writeProgramma($baseurl, $num, $caption, $url_icon, $aflevering_key)
 	{
-		$duneUrl = $baseurl.'/afleveringen.php?program='.urlencode($aflevering_key)."\n";
+		$duneUrl = $baseurl.'/afleveringen.php?programid='.urlencode($aflevering_key)."\n";
 
 		echo "item.$num.icon_path = $url_icon\n";
 		echo "item.$num.scale_factor = 1\n";

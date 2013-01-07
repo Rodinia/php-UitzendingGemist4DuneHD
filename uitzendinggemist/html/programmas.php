@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
   <title>Programmas</title>
@@ -10,7 +10,6 @@
 	include_once '../lib_ugemist.php';
 
     #Enable display errors
-	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
 		
 	//header('Content-type: text/plain');
@@ -61,9 +60,9 @@
         echo "</table>\n";
 	}
 	
-	$suffix = $_GET['suffix'];
-	$type = $_GET['type'];
-	$omroep = $_GET['omroep'];
+	$suffix = isset($_GET['suffix']) ? $_GET['suffix'] : null;
+	$type = isset($_GET['type']) ? $_GET['type'] : null;
+	$omroep = isset($_GET['omroep']) ? $_GET['omroep'] : null;
 
 	if($suffix)
     {
