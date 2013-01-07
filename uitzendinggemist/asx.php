@@ -1,4 +1,7 @@
 <?php
+	//ini_set('display_errors',1);
+	error_reporting(E_WARNING);
+	
 	include_once 'lib_ugemist.php';
 
 	$epiid = $_GET['epiid'];
@@ -22,8 +25,6 @@
 		}
 		break;
 	}
-	
-	
 
 	if($streamurl)
 	{

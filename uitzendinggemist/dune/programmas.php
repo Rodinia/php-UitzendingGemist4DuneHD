@@ -5,10 +5,6 @@
         #Enable display errors
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
-
-    header('Content-type: text/plain; charset=utf-8');
-
-    echo "use_icon_view = no\n";
         
 	function listSeries($elements)
 	{
@@ -28,7 +24,7 @@
 				$imgsrc= str_replace('140x79','280x100', $imgsrc);
 				//echo "<p>dataimages=$imgsrc</p>\n";
 			}
-			$url = $baseurl.'/afleveringen.php?program='.urlencode($programId);
+			$url = $baseurl.'/afleveringen.php?programid='.urlencode($programId);
 			
 			echo "\n";
 			writeIcon($num++, $title, 'dune_'.$url, $imgsrc);
@@ -39,6 +35,10 @@
 	$type = $_GET['type'];
 	$omroep = $_GET['omroep'];
 
+    $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+    $imgdir=dirname($baseurl).'/img';
+	echo "background_order=before_all\n";
+	echo "background_path=$imgdir/background.jpg\n";
 ?>use_icon_view = yes
 paint_captions = yes
 media_action = browse
@@ -46,7 +46,9 @@ num_cols = 3
 async_icon_loading = yes
 <?php	
 	
-	if($suffix)
+    header('Content-type: text/plain; charset=utf-8');
+    
+    if($suffix)
     {
         echo "# Programma's: $suffix\n";
         $elements = wgetProgramsAZ($suffix);

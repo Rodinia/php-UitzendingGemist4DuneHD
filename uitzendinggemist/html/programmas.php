@@ -50,7 +50,7 @@
 				echo "<tr>\n";
 			}			
 			
-			echo '<td><a href="afleveringen.php?programma='.urlencode($programId).'">';
+			echo '<td><a href="afleveringen.php?programid='.urlencode($programId).'">';
             if(strlen($imgsrc)>0)
 				echo '<img src="'.$imgsrc.'" />';
             echo $title;

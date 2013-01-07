@@ -18,15 +18,17 @@
 num_cols = 9
 num_rows = 4
 async_icon_loading = yes
-background_order=before_all
 <?php
-	echo "background_path=$baseurl/dune-wide.jpg\n";
+    $imgdir=dirname($baseurl).'/img';
+	echo "background_order=before_all\n";
+	echo "background_path=$imgdir/background.jpg\n";
 
 	echo "# A-Z list\n";
 	
 	foreach (wgetProgramPrefixLinks() as $prefix)
 	{
-		$url = $baseurl.'/programmas.php?suffix='.urlencode($prefix);
+        $url = $baseurl.'/programmas.php?suffix='.urlencode($prefix);
+		$num = 0;
 		writeItem($num++, strtoupper($prefix), 'dune_'.$url);
 	}
 ?>

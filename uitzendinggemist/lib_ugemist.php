@@ -6,12 +6,14 @@
     # Suppress DOM warnings
     libxml_use_internal_errors(true);
     
-	function wgetEpisodes($programma, $max_pages, $page_offset = 1)
+	function wgetEpisodesByProgramId($programId, $max_pages, $page_offset = 1)
 	{
-		$ug_search_url = 'http://www.uitzendinggemist.nl/programmas/'.$programma.'/afleveringen?';
-
-		$dom = new DOMDocument();
-
+		$ug_search_url = 'http://www.uitzendinggemist.nl/programmas/'.$programId.'/afleveringen?';
+        return wgetEpisodes($ug_search_url, $max_pages, $page_offset);
+	}
+    
+    function wgetEpisodes($ug_search_url, $max_pages, $page_offset = 1)
+	{
 		$episodes = array(); // result
 
 		$pagefound = false;
@@ -22,59 +24,46 @@
 		{
 			$url = $ug_search_url . '&page='.$page++;
 
-			$html = $dom->loadHTMLFile($url);
-
-			$pagefound = false;
+            //$dom = new DOMDocument;
+			//$html = $dom->loadHTMLFile($url);
+			$dom = loadHtmlAsDom($url);
+			
+			$xpath = new DOMXpath($dom);
+            
+            $pagefound = false;
 
 			// Find all images
-			foreach($dom->getElementsByTagName('li') as $element)
+            foreach($xpath->query("//li[@class='episode active knav' or @class='broadcast active']") as $element)
 			{
-				if($element->getAttribute('class') == 'episode active knav')
-				{
-					// Extract ID
-					$epiid = $element->getAttribute('id');
-					$epiid = substr($epiid, 8);
-					$pagefound = true;
+				// Extract ID
+                $epiid = $element->getAttribute('id');
+                $data_remote_id = $element->getAttribute('data-remote-id');
 
-					$data_remote_id = $element->getAttribute('data-remote-id');
+                $epiid = substr($epiid, 8);
+                $pagefound = true;
 
-					// Extract Title
+				// Extract caption
+                $h2list = $xpath->query("div/h2/a", $element);
+                $h2_title = $h2list->length==0 ? null : $h2list->item(0)->getAttribute('title');
+				$h3_title = $xpath->query("div/h3/a", $element)->item(0)->getAttribute('title');
+                
+                $caption = $h2_title ? $h2_title." - ".$h3_title : $h3_title;
 
-					$caption = extractTitle($element);
+                $episodes[$num++] = array(
+                    "epiid" => $data_remote_id,
+                    "localid" => $epiid,
+                    "caption" => $caption
+                );
 
-					$episodes[$num++] = array(
-						"epiid" => $data_remote_id,
-						"localid" => $epiid,
-						"caption" => $caption
-					);
-
-					$pagefound = true;
-				}
+                $pagefound = true;
 			}
 		}
 		while($pagefound && $page<($page_offset + $max_pages));
 
 		return $episodes;
 	}
-
-	function extractTitle($element)
-	{
-		foreach($element->getElementsByTagName('div') as $ey)
-		{
-			if($ey->getAttribute('class') == 'description')
-			{
-				foreach($ey->getElementsByTagName('h3') as $ez)
-				{
-					foreach($ez->getElementsByTagName('a') as $ea)
-					{
-						return $ea->getAttribute('title');
-					}
-				}
-			}
-		}
-	}
-
-    // compressie_formaat should be one of:  wmv|mov|wvc1
+	
+	// compressie_formaat should be one of:  wmv|mov|wvc1
 	// compressie_kwaliteit  should be one of: sb|bb|std (low to high)
 	function getStreamUrl($epiid, $secret, $compressie_formaat = 'mov', $compressie_kwaliteit = 'bb')
 	{
@@ -121,17 +110,26 @@
 	// lowest number, first in stream list
 	function stream_cmp($stra, $strb)
 	{
-		// Compare format
+	    // first sort on Quality (bandwith)
+        $result = stream_cmp_quality($stra, $strb);
+        // if and only if quality is equel, sort on format
+        return $result == 0 ? stream_cmp_format($stra, $strb) : $result;
+	}
+    
+    function stream_cmp_quality($stra, $strb)
+    {
+        // Compare stream quality (bandwith)
+        $cka = $stra->getAttribute('compressie_kwaliteit');
+        $ckb = $strb->getAttribute('compressie_kwaliteit');
+        return compressieKwaliteitToNum($cka) - compressieKwaliteitToNum($ckb);
+	}
+    
+    function stream_cmp_format($stra, $strb)
+    {
+        // Compare format
 		$cfa = $stra->getAttribute('compressie_formaat');
 		$cfb = $strb->getAttribute('compressie_formaat');
-		if($cfa == $cfb)
-		{
-			// Compare bandwith
-			$cka = $stra->getAttribute('compressie_kwaliteit');
-			$ckb = $strb->getAttribute('compressie_kwaliteit');
-			return compressieKwaliteitToNum($cka) - compressieKwaliteitToNum($ckb);
-		}
-		return compressieFormaatToNum($cfa) - compressieFormaatToNum($cfb);
+        return compressieFormaatToNum($cfa) - compressieFormaatToNum($cfb);
 	}
 	
 	function compressieFormaatToNum($compressieFormaat)
@@ -139,7 +137,7 @@
 		switch($compressieFormaat)
 		{
 			case 'mov' : return 0; // MP4/H.264
-			case 'wvc1': return 1; // MP4/H.264
+			case 'wvc1': return 1; // WMV/MMS (Windows Media Video 9 Advanced Profile)
 			case 'wmv' : return 2; // WMV
 		}
 		trigger_error('Unsupported compressie-formaat: '.$compressieFormaat);
@@ -179,77 +177,76 @@
 					break;
 			}
 			$streamurl = $newUrl;
-			echo "# redirected.\n";
+			// echo "# redirected.\n";
 			++$numRedirects;
 		}
 		return $streamurl;
 	}
 	
-	function checkRedirectUrl($url, &$contentType)
-{
-	$ch = curl_init();
+    function checkRedirectUrl($url, &$contentType)
+    {
+        $ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-	curl_setopt($ch, CURLOPT_HEADER, true); // Only get header (will do HEAD-request, rather then GET-request)
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_NOBODY, true);
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'GET'); // Override HEAD-request
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_HEADER, true); // Only get header (will do HEAD-request, rather then GET-request)
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'GET'); // Override HEAD-request
 
-	$out = curl_exec($ch);
+        $out = curl_exec($ch);
 
-	// line endings is the wonkiest piece of this whole thing
-	$out = str_replace("\r", "", $out);
+        // line endings is the wonkiest piece of this whole thing
+        $out = str_replace("\r", "", $out);
 
-	// only look at the headers
-	$headers_end = strpos($out, "\n\n");
-	if( $headers_end !== false )
-	{
-		$out = substr($out, 0, $headers_end);
-	}
+        // only look at the headers
+        $headers_end = strpos($out, "\n\n");
+        if( $headers_end !== false )
+        {
+            $out = substr($out, 0, $headers_end);
+        }
 
-	$location = NULL;
-	$contentType = NULL;
+        $location = NULL;
+        $contentType = NULL;
 
-	$headers = explode("\n", $out);
-	foreach($headers as $header)
-	{
-		// echo "# header: $header\n";
-		if( startsWith($header, 'Location: ') )
-		{
-			$location = substr($header, 10);
-		}
-		else if(  startsWith($header, 'Content-Type: ') )
-		{
-			$contentType = substr($header, 14);
-		}
-		else if(  startsWith($header, 'Content-Type: ') )
-		{
-			$contentType = substr($header, 14);
-		}
-	}
+        $headers = explode("\n", $out);
+        foreach($headers as $header)
+        {
+            // echo "# header: $header\n";
+            if( startsWith($header, 'Location: ') )
+            {
+                $location = substr($header, 10);
+            }
+            else if(  startsWith($header, 'Content-Type: ') )
+            {
+                $contentType = substr($header, 14);
+            }
+            else if(  startsWith($header, 'Content-Type: ') )
+            {
+                $contentType = substr($header, 14);
+            }
+        }
 
-	curl_close($ch);
+        curl_close($ch);
 
-	return $location;
-}
+        return $location;
+    }
 
-function getAsxRef($url_asx)
-{
-	$dom = new DOMDocument();
-	$html = $dom->loadHTMLFile($url_asx);
+    function getAsxRef($url_asx)
+    {
+        $dom = new DOMDocument();
+        $html = $dom->loadHTMLFile($url_asx);
 
-	if(!$html) return null;
-
-	foreach($dom->getElementsByTagName('entry') as $entry)
-	{
-		foreach($entry->getElementsByTagName('ref') as $ref)
+        if(!$html) return null;
+		
+		$xpath = new DOMXpath($dom);
+     	
+        foreach($xpath->query("//ref") as $ref)
 		{
 			return trim( $ref->getAttribute('href') );
 		}
-	}
-}
+    }
 
 	function makeStreamInfoUrl($epiid, $secret)
 	{
@@ -287,7 +284,7 @@ function getAsxRef($url_asx)
 		return $result;
 	}
 
-	function makeSerieMetaDataUrl($serie_id, $secret)
+	function makePlaylistSerieMetaDataUrl($serie_id, $secret)
 	{
 		return 'http://pi.omroep.nl/info/playlist/serie/'. $serie_id .'/'. episodeHash($serie_id, $secret);
 	}
@@ -313,6 +310,20 @@ function getAsxRef($url_asx)
 		$rawKey = wgetSessionKey($sessionUrl);
 		$decodedKey = base64_decode($rawKey);
 		return explode('|', $decodedKey);
+	}
+    
+    // Extraxts stream URL from SMIL (Content-Type: application/smil)
+    function wgetVideoSrcFromSmil($urlToSmil)
+	{
+		$dom = new DOMDocument();
+		$dom->loadHTMLFile($urlToSmil);
+		$xpath = new DOMXpath($dom);
+     	$videos = $xpath->query("//video");
+
+		foreach($videos as $video)
+        {
+            return $video->getAttribute('src');
+		}
 	}
 
 	// Download session key
@@ -405,9 +416,11 @@ function getAsxRef($url_asx)
 	function getProgamHtmlXpath($url, $page)
 	{
 		$ug_url = $url.(strpos($url, '?') === false ? '?' : '&').'page='.$page;
-		$doc = new DOMDocument();
-        //echo "# Loading url: $ug_url\n";
-        $doc->loadHTMLFile($ug_url);
+		//echo "# Loading url: $ug_url\n";
+        
+        //$doc = new DOMDocument();
+        //$doc->loadHTMLFile($ug_url);
+        $dom = loadHtmlAsDom($ug_url);
         $doc->strictErrorChecking = false;
 
         return new DOMXpath($doc);

@@ -27,13 +27,18 @@
 		$quality = $stream->getAttribute('compressie_kwaliteit');
 		$streamurl = trim($stream->getElementsByTagName('streamurl')->item(0)->nodeValue);
 		
-		echo "# checking: [$format/$quality] $streamurl\n";
+		echo "# Checking: [$format/$quality] $streamurl\n";
 		// Eliminate redirects
 		$streamurl = followRedirects($streamurl, $contentType);
 		
 		if($contentType == 'application/smil')
 		{
-			echo "# Skip Apple (application/smil) stream, cotinue with next best stream";
+			echo "#   Retrieve SMIL file from: $streamurl\n";
+            //$streamurl = wgetVideoSrcFromSmil($streamurl);
+            //echo "#   SMIL stream URL = $streamurl\n";
+                        
+            echo "#   Skip MP4/rtsp stream, not support by Dune HD, content-Type: $contentType, url: $streamurl\n";
+            echo "#   Continue with next best stream.\n";
 			continue;
 		}
 

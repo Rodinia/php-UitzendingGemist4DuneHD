@@ -22,7 +22,7 @@
 
 	function writeProgramma($caption, $url_icon, $programma)
 	{
-		$url = 'afleveringen.php?programma='.urlencode($programma);
+		$url = 'afleveringen.php?programid='.urlencode($programma);
 
 		echo '<tr>';
 		echo '<td class="touch"><a href="'.$url.'"><img alt="'.$caption.'" src="'.$url_icon.'"/>'.$caption.'</a></td>';

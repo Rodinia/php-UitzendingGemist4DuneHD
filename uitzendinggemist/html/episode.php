@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+  <html>
 <?php
 	#Enable display errors
 	ini_set('display_errors',1);
@@ -6,6 +8,7 @@
 	include_once '../lib_ugemist.php';
 
 	$epiid = $_GET['epiid'];
+	$program_id = $_GET['programid'];
 
 	$sessionKey = getSessionKey();
 
@@ -20,8 +23,8 @@
 
 	$metaData = getAfleveringMetaDataUrl($epiid, $sessionKey);
 	$streamInfoUrl = makeStreamInfoUrl($epiid, $sessionKey);
-	$serieMetaDataUrl = makeSerieMetaDataUrl($metaData['serie_id'], $sessionKey);
-
+	$playlistSerieMetaDataUrl = makePlaylistSerieMetaDataUrl($metaData['serie_id'], $sessionKey);
+	
 	$playerUrl = 'http://player.omroep.nl/?aflID='.$epiid.'&md5='.$hash;
 
 	$prid = $metaData['prid']; // NPS_1207084
@@ -39,20 +42,28 @@
 
 	$playerUrl = makePlayerUrl($epiid, $secret);
 
-	?><html>
+	?>
+	<head>
+		<title>Meta Data</title>
+		<link href="application.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
 <body>
 	<table>
+		<tr><th colspan="2">Aflevering:</th></tr>
 		<tr><td>Episode</td><td><?php print $epiid; ?></td></tr>
-		<tr><td>Serie</td><td><?php print $metaData['serie_id']; ?></td></tr>
 		<tr><td>sessionKey</td><td><?php print  join('|',$sessionKey); ?></td></tr>
-		<tr><td>Meta Data</td><td><?php print "<a href=\"$metaDataUrl\">Meta Data Episode $epiid</a>"; ?></td></tr>
-		<tr><td>Stream Info</td><td><?php print "<a href=\"$streamInfoUrl\">Meta Data Stream Episode $epiid</a>"; ?></td></tr>
-		<tr><td>Serie Meta Data</td><td><?php print '<a href="'.$serieMetaDataUrl.'">Meta Data Serie '.$metaData['serie_id'].'</a>'; ?></td></tr>
+		<tr><td>Stream Info</td><td><a href="<?php print makeStreamInfoUrl($epiid, $sessionKey); ?>">Stream Info</a></td>
+		<tr><td>Meta Data</td><td><a href="<?php print $metaDataUrl; ?>">Meta Data Episode <?php print $epiid ?></a></td></tr>
+		<tr><td>Stream Info</td><td><a href="<?php print $streamInfoUrl; ?>">Meta Data Stream Episode <?php print $epiid ?></a></td></tr>
 		<tr><td>Meta Data: prid</td><td><?php print $metaData['prid']; ?></td></tr>
-		<tr><td>ASX</td><td><?php print "<a href=\"../asx.php?epiid=$epiid\">ASX</a>"; ?></td></tr>
-		<tr><td>Dune</td><td><?php print "<a href=\"../dune/duneplay.php?epiid=$epiid\">Dune link</a>"; ?></td></tr>
-		<tr><td>Player URL</td><td><?php print "<a href=\"$playerUrl\">Player URL</a>"; ?></td></tr>
-
+		<tr><td>ASX</td><td><a href="<?php print "../asx.php?epiid=$epiid"; ?>">ASX</a></td></tr>
+		<tr><td>Dune</td><td><a href="<?php print "../dune/duneplay.php?epiid=$epiid"; ?>">Dune link</a></td></tr>
+		<tr><td>Player URL</td><td><a href="<?php print $playerUrl; ?>">Player URL</a></td></tr>
+		<tr><th colspan="2">Serie:</th></tr>
+		<tr><td>Programma ID</td><td><?php print $program_id; ?></td></tr>
+		<tr><td>Serie ID</td><td><?php print $metaData['serie_id']; ?></td></tr>
+		<tr><td>Playlist Serie Meta Data</td><td><?php print '<a href="'.$playlistSerieMetaDataUrl.'">Meta Data Serie '.$metaData['serie_id'].'</a>'; ?></td></tr>
+		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/programmas/$program_id"; ?>">Uitzending Gemist</a></td></tr>
 	</table>
 </body>
 </html>
