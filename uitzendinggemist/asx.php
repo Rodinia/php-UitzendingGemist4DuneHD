@@ -4,26 +4,34 @@
 	
 	include_once 'lib_ugemist.php';
 
-	$epiid = isset($_GET['epiid']) ? $_GET['epiid'] : wgetEpisodeId($_GET['localepiid']);
-	
-	$streams = getStreams($epiid, getSessionKey());
-	
 	$streamurl = null;
-	// Check for redirects
-	foreach($streams as $stream)
+	if( isset($_GET['streamurl']) )
 	{
-		$format =  $stream->getAttribute('compressie_formaat');
-		$quality = $stream->getAttribute('compressie_kwaliteit');
-		$streamurl = trim($stream->getElementsByTagName('streamurl')->item(0)->nodeValue);
+		$streamurl = $_GET['streamurl'];
+	}
+	else
+	{
+		$epiid = isset($_GET['epiid']) ? $_GET['epiid'] : wgetEpisodeId($_GET['localepiid']);
 		
-		$streamurl = followRedirects($streamurl, $contentType);
+		$streams = getStreams($epiid, getSessionKey());
 		
-		if($contentType == 'application/smil')
+		$streamurl = null;
+		// Check for redirects
+		foreach($streams as $stream)
 		{
-			// Skip Apple (application/smil) stream, cotinue with next best stream";
-			continue;
+			$format =  $stream->getAttribute('compressie_formaat');
+			$quality = $stream->getAttribute('compressie_kwaliteit');
+			$streamurl = trim($stream->getElementsByTagName('streamurl')->item(0)->nodeValue);
+			
+			$streamurl = followRedirects($streamurl, $contentType);
+			
+			if($contentType == 'application/smil')
+			{
+				// Skip Apple (application/smil) stream, cotinue with next best stream";
+				continue;
+			}
+			break;
 		}
-		break;
 	}
 
 	if($streamurl)

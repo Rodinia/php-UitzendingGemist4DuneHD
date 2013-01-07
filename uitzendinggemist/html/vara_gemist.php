@@ -15,9 +15,11 @@
 		$videoConfigUrl = $configXml['file'];
 		$configVideo = getVideoConfigXml($videoConfigUrl);
 		$mediaLocation = $configVideo['location'];
+		$asxUrl = '../asx.php?streamurl='.urlencode($mediaLocation);
 		
 		echo "<tr>\n";
-        echo '<td><a href="'.$mediaLocation.'">'.$title.'</a></td>';
+        echo '<td>'.$title.'</td>';
+        echo '<td><a href="'.$asxUrl.'"><img alt="play" src="img/button-play-icon_32.png"/></a></td>';
         echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
 		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
         echo "</tr>\n";
@@ -77,7 +79,8 @@
 		echo "<pre>";
 		//var_dump($program);
 		echo "</pre>";
-		$id=substr($program->url, 28);str_replace('http://omroep.vara.nl/media/', '', $program->url);
+		$id=substr($program->url, 28);
+		str_replace('http://omroep.vara.nl/media/', '', $program->url);
         echo "<tr>\n";
         echo '<td><a href="vara_programma.php?url='.urlencode($program->url).'">'.$program->title.'</a></td>';
         //echo '<td>'.$program->tvChannelIndex || "".'</td>';
