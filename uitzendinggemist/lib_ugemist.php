@@ -160,9 +160,9 @@
 	{
 		switch($compressieKwaliteit)
 		{
-			case 'std': return 0; // ?? best quality 640x360
-			case 'bb' : return 1; // broadband 320x180 = (WMA 9.1 / 500 Kbps)
-			case 'sb' : return 2; // slowband 160 x 90 = (WMA 9.1 / 100 Kbps)
+			case 'std': return 0; // ?? best quality 640x360, 1 Mbit/sec
+			case 'bb' : return 1; // broadband 320x180 = (WMA 9.1 / 500 kbit/s)
+			case 'sb' : return 2; // slowband 160 x 90 = (WMA 9.1 / 100 kbit/s)
 		}
 		trigger_error('Unsupported compressie-kwaliteit: '.$compressieKwaliteit);
 	}

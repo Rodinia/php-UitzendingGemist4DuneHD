@@ -26,6 +26,6 @@ media_url = dune_<?php
    </pre>
    <p>Voor meer informatie over dune_folder.txt zie <a href="http://dune-hd.com/firmware/misc/dune_folder_howto.txt">DUNE_FOLDER.TXT MECHANISM</a>
 
-	<p>Pas '<a href="ugconfig.xml">ugconfig.xml</a>' config handmatig aan om gewenste programma's in favorieten te plaatsen.</p>
+	<p>Pas '<a href="favorieten_uitzendinggemist.xml">favorieten_uitzendinggemist.xml</a>' config handmatig aan om gewenste programma's in favorieten te plaatsen.</p>
   </body>
 </html>
