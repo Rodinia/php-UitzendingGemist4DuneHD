@@ -14,7 +14,7 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
     
-    require_once '../../lib/lib_favorites.php';
+    require_once '../lib/lib_favorites.php';
 
 	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
 	{

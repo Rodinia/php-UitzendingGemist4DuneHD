@@ -14,7 +14,7 @@
 		$videoConfigUrl = $configXml['file'];
 		$configVideo = getVideoConfigXml($videoConfigUrl);
 		$mediaLocation = $configVideo['location'];
-		$asxUrl = '../asx.php?streamurl='.urlencode($mediaLocation);
+		$asxUrl = '../../asx.php?streamurl='.urlencode($mediaLocation);
 		
 		echo "<tr>\n";
         echo '<td>'.$title.'</td>';

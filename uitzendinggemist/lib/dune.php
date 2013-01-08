@@ -1,6 +1,6 @@
 <?php
 
-require_once 'util.php';
+require_once dirname(__FILE__).'/util.php';
 
 function writeItem($nr, $caption, $url, $action = 0)
 {

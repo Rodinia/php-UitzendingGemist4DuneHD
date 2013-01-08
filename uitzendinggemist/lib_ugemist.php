@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__).'/../lib/util.php';
+	require_once dirname(__FILE__).'/lib/util.php';
 	
 	// -------------------- Functions ----------------------
 

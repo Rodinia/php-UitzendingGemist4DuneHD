@@ -4,7 +4,7 @@
 	error_reporting(E_WARNING);
 
 	require_once '../../lib/dune.php';
-    require_once '../../uitzendinggemist/lib_ugemist.php';
+    require_once '../../lib_ugemist.php';
     require_once '../lib_vara.php';
 
 	header('Content-type: text/plain');
