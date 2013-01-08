@@ -10,8 +10,8 @@ num_rows = 3
 async_icon_loading = yes
 
 <?php
-    include_once '../lib_ugemist.php';
-	include_once '../lib_favorites.php';
+    require_once '../lib_ugemist.php';
+	require_once '../../lib/lib_favorites.php';
     
     $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
     $imgdir=dirname($baseurl).'/img';
@@ -26,7 +26,9 @@ async_icon_loading = yes
 
 	function writeProgramma($baseurl, $num, $caption, $url_icon, $aflevering_key)
 	{
-		$duneUrl = $baseurl.'/afleveringen.php?programid='.urlencode($aflevering_key)."\n";
+		echo "\n";
+		
+		$duneUrl = $baseurl.'/afleveringen.php?programid='.urlencode($aflevering_key);
 
 		echo "item.$num.icon_path = $url_icon\n";
 		echo "item.$num.scale_factor = 1\n";

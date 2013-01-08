@@ -1,5 +1,5 @@
 <?php
-	include 'dune.php';
+	require_once '../../lib/dune.php';
 
     header('Content-type: text/plain; charset=utf-8');
 
@@ -26,6 +26,7 @@ async_icon_loading = yes
     writeIcon($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas_az.php', $imgdir.'/a-z.png');
     writeIcon($num++, 'Vandaag', 'dune_'.$baseurl.'/afleveringen.php?when=vandaag', $imgdir.'/uitzendinggemist_250.png');
     writeIcon($num++, 'Gisteren', 'dune_'.$baseurl.'/afleveringen.php?when=gisteren', $imgdir.'/uitzendinggemist_250.png');
-    writeIcon($num++, 'VARA Gemist', 'dune_'.$baseurl.'/vara_list.php', $imgdir.'/varagemist.png');
+	$varagemisturl = dirname(dirname($baseurl)).'/varagemist/dune/';
+    writeIcon($num++, 'VARA Gemist', 'dune_'.$varagemisturl, $imgdir.'/varagemist.png');
 
 ?>

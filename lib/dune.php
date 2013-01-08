@@ -1,6 +1,6 @@
 <?php
 
-include_once '../util.php';
+require_once 'util.php';
 
 function writeItem($nr, $caption, $url, $action = 0)
 {

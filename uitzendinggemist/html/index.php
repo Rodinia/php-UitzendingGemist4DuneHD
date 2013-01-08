@@ -22,7 +22,7 @@
 			<td><a href="programmas_az.php"><img src="../img/a-z.png"/>Programma's A-Z</a/></td>
 			<td><a href="afleveringen.php?when=vandaag"><img src="../img/uitzendinggemist_250.png"/>Vandaag</a/></td>
 			<td><a href="afleveringen.php?when=gisteren"><img src="../img/uitzendinggemist_250.png"/>Gisteren</a/></td>
-			<td><a href="vara_gemist.php"><img src="../img/varagemist.png"/>VARA Gemist</a/></td>
+			<td><a href="../../varagemist/html/"><img src="../img/varagemist.png"/>VARA Gemist</a/></td>
 		</tr>
       </table>
 

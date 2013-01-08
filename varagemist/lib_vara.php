@@ -1,6 +1,6 @@
 <?php
 
-	include_once 'util.php';
+	require_once dirname(__FILE__).'/../lib/util.php';
 
     libxml_use_internal_errors(true);
     

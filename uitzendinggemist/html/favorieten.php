@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>Programma's</title>
@@ -13,7 +14,7 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
     
-    include_once '../lib_favorites.php';
+    require_once '../../lib/lib_favorites.php';
 
 	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
 	{

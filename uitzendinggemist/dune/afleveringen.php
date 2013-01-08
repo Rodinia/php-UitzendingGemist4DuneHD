@@ -5,8 +5,8 @@
 
 	header('Content-type: text/plain; charset=utf-8'); // is this the best charset?
     
-    include_once '../lib_ugemist.php';
-	include 'dune.php';
+    require_once '../lib_ugemist.php';
+	require_once '../../lib/dune.php';
 
 	echo "use_icon_view = no\n";
     	
@@ -22,6 +22,8 @@
 	function writeEpisodes($url_ug, $baseurl, $max_pages, $pageOffset)
 	{
 		$episodes = wgetEpisodes($url_ug, $max_pages, $pageOffset);
+		echo "# url_ug = $url_ug\n";
+		echo "# pageoffset = $pageOffset\n";
 		
         $num = 0;
 		foreach($episodes as $episode)
@@ -32,6 +34,7 @@
 			echo "\n";
 			writeItem($num++, $episode['caption'], $url, 'play');
 		}
+		return $num;
 	}
 
     $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
@@ -43,10 +46,11 @@
 	{
 		$url_ug = 'http://www.uitzendinggemist.nl/programmas/'.urlencode($program_id);
 		
-		writeEpisodes($url_ug, $baseurl, $max_pages, $pageOffset);
+		$num = writeEpisodes($url_ug, $baseurl, $max_pages, $pageOffset);
 
 		$pageOffset += $max_pages;
-		$nextPageUrl = 'dune_'.$baseurl.'?program='.urlencode($program_id).'&page='.$pageOffset;
+		$nextPageUrl = 'dune_'.$baseurl.'/afleveringen.php?programid='.urlencode($program_id).'&page='.$pageOffset;
+		echo "\n";
 		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
 	}
     else if($when)

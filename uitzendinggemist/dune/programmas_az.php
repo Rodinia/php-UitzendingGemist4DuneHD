@@ -1,6 +1,6 @@
 <?php
-	include_once '../lib_ugemist.php';
-    include_once 'dune.php';
+	require_once '../lib_ugemist.php';
+    require_once '../../lib/dune.php';
     
     #Enable display errors
 	//ini_set('display_errors',1);

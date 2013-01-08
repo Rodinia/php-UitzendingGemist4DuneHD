@@ -4,9 +4,8 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_ALL);
 
-    include_once '../lib_vara.php';
- 	include_once '../lib_ugemist.php';
-   	include_once '../lib_favorites.php';
+    require_once '../lib_vara.php';
+ 	require_once '../../lib/lib_favorites.php';
   
     function vara_play($title, $mediaid)
 	{
@@ -33,15 +32,15 @@
 ?><html>
 <head>
   <title>VARA Gemist</title>
-  <link href="application.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="varagemist.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-   <h1>VARA Gemist</h1>
-   <a href="../dune/vara_list.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+   <h1><img src="../img/vara-logo.png">Gemist</h1>
+   <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
    
    <h2>Deze Week</h2>
-   <a href="../dune/vara_list.php?what=dezeweek"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+   <a href="../dune/?what=dezeweek"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
    <table>
  <?php
     
@@ -53,7 +52,7 @@
    </table>
    
    <h2>Favorieten</h2>
-   <a href="../dune/vara_list.php?what=favo"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+   <a href="../dune/?what=favo"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
    <p>Configureer met <a href="../favorieten_vara.xml">favorieten_vara.xml</a>.</p>
    <table>
  <?php
@@ -65,7 +64,7 @@
    </table>
    
    <h2>Programma's</h2>
-   <a href="../dune/vara_list.php?what=recprog"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+   <a href="../dune/?what=recprog"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
    <table>
  <?php
  	

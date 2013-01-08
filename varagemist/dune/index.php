@@ -15,11 +15,10 @@ paint_scrollbar = no
 	//ini_set('display_errors',1);
 	//error_reporting(E_ALL);
 	
-	include_once 'dune.php';
-    include_once '../lib_ugemist.php';
-    include_once '../lib_vara.php';
-	include_once '../lib_favorites.php';
-
+	require_once '../../lib/dune.php';
+    require_once '../../lib/lib_favorites.php';
+	require_once '../lib_vara.php';
+	
     $what = $_GET['what'];
     
     $nr = 0;
@@ -28,9 +27,9 @@ paint_scrollbar = no
     
     if(!$what)
     {
-            writeItem($nr++, "Deze week", $baseurl.'/vara_list.php?what=dezeweek', 'item');
-            writeItem($nr++, "Favorieten", $baseurl.'/vara_list.php?what=favo', 'item');
-            writeItem($nr++, "Recente programma's", $baseurl.'/vara_list.php?what=recprog', 'item');
+            writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
+            writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
+            writeItem($nr++, "Recente programma's", $baseurl.'/?what=recprog', 'item');
             exit;
     }
     if($what=='dezeweek')
@@ -52,7 +51,7 @@ paint_scrollbar = no
     {
         foreach(getVaraProgramList()->allProgramsAndSites as $program)
         {
-            $url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_list.php?what=program&url='.urlencode($program->url);
+            $url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/?what=program&url='.urlencode($program->url);
             writeItem($nr++, $program->title, $url, 'item');
         }
     }
@@ -67,7 +66,7 @@ paint_scrollbar = no
 
 	function vara_play($nr, $title, $mediaid)
 	{
-		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$mediaid;
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/?mediaid='.$mediaid;
         writeItem($nr, $title, $url, 'play');
  	}
 

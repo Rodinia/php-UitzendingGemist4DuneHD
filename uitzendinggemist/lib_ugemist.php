@@ -1,5 +1,5 @@
 <?php
-	include_once 'util.php';
+	require_once dirname(__FILE__).'/../lib/util.php';
 	
 	// -------------------- Functions ----------------------
 
@@ -22,11 +22,9 @@
 
 		do
 		{
-			$url = $ug_search_url . '&page='.$page++;
+			$url = $ug_search_url.(strpos($ug_search_url, '?') ? '&':'?').'&page='.$page++;
 
-            //$dom = new DOMDocument;
-			//$html = $dom->loadHTMLFile($url);
-			$dom = loadHtmlAsDom($url);
+            $dom = loadHtmlAsDom($url);
 			
 			$xpath = new DOMXpath($dom);
             

@@ -6,7 +6,7 @@
 
 <body>
 <?php
-	include_once '../lib_ugemist.php';
+	require_once '../lib_ugemist.php';
 
     #Enable display errors
 	//ini_set('display_errors',1);
@@ -15,6 +15,8 @@
 	$cols = 8;
 	$nr = 0;
 	echo "<h1>Programma's A-Z</h1>\n";
+	
+	echo '<a href="../dune/programmas_az.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	
 	echo "<table class=\"touch\">\n";
 	echo "<tr>\n";

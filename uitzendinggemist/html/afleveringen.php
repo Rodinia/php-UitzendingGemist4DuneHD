@@ -5,7 +5,7 @@
 	
 	header('content-type: text/html; charset=utf-8');
 
-	include_once '../lib_ugemist.php';
+	require_once '../lib_ugemist.php';
 
 	$program_id = $_GET['programid'];
 	$when = $_GET['when'];

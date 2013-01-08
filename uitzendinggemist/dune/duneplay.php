@@ -3,8 +3,8 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
 
-	include_once '../lib_ugemist.php';
-	include_once 'dune.php';
+	require_once '../lib_ugemist.php';
+	require_once '../../lib/dune.php';
 
 	header('Content-type: text/plain');
 
