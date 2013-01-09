@@ -1,4 +1,7 @@
 <?php
+    # Suppress DOM warnings
+    libxml_use_internal_errors(true);
+    
     function startsWith($haystack, $needle)
     {
         return !strncmp($haystack, $needle, strlen($needle));

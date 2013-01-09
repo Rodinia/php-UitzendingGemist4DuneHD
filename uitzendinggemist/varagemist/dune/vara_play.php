@@ -23,6 +23,14 @@
 	$mediaLocation = $configVideo['location'];
 
 	echo "# url media location: $mediaLocation\n";
+    
+    // Set to HQ
+    if(isset($_GET['hq']))
+    {
+        // Change to H.264 720x400, 1.4 MBit
+        $mediaLocation = str_replace('.mp4', '-hq.mp4', $mediaLocation);
+        echo "# url HQ media location: $mediaLocation\n";
+    }
 
 	// Check for redirects
 	$mediaLocation = followRedirects($mediaLocation, $contentType, 1);
