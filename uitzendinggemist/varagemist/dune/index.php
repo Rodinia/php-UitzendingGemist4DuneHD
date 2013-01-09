@@ -21,7 +21,7 @@ use_icon_view = no
             writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
             writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
             writeItem($nr++, "Recente programma's", $baseurl.'/?what=recprog', 'item');
-            writeItem($nr++, "G", $baseurl.'/?what=giel.rubrieken', 'item');
+            writeItem($nr++, "Giel Rubrieken", $baseurl.'/?what=giel.rubrieken', 'item');
             exit;
     }
     if($what=='dezeweek')
