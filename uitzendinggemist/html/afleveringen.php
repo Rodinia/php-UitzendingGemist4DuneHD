@@ -1,6 +1,5 @@
 <?php
 	// Enable display errors
-	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
 	
 	header('content-type: text/html; charset=utf-8');
@@ -10,8 +9,7 @@
 	$program_id = $_GET['programid'];
 	$when = $_GET['when'];
 
-	$pageOffset = $_GET['page'];
-	if(!$pageOffset) $pageOffset = 1;
+	$pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
 	
 	$max_pages = 3;
 
@@ -25,13 +23,8 @@
 <body>
 <?php
 	
-	function writeEpisodes($url_ug, $max_pages, $pageOffset, $program_id = null)
+	function writeEpisodes($episodes, $program_id = 0)
 	{
-		$episodes = wgetEpisodes($url_ug, $max_pages, $pageOffset, $program_id);
-		
-		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
-		echo '<a href="../dune/afleveringen.php?'.$_SERVER['QUERY_STRING'].'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
-
 		echo "<table>\n";
 		echo "<tr><th>Caption</th><th>Play</th></tr>\n";
 
@@ -55,12 +48,16 @@
     if($program_id)
 	{
 		echo '<h1>'.$program_id."</h1>\n";
-		$url_ug = 'http://www.uitzendinggemist.nl/programmas/'.urlencode($program_id);
+		$url_ug = 'http://www.uitzendinggemist.nl/programmas/'.urlencode($program_id).'/';
 		
-		writeEpisodes($url_ug, $max_pages, $pageOffset, $program_id);
+		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
+		echo '<a href="../dune/afleveringen.php?'.$_SERVER['QUERY_STRING'].'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
+		
+		$episodes = wgetEpisodesByProgram($url_ug, $max_pages, $pageOffset, $program_id);
+		writeEpisodes($episodes);
 
 		$pageOffset += $max_pages;
-		echo '<a href="?programma='.urlencode($program_id).'&page='.($pageOffset).'">Next Page</a>';
+		echo '<a href="?programid='.urlencode($program_id).'&page='.($pageOffset).'">Next Page</a>';
 	}
     else if($when)
     {
@@ -74,10 +71,13 @@
         }
         $url_ug = "http://www.uitzendinggemist.nl/weekarchief/$when?display_mode=detail";
 
-		writeEpisodes($url_ug, $max_pages, $pageOffset);
+		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
+		echo '<a href="../dune/afleveringen.php?'.$_SERVER['QUERY_STRING'].'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
+
+		$episodes = wgetEpisodesWeekarchief($url_ug, $max_pages, $pageOffset);
+		writeEpisodes($episodes);
 
 		$pageOffset += $max_pages;
-
 		//echo '<a href="?when='.urlencode($when).'&page='.($pageOffset).'">Next Page</a>';
     }
 

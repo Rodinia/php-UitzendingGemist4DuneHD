@@ -11,8 +11,49 @@
 		$ug_search_url = 'http://www.uitzendinggemist.nl/programmas/'.$programId.'/afleveringen?';
         return wgetEpisodes($ug_search_url, $max_pages, $page_offset);
 	}
-    
-    function wgetEpisodes($ug_search_url, $max_pages, $page_offset = 1)
+	
+	function wgetEpisodesWeekarchief($ug_search_url, $max_pages, $page_offset = 1)
+	{
+		$episodes = array(); // result
+
+		$itemQueries = array(); // result
+		$itemQueries['program'] = "h2/a";
+		$itemQueries['episode'] = "h3/a";
+		$itemQueries['href'] = "h3/a/@href";
+
+		$result = privWgetEpisodes($ug_search_url, "//li[@class='broadcast active']/div[@class='info']", $itemQueries, $max_pages, $page_offset);
+		foreach($result as $item)
+		{
+			$episodes[] = array(
+				'localepiid' => substr($item['href'], 14),
+				'caption' => $item['program'].' - '.$item['episode']
+			);
+		}
+		return $episodes;
+	}
+	
+	function wgetEpisodesByProgram($ug_search_url, $max_pages, $page_offset = 1)
+	{
+		$episodes = array(); // result
+
+		$itemQueries = array(); // result
+		$itemQueries['episode'] = "h3/a";
+		$itemQueries['href'] = "h3/a/@href";
+		//$itemQueries['data-remote-id'] = "@data-remote-id";
+
+		$result = privWgetEpisodes($ug_search_url, "//ul/li[@class='episode active knav']/div[@class='description']", $itemQueries, $max_pages, $page_offset);
+		foreach($result as $item)
+		{
+			$episodes[] = array(
+				'localepiid' => substr($item['href'], 14),
+				//'remoteepiid' => $item['data-remote-id'],
+				'caption' => $item['episode']
+			);
+		}
+		return $episodes;
+	}
+	
+	function privWgetEpisodes($ug_search_url, $query, $itemQueries, $max_pages, $page_offset = 1)
 	{
 		$episodes = array(); // result
 
@@ -22,47 +63,29 @@
 
 		do
 		{
-			$url = $ug_search_url.(strpos($ug_search_url, '?') ? '&':'?').'&page='.$page++;
-
-            $dom = loadHtmlAsDom($url);
-			
+			$url = $ug_search_url.(strpos($ug_search_url, '?') ? '&':'?').'page='.$page++;
+			//echo "<p>url = $url</p>\n";
+			$dom = loadHtmlAsDom($url);
 			$xpath = new DOMXpath($dom);
-            
             $pagefound = false;
-
-			// Find all images
-            foreach($xpath->query("//li[@class='episode active knav' or @class='broadcast active']") as $element)
+			foreach($xpath->query($query) as $episode)
 			{
-				// Extract local episode ID
-                $localid = $element->getAttribute('id');
-                $data_remote_id = $element->getAttribute('data-remote-id');
-//				if($data_remote_id)
-//					$data_remote_id = $element->getAttribute('id');
-
-                $pagefound = true;
-
-				// Extract caption
-                $h2list = $xpath->query("div/h2/a", $element);
-                $h2_title = $h2list->length==0 ? null : $h2list->item(0)->getAttribute('title');
-				$h3_anchor = $xpath->query("div/h3/a", $element)->item(0);
+				$pagefound = true;
 				
-				$h3_title = $h3_anchor->getAttribute('title');
-                $caption = $h2_title ? $h2_title." - ".$h3_title : $h3_title;
-				$localepiid = substr($h3_anchor->getAttribute('href'), 14);
-
-                $episodes[$num++] = array(
-					'localepiid' => $localepiid,
-                    'caption' => $caption
-                );
-
-                $pagefound = true;
+				$items = array(); // result
+				foreach($itemQueries as $itemKey => $itemQuery)
+				{
+					$items[$itemKey] = $xpath->query( $itemQuery, $episode)->item(0)->nodeValue;
+					//echo "<p>$itemKey => $itemQuery = ".$items[$itemKey]."</p>\n";
+				}
+				$episodes[] = $items;
 			}
 		}
 		while($pagefound && $page<($page_offset + $max_pages));
 
 		return $episodes;
 	}
-	
+    
 	// Resolve remote-episode-ID base on local-episode-ID 
 	function wgetEpisodeId($localepiid)
 	{

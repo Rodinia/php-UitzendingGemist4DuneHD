@@ -14,6 +14,10 @@
 		$videoConfigUrl = $configXml['file'];
 		$configVideo = getVideoConfigXml($videoConfigUrl);
 		$mediaLocation = $configVideo['location'];
+		
+		// Switch to HQ stream (720x400 1.5 MBit/sec)
+		$mediaLocation = str_replace('.mp4', '-hq.mp4', $mediaLocation);
+		
 		$asxUrl = '../../asx.php?streamurl='.urlencode($mediaLocation);
 		
 		echo "<tr>\n";

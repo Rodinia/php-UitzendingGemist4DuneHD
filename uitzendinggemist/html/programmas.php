@@ -14,8 +14,9 @@
 		
 	//header('Content-type: text/plain');
 	
-  	function showDuneLink()
+  	function showLinks($url_ug)
 	{
+		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 		echo '<a href="../dune/programmas?'.$_SERVER["QUERY_STRING"].'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	}
 	
@@ -67,7 +68,7 @@
 	if($suffix)
     {
         echo "<h1>Programma lijst $suffix</h1>\n";
-		showDuneLink();
+		showLinks('http://www.uitzendinggemist.nl/programmas/'.$suffix);
         $elements = wgetProgramsAZ($suffix);
         listSeries($elements);
     }
@@ -84,16 +85,18 @@
 		else if($type == "zappelin")
 		{
 			echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/zappelin-header.jpg\" alt=\"Programma's op Zappelin\"/></h1>\n";
-			showDuneLink();
-			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zappelin?display_mode=detail', 'category-series');
+			$urlug = 'http://www.uitzendinggemist.nl/zappelin?display_mode=detail';
+			showLinks($urlug);
+			$elements = wgetPrograms($urlug, 'category-series');
 			listSeries($elements);
 		}
 	}
 	else if($omroep)
 	{
 		echo "<h1>Omroep $omroep</h1>\n";
-		showDuneLink();
-		$elements = wgetPrograms('http://www.uitzendinggemist.nl/omroepen/'.$omroep, 'category-series', 'series series-image');
+		$urlug = 'http://www.uitzendinggemist.nl/omroepen/'.$omroep;
+		showLinks($urlug);
+		$elements = wgetPrograms($urlug, 'category-series', 'series series-image');
 		listSeries($elements);
 	}
 

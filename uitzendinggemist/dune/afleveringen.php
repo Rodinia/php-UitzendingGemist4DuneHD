@@ -13,19 +13,13 @@
     $program_id = $_GET['programid']; // eg: '244-huisje-boompje-beestje';
 	$when = $_GET['when'];
 	
-	$pageOffset = $_GET['page'];
-	if(!$pageOffset) $pageOffset = 1;
-
+	$pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
+	
 	$max_pages = 3;
 
-
-	function writeEpisodes($url_ug, $baseurl, $max_pages, $pageOffset)
+	function writeEpisodes($episodes, $baseurl)
 	{
-		$episodes = wgetEpisodes($url_ug, $max_pages, $pageOffset);
-		echo "# url_ug = $url_ug\n";
-		echo "# pageoffset = $pageOffset\n";
-		
-        $num = 0;
+		$num = 0;
 		foreach($episodes as $episode)
 		{
 			$localepiid = $episode['localepiid'];
@@ -39,14 +33,13 @@
 
     $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
     $imgdir=dirname($baseurl).'/img';
-	echo "background_order=before_all\n";
-	echo "background_path=$imgdir/background.jpg\n";
 
 	if($program_id)
 	{
 		$url_ug = 'http://www.uitzendinggemist.nl/programmas/'.urlencode($program_id);
 		
-		$num = writeEpisodes($url_ug, $baseurl, $max_pages, $pageOffset);
+		$episodes = wgetEpisodesByProgram($url_ug, $max_pages, $pageOffset, $program_id);
+		$num = writeEpisodes($episodes, $baseurl);
 
 		$pageOffset += $max_pages;
 		$nextPageUrl = 'dune_'.$baseurl.'/afleveringen.php?programid='.urlencode($program_id).'&page='.$pageOffset;
@@ -56,7 +49,10 @@
     else if($when)
     {
         $url_ug = "http://www.uitzendinggemist.nl/weekarchief/$when?display_mode=detail";
-		writeEpisodes($url_ug, $baseurl, $max_pages, $pageOffset);
+		echo "# url_ug = $url_ug\n";
+		echo "# pageoffset = $pageOffset\n";
+		$episodes = wgetEpisodesWeekarchief($url_ug, $max_pages, $pageOffset);
+		$num = writeEpisodes($episodes, $baseurl);
     }
 
 ?>
