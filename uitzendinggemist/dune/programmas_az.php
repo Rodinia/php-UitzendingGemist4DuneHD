@@ -25,10 +25,10 @@ async_icon_loading = yes
 
 	echo "# A-Z list\n";
 	
+	$num = 0;
 	foreach (wgetProgramPrefixLinks() as $prefix)
 	{
         $url = $baseurl.'/programmas.php?suffix='.urlencode($prefix);
-		$num = 0;
 		writeItem($num++, strtoupper($prefix), 'dune_'.$url);
 	}
 ?>
