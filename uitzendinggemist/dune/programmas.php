@@ -2,33 +2,29 @@
 	require_once '../lib_ugemist.php';
     require_once '../lib/dune.php';
     
-        #Enable display errors
-	//ini_set('display_errors',1);
-	error_reporting(E_WARNING);
+    header('Content-type: text/plain; charset=utf-8');
+    
+    $pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
+    $maxPages = 3;
+    
+    error_reporting(E_ALL);
         
-	function listSeries($elements)
+	function listSeries($series)
 	{
         $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
 		$num = 0;
-        foreach ($elements as $element)
+        foreach ($series as $serie)
 		{
-			$href=$element->getAttribute('href');
-            $programId=substr($href, 12);
-			$nlimg=$element->getElementsByTagName('img');
-			$title=$element->getAttribute('title');
-			$imgsrc='';
-			if($nlimg->length>0)
-			{
-				$dataimages = $nlimg->item(0)->getAttribute('data-images');
-				$imgsrc=trim($dataimages, '[]"');
-				$imgsrc= str_replace('140x79','280x100', $imgsrc);
-				//echo "<p>dataimages=$imgsrc</p>\n";
-			}
-			$url = $baseurl.'/afleveringen.php?programid='.urlencode($programId);
+			$programId = substr($serie['href'], 12);
+			$title = $serie['name'];
+			$imgsrc =trim($serie['data-images'], '[]"');
+            $imgsrc = str_replace('140x79','250x80', $imgsrc);
+            $url = $baseurl.'/afleveringen.php?programid='.urlencode($programId);
 			
 			echo "\n";
 			writeIcon($num++, $title, 'dune_'.$url, $imgsrc);
 		}
+        return $num;
 	}
 	
 	$suffix = $_GET['suffix'];
@@ -45,36 +41,41 @@ media_action = browse
 num_cols = 3
 async_icon_loading = yes
 <?php	
-	
-    header('Content-type: text/plain; charset=utf-8');
     
     if($suffix)
     {
         echo "# Programma's: $suffix\n";
-        $elements = wgetProgramsAZ($suffix);
-		listSeries($elements);
+        $series = wgetProgramsAZ($suffix, $maxPages, $pageOffset);
+		listSeries($series);
+        
+        echo "\n";
+        $pageOffset += $maxPages;
+		$nextPageUrl = 'dune_'.$baseurl.'/programmas.php?suffix='.$suffix.'&page='.$pageOffset;
+		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
     }
 	else if($type)
 	{
- 
-		if($type == "zapp")
-		{
-			echo "# Programma's op Zapp\n";
-			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zapp?display_mode=detail', 'category-series');
-			listSeries($elements);
-		}
-		else if($type == "zappelin")
-		{
-			echo "# Programma's op Zappelin\n";
-			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zappelin?display_mode=detail', 'category-series');
-			listSeries($elements);
-		}
+        echo "# Programma's op $type\n";
+		$urlug = 'http://www.uitzendinggemist.nl/'.$type.'?display_mode=detail';
+        $series = wgetPrograms($urlug, $maxPages, $pageOffset);
+        $num = listSeries($series);
+        
+        echo "\n";
+        $pageOffset += $maxPages;
+		$nextPageUrl = 'dune_'.$baseurl.'/programmas.php?type='.$type.'&page='.$pageOffset;
+		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
 	}
 	else if($omroep)
 	{
 		echo "# Omroep: $omroep\n";
-		$elements = wgetPrograms('http://www.uitzendinggemist.nl/omroepen/'.$omroep, 'category-series', 'series series-image');
-		listSeries($elements);
+        $ugurl = 'http://www.uitzendinggemist.nl/omroepen/'.$omroep.'?display_mode=detail-selected';
+		$series = wgetPrograms($ugurl, $maxPages, $pageOffset);
+		$num = listSeries($series);
+        
+        echo "\n";
+        $pageOffset += $maxPages;
+		$nextPageUrl = 'dune_'.$baseurl.'/programmas.php?omroep='.$omroep.'&page='.$pageOffset;
+		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
 	}
 
 	

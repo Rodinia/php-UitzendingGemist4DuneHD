@@ -41,9 +41,9 @@
 		$episodes = wgetEpisodesByProgram($url_ug, $max_pages, $pageOffset, $program_id);
 		$num = writeEpisodes($episodes, $baseurl);
 
+		echo "\n";
 		$pageOffset += $max_pages;
 		$nextPageUrl = 'dune_'.$baseurl.'/afleveringen.php?programid='.urlencode($program_id).'&page='.$pageOffset;
-		echo "\n";
 		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
 	}
     else if($when)

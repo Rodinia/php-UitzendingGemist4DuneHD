@@ -10,9 +10,10 @@
 	include_once '../lib_ugemist.php';
 
     #Enable display errors
-	error_reporting(E_WARNING);
+	error_reporting(E_ALL);
 		
-	//header('Content-type: text/plain');
+	$pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
+    $maxPages = 3;
 	
   	function showLinks($url_ug)
 	{
@@ -20,7 +21,7 @@
 		echo '<a href="../dune/programmas?'.$_SERVER["QUERY_STRING"].'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	}
 	
-	function listSeries($elements)
+	function listSeries($series, $nextQuery)
 	{
 		echo "<table class=\"touch\">\n";
         //echo "<tr><th>Programma</th><th>ID</th><th>Externe link</th></tr>\n";
@@ -28,21 +29,14 @@
 		$cols = 3;
 		$nr = 0;
 		
-		foreach ($elements as $element)
+		foreach ($series as $serie)
         {
-            $href=$element->getAttribute('href');
-            $programId=substr($href, 12);
-			$nlimg=$element->getElementsByTagName('img');
-			$title=$element->getAttribute('title');
-			$imgsrc='';
-			if($nlimg->length>0)
-			{
-				$dataimages = $nlimg->item(0)->getAttribute('data-images');
-				$imgsrc=trim($dataimages, '[]"');
-				$imgsrc= str_replace('140x79','280x100', $imgsrc);
-				//echo "<p>dataimages=$imgsrc</p>\n";
-			}
-
+            $programId = substr($serie['href'], 12);
+			$title = $serie['name'];
+			
+            $imgsrc =trim($serie['data-images'], '[]"');
+            $imgsrc = str_replace('140x79','280x100', $imgsrc);
+            
 			if($nr++%$cols == 0)
 			{
 				if($nr>1)
@@ -56,8 +50,8 @@
             echo $title;
 			echo '</a></td>';
         }
+        echo '<tr><td colspan="3"><a href="?'.$nextQuery.'">Next Page</a></td></tr>';
 
-        echo '<tr>';
         echo "</table>\n";
 	}
 	
@@ -69,35 +63,26 @@
     {
         echo "<h1>Programma lijst $suffix</h1>\n";
 		showLinks('http://www.uitzendinggemist.nl/programmas/'.$suffix);
-        $elements = wgetProgramsAZ($suffix);
-        listSeries($elements);
+        $series = wgetProgramsAZ($suffix, $maxPages, $pageOffset);
+        $pageOffset += $maxPages;
+        listSeries($series, 'suffix='.$suffix.'&page='.$pageOffset);
     }
 	else if($type)
 	{
- 
-		if($type == "zapp")
-		{
-			echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/zapp-header.jpg\" alt=\"Programma's op Zapp\"/></h1>\n";
-			showDuneLink();
-			$elements = wgetPrograms('http://www.uitzendinggemist.nl/zapp?display_mode=detail', 'category-series');
-			listSeries($elements);
-		}
-		else if($type == "zappelin")
-		{
-			echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/zappelin-header.jpg\" alt=\"Programma's op Zappelin\"/></h1>\n";
-			$urlug = 'http://www.uitzendinggemist.nl/zappelin?display_mode=detail';
-			showLinks($urlug);
-			$elements = wgetPrograms($urlug, 'category-series');
-			listSeries($elements);
-		}
+		echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/$type-header.jpg\" alt=\"Programma's op $type\"/></h1>\n";
+        $urlug = 'http://www.uitzendinggemist.nl/'.$type.'?display_mode=detail';
+        showLinks($urlug);
+        $series = wgetPrograms($urlug, $maxPages, $pageOffset);
+        $pageOffset += $maxPages;
+        listSeries($series, 'type='.$type.'&page='.$pageOffset);
 	}
 	else if($omroep)
 	{
 		echo "<h1>Omroep $omroep</h1>\n";
-		$urlug = 'http://www.uitzendinggemist.nl/omroepen/'.$omroep;
+		$urlug = 'http://www.uitzendinggemist.nl/omroepen/'.$omroep.'?display_mode=detail-selected';
 		showLinks($urlug);
-		$elements = wgetPrograms($urlug, 'category-series', 'series series-image');
-		listSeries($elements);
+		$elements = wgetPrograms($urlug, $maxPages, $pageOffset);
+		listSeries($elements, 'omroep='.$omroep.'&page='.$pageOffset);
 	}
 
 

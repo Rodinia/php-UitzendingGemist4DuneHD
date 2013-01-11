@@ -6,7 +6,7 @@
     # Suppress DOM warnings
     libxml_use_internal_errors(true);
     
-	function wgetEpisodesByProgramId($programId, $max_pages, $page_offset = 1)
+    function wgetEpisodesByProgramId($programId, $max_pages, $page_offset = 1)
 	{
 		$ug_search_url = 'http://www.uitzendinggemist.nl/programmas/'.$programId.'/afleveringen?';
         return wgetEpisodes($ug_search_url, $max_pages, $page_offset);
@@ -52,6 +52,23 @@
 		}
 		return $episodes;
 	}
+    
+    function wgetProgramsAZ($suffix, $max_pages, $page_offset)
+    {
+        return wgetPrograms('http://www.uitzendinggemist.nl/programmas/'.$suffix.'?display_mode=detail', $max_pages, $page_offset);
+    }
+    
+    function wgetPrograms($ug_search_url, $max_pages = 1, $page_offset = 1)
+    {
+        $itemQueries = array(); // result
+		$itemQueries['name'] = "h2/a";
+		$itemQueries['href'] = "h2/a/@href";
+        $itemQueries['data-images'] = "../div[@class='image']/a/img/@data-images";
+        
+        $query="/html//li[@class='series']/div[@class='info']";
+		
+        return privWgetEpisodes($ug_search_url, $query, $itemQueries, $max_pages, $page_offset);
+    }
 	
 	function privWgetEpisodes($ug_search_url, $query, $itemQueries, $max_pages, $page_offset = 1)
 	{
@@ -408,7 +425,7 @@
 		return $result;
     }
 	
-	function getMaxPage($xpath, $divid)
+	function getLastPage($xpath, $divid)
 	{
 		$elements = $xpath->query("/html/body//div[@id='".$divid."']/div[@class='pagination']/a");
 		$maxPage = 1;
@@ -420,32 +437,6 @@
 		}
 		return $maxPage;
 	}
-	
-	function wgetProgramsAZ($suffix)
-    {
-        return wgetPrograms('http://www.uitzendinggemist.nl/programmas/'.$suffix.'?display_mode=detail', 'series-index-series');
-    }
-
-    function wgetPrograms($url, $divid)
-    {
-        //$query="/html/body/div[@id='content']/div[@id='series-index']/div[@class='right-column']/div[@id='series-index-series']/ol/li/h2/a";
-		//$query="/html/body//div[@id='".$divid."']/ol/li/h2/a";
-		$query="/html/body//div[@id='".$divid."']/ol/li//a[@class='series series-image']";
-		$xpath = getProgamHtmlXpath($url, 1);
-		$maxPage = getMaxPage($xpath, $divid);
-		
-		$result = array();
-		$nodeList = $xpath->query($query);
-		foreach ($nodeList as $href) $result[] = $href;
-		
-		for($page=2;$page<=$maxPage;++$page)
-		{
-			$xpath = getProgamHtmlXpath($url, $page);
-			$nodeList = $xpath->query($query);
-			foreach ($nodeList as $href) $result[] = $href;
-		}
-		return $result;
-    }
 	
 	function getProgamHtmlXpath($url, $page)
 	{
