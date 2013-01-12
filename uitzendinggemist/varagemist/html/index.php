@@ -22,7 +22,7 @@
 		
 		echo "<tr>\n";
         echo '<td>'.$title.'</td>';
-        echo '<td><a href="'.$asxUrl.'"><img alt="play" src="img/button-play-icon_32.png"/></a></td>';
+        echo '<td><a href="'.$asxUrl.'"><img alt="play" src="../../html/img/button-play-icon_32.png"/></a></td>';
         echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
 		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
         echo "</tr>\n";
@@ -41,37 +41,107 @@
 
 <body>
    <h1><img src="../img/vara-logo.png">Gemist</h1>
-   <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
-   
-   <h2>Deze Week</h2>
-   <a href="../dune/?what=dezeweek"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
-   <table>
- <?php
-    
-    foreach(getDezeWeek() as $item)
+<?php
+
+    function writeDuneLink($what = null, $url = null)
     {
-        vara_play($item['caption'], $item['id']);
+        $href='../dune/';
+        if($what)
+        {
+            $href .='?what='.$what;
+            if($url)
+                $url .='&what='.$url;
+        }
+        echo '<a href="'.$href.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>';
     }
- ?>
-   </table>
-   
-   <h2>Favorieten</h2>
-   <a href="../dune/?what=favo"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
-   <p>Configureer met <a href="../favorieten_vara.xml">favorieten_vara.xml</a>.</p>
-   <table>
+    
+    if(!isset($_GET['what']))
+    {
+        ?>
+        <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+        <ul>
+            <li><a href="?what=dezeweek">Deze week</a></li>
+            <li><a href="?what=favo">Favorieten</a></li>
+            <li><a href="?what=recprog">Recente programma's</a></li>
+            <li><a href="?what=giel.rubrieken">Giel Rubrieken</a></li>
+        <?php
+    }
+    else
+    {
+        $what = $_GET['what'];
+        if($what=='dezeweek')
+        {
+            echo "<h2>Deze Week</h2>\n";
+            writeDuneLink($what);
+            echo "<table>\n";
+            foreach(getDezeWeek() as $item)
+            {
+                vara_play($item['caption'], $item['id']);
+            }
+            echo "</table>\n";
+            exit;
+        }
+        
+        if($what=='favo')
+        {
+            echo "<h2>Favorieten</h2>\n";
+            writeDuneLink($what);
+            
+            ?><p>Configureer met <a href="../favorieten_vara.xml">favorieten_vara.xml</a>.</p>
+            <?php
+           
+            echo "<table>\n";
+            foreach(readFavorites('../favorieten_vara.xml') as $programma)
+            {
+                vara_play($programma['caption'], $programma['id']);
+            }
+            echo "</table>\n";
+        }
+        else if($what=='recprog')
+        {
+            echo "<h2>Recente programma's</h2>\n";
+            writeDuneLink($what);
+
+            echo "<table>\n";
+            foreach(getVaraProgramList()->allProgramsAndSites as $program)
+            {
+                $url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/?what=program&url='.urlencode($program->url);
+                vara_play($program->title, $url, 'item');
+            }
+            echo "</table>\n";
+        }
+        else if($what=='program')
+        {
+            $url = $_GET['url'];
+            writeDuneLink($what, $url);
+
+            echo "<table>\n";
+            foreach(getVaraProgramFragments($url) as $fragment)
+            {
+                vara_play($fragment['caption'], $fragment['id'], 'play');
+            }
+            echo "</table>\n";
+        }
+        else if($what=='giel.rubrieken')
+        {
+            require_once('../lib_giel.php');
+            
+            echo "<ul>\n";
+            foreach(getGielRubrieken() as $rubriek)
+            {
+                $caption = $rubriek->getAttribute('title');
+                $href = $rubriek->getAttribute('href');
+                $rubriek = trim(substr($href, 10), "/");
+                $url = 'giel.php?rubriek='.urlencode($rubriek);
+                echo '<li><a href="'.$url. '">'.$caption.'</a></li>'."\n";
+            }
+            echo "</ul>\n";
+        }
+    }
+?>
+
  <?php
-    foreach(readFavorites('../favorieten_vara.xml') as $programma)
-	{
-		vara_play($programma['caption'], $programma['id']);
-	}
- ?>
-   </table>
-   
-   <h2>Programma's</h2>
-   <a href="../dune/?what=recprog"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
-   <table>
- <?php
- 	
+ 	/*
 	$json = getVaraProgramList();
     echo "<pre>";
 	//var_dump($json);
@@ -90,17 +160,11 @@
         //echo '<td>'.$program->radioChannelIndex || "".'</td>';
 		echo '<td><a href="'.$program->url.'">omroep.vara.nl</a></td>';
         echo "</tr>\n";
-    }
+    }*/
 	
 	
  ?>
-   </table>
-   
-   <h2>Dune</h2>  
-   <p>
-        <a href="../dune/vara_list.php">VARA Gemist Index for Dune</a>
-   </p>  
-  
+
   </body>
 </html>
 

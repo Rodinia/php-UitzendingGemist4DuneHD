@@ -16,7 +16,7 @@ use_icon_view = no
     
     $baseurl = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
     
-    if(!$what)
+    if(!isset($_GET['what']))
     {
             writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
             writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
@@ -24,6 +24,9 @@ use_icon_view = no
             writeItem($nr++, "Giel Rubrieken", $baseurl.'/?what=giel.rubrieken', 'item');
             exit;
     }
+    
+    $what = $_GET['what'];
+    
     if($what=='dezeweek')
     {
         foreach(getDezeWeek() as $item)
