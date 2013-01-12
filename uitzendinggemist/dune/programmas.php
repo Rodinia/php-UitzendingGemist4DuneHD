@@ -1,9 +1,10 @@
 <?php
-	require_once '../lib_ugemist.php';
-    require_once '../lib/dune.php';
+	header('Content-type: text/plain; charset=utf-8');
     
+    require_once '../lib_ugemist.php';
+	require_once '../lib/dune.php';
+	 
     header('Content-type: text/plain; charset=utf-8');
-    
     $pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
     $maxPages = 3;
     
@@ -27,11 +28,7 @@
         return $num;
 	}
 	
-	$suffix = $_GET['suffix'];
-	$type = $_GET['type'];
-	$omroep = $_GET['omroep'];
-
-    $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+	$baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
     $imgdir=dirname($baseurl).'/img';
 	echo "background_order=before_all\n";
 	echo "background_path=$imgdir/background.jpg\n";
@@ -42,8 +39,9 @@ num_cols = 3
 async_icon_loading = yes
 <?php	
     
-    if($suffix)
+    if( isset($_GET['suffix']) )
     {
+        $suffix = $_GET['suffix'];
         echo "# Programma's: $suffix\n";
         $series = wgetProgramsAZ($suffix, $maxPages, $pageOffset);
 		listSeries($series);
@@ -53,8 +51,9 @@ async_icon_loading = yes
 		$nextPageUrl = 'dune_'.$baseurl.'/programmas.php?suffix='.$suffix.'&page='.$pageOffset;
 		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
     }
-	else if($type)
+	else if( isset($_GET['type']) )
 	{
+        $type = $_GET['type'];
         echo "# Programma's op $type\n";
 		$urlug = 'http://www.uitzendinggemist.nl/'.$type.'?display_mode=detail';
         $series = wgetPrograms($urlug, $maxPages, $pageOffset);
@@ -65,9 +64,10 @@ async_icon_loading = yes
 		$nextPageUrl = 'dune_'.$baseurl.'/programmas.php?type='.$type.'&page='.$pageOffset;
 		writeItem($num++, 'Meer...', $nextPageUrl, 'browse');
 	}
-	else if($omroep)
+	else if( isset($_GET['omroep']) )
 	{
-		echo "# Omroep: $omroep\n";
+		$omroep = $_GET['omroep'];
+        echo "# Omroep: $omroep\n";
         $ugurl = 'http://www.uitzendinggemist.nl/omroepen/'.$omroep.'?display_mode=detail-selected';
 		$series = wgetPrograms($ugurl, $maxPages, $pageOffset);
 		$num = listSeries($series);

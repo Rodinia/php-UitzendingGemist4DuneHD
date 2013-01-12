@@ -1,4 +1,4 @@
- <?php
+<?php
  /*
   # Standard Apache logs the following: "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
   # Here's our version of it.
