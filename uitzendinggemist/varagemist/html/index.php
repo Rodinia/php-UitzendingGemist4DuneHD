@@ -4,9 +4,6 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_ALL);
 
-    require_once '../lib_vara.php';
- 	require_once '../../lib/lib_favorites.php';
-  
     function vara_play($title, $mediaid)
 	{
 		$configXmlUrl = makeConfigXmlUrl($mediaid);
@@ -68,6 +65,8 @@
     }
     else
     {
+        require_once '../lib_vara.php';
+        
         $what = $_GET['what'];
         if($what=='dezeweek')
         {
@@ -84,6 +83,8 @@
         
         if($what=='favo')
         {
+            require_once '../../lib/lib_store_xml.php';
+            
             echo "<h2>Favorieten</h2>\n";
             writeDuneLink($what);
             
@@ -91,9 +92,9 @@
             <?php
            
             echo "<table>\n";
-            foreach(readFavorites('../favorieten_vara.xml') as $programma)
+            foreach(readFavorites('vara') as $programma)
             {
-                vara_play($programma['caption'], $programma['id']);
+                vara_play($programma['title'], $programma['id']);
             }
             echo "</table>\n";
         }

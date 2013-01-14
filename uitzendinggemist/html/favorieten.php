@@ -1,36 +1,95 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?php
+    
+    #Enable display errors
+	error_reporting(E_WARNING);
+    require_once '../lib/lib_storage.php';
+    
+    if( isset($_POST['do']) )
+    {
+        $do = $_POST['do'];
+        $programId = $_POST['programid'];
+        if($do == 'delete')
+        {
+            deleteFromFavorite('uitzendinggemist', $programId);
+        }
+        else if($do == 'save')
+        {
+            echo "do=$do\n";
+        }
+        header( 'Location: '.$_POST['URL'] ) ;
+    }
+    
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>Programma's</title>
+	<title>Favoriete Programma's</title>
 	<link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="content">
-	<div id="header"><h1>Uitzending Gemist</h1></div>
-	<a href="../dune/favorites.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
-	<table class="touch">
-<?php
-	#Enable display errors
-	//ini_set('display_errors',1);
-	error_reporting(E_WARNING);
+	<form name="favorite" method="post">
+        <input type="hidden" name="do"/>
+        <input type="hidden" name="programid"/>
+    </form>
+    <script type="text/javascript">
+    function removeFromFavorites(programId)
+    {
+        var form = document.favorite;
+        form.do.value = 'delete';
+        form.programid.value = programId;
+        form.submit();
+    }
     
-    require_once '../lib/lib_favorites.php';
-
-	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
+    function save(programId)
+    {
+        var form = document.favorite;
+        form.do.value = 'save';
+        form.programid.value = programId;
+        form.submit();
+    }
+    </script>
+    <div id="header"><h1>Favoriete Programma's</h1></div>
+	<a href="../dune/favorites.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+<?php
+    
+    $duneSerial = findSerialByIP();
+    
+    if($publicMode)
+    {
+        if($duneSerial)
+        {
+            echo "<table>";    
+            echo '<tr><td>Dune HD Gevonden; Serial:</td><td>'.$duneSerial.'</td></tr>'."\n";
+            echo "</table>";
+        }
+        else
+        {
+            echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst verbinding met je Dune HD Media player verbonden bent geweest met deze Uitzending Gemist App.";
+        }        
+    }
+  
+    echo "<table class=\"touch\">\n";
+    foreach(readFavorites('uitzendinggemist') as $programma)
+    {
+        writeProgramma($programma['title'], $programma['img'], $programma['refid']);
+    }
+    echo "</table>\n";
+    
+	function writeProgramma($caption, $url_icon, $programId)
 	{
-		writeProgramma($programma['caption'], $programma['banner'], $programma['id']);
-	}
-
-	function writeProgramma($caption, $url_icon, $programma)
-	{
-		$url = 'afleveringen.php?programid='.urlencode($programma);
-
+		$url = 'afleveringen.php?programid='.urlencode($programId);
+        // bin-icon-32.png
 		echo '<tr>';
-		echo '<td class="touch"><a href="'.$url.'"><img alt="'.$caption.'" src="'.$url_icon.'"/>'.$caption.'</a></td>';
-		echo "<tr>\n";
+		echo '<td><a href="'.$url.'"><img alt="'.$caption.'" src="'.$url_icon.'"/>'.$caption.'</a>';
+        echo '<a href="#" id="bottle" onclick="removeFromFavorites(\''.$programId.'\');return false;" >';
+        echo '<img src="img/bin-icon-32.png" alt="Add to favorite" class="actionIcon" title="Verwijderen"/>';
+        echo '</a></td>';
+        echo '<td>Titel: <input type="text" name="title" value="'.$caption.'" size="80" maxlength="80"/>';
+        echo '<br/>URL banner: <input type="text" name="img" value="'.$url_icon.'" size="80" maxlength="255"/>';
+ 		// echo '<a href="#" id="bottle" onclick="save(this);return false;" ><img src="img/save-icon-32.png" alt="Opslaan" class="actionIcon" title="Opslaan"/></a>';
+        echo '</td>';
+        echo "</tr>\n";
 	}
 
 ?>
-		</div>
-	</table>
 </body>
+</html>

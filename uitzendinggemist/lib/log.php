@@ -12,14 +12,16 @@
   $b = 0;   # or the size of the page
   $referer = getenv('HTTP_REFERER');
   $useragent = getenv('HTTP_USER_AGENT');
+  
+  //X-Dune-Serial-Number: 8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494
+  //X-Dune-Interface-Language: dutch
+  
+  $headers = apache_request_headers();
+  $duneSerial = $headers['X-Dune-Serial-Number'];
+  $language = $headers['X-Dune-Interface-Language'];
 
-  $logentry = "$h $l $u [$t] \"$r\" $s $b \"$referer\" \"$useragent\"\n";
+  $logentry = "$h $l $u [$t] \"$r\" $s $b \"$referer\" \"$useragent\" \"$language\" \"$duneSerial\"\r\n";
 
   # Note the log file below needs to be writeable by user "apache"
   error_log($logentry, 3, dirname(dirname(__FILE__)).'/log.txt');
-  
-  //$fp = fopen('data.txt', 'w');
-  //fwrite($fp, '1');
-  //fwrite($fp, '23');
-  //fclose($fp);
-  ?>
+?>

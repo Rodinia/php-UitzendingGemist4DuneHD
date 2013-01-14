@@ -1,6 +1,14 @@
 <?php
 require_once dirname(__FILE__).'/log.php';
 require_once dirname(__FILE__).'/util.php';
+require_once dirname(__FILE__).'/config.php';
+
+global $publicMode;
+if($publicMode)
+{
+    require_once dirname(__FILE__).'/lib_storage.php';
+    registerMediaPlayer();
+}
 
 function writeItem($nr, $caption, $url, $action = 0)
 {
@@ -53,5 +61,16 @@ function duneError($error)
 	writeItem(0, 'ERROR: '.$error, '');
 }
 
+function getDuneSerial()
+{
+    $headers = apache_request_headers();
+    return $headers['X-Dune-Serial-Number'];
+}
+
+function getDuneLang()
+{
+    $headers = apache_request_headers();
+    return $headers['X-Dune-Interface-Language'];
+}
 
 ?>

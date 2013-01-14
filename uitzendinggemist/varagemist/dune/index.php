@@ -7,8 +7,6 @@ use_icon_view = no
 	error_reporting(E_WARNING);
 	
 	require_once '../../lib/dune.php';
-    require_once '../../lib/lib_favorites.php';
-	require_once '../lib_vara.php';
 	
     $what = $_GET['what'];
     
@@ -24,6 +22,8 @@ use_icon_view = no
             writeItem($nr++, "Giel Rubrieken", $baseurl.'/?what=giel.rubrieken', 'item');
             exit;
     }
+
+    require_once '../lib_vara.php';
     
     $what = $_GET['what'];
     
@@ -37,7 +37,9 @@ use_icon_view = no
     }
     if($what=='favo')
     {
-        foreach(readFavorites('../favorieten_vara.xml') as $programma)
+        require_once '../../lib/lib_store_xml.php';
+        
+        foreach(readFavorites('vara') as $programma)
         {
             vara_play($nr++, $programma['caption'], $programma['id']);
         }

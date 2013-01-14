@@ -5,13 +5,13 @@
 ?>use_icon_view = yes
 paint_captions = yes
 media_action = browse
-num_cols = 3
-num_rows = 3
+num_cols = 4
+num_rows = 4
 async_icon_loading = yes
 
 <?php
     require_once '../lib_ugemist.php';
-	require_once '../lib/lib_favorites.php';
+	require_once '../lib/lib_storage.php';
     
     $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
     $imgdir=dirname($baseurl).'/img';
@@ -19,9 +19,9 @@ async_icon_loading = yes
 	echo "background_path=$imgdir/background.jpg\n";
 
     $num = 0;
-	foreach(readFavorites('../favorieten_uitzendinggemist.xml') as $programma)
+	foreach(readFavorites('uitzendinggemist') as $programma)
 	{
-		writeProgramma($baseurl, $num++, $programma['caption'], $programma['banner'], $programma['id']);
+		writeProgramma($baseurl, $num++, $programma['title'], $programma['img'], $programma['refid']);
 	}
 
 	function writeProgramma($baseurl, $num, $caption, $url_icon, $aflevering_key)

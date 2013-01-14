@@ -29,6 +29,11 @@ table.touch
 	border-spacing: 10px;
 }
 
+img.actionIcon
+{
+    float:right;
+}
+
 
 table.touch td
 {
