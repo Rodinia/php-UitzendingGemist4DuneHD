@@ -47,6 +47,7 @@ table.touch td
   width: 35px;
   text-align:center;
 }
+
 table.touch td:hover 
 { 
 	background-color: black !important;
@@ -56,9 +57,21 @@ table.matrix
 {
   border-collapse: collapse;
 }
+
+table.matrix th
+{
+    background: none repeat scroll 0% 0% rgba(185, 201, 254, 0.6);
+}
+
+table.matrix td
+{
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
 table.matrix th,td
 {
-  border: 1px solid black;
+  border: 1px solid #BBBBBB;
+  padding: 5px;
 }
 
 :focus 

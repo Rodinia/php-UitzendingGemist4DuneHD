@@ -9,13 +9,19 @@
 <?php
 	require_once '../lib/lib_storage.php';
 	
+	$players = getPlayers();
 	echo "<h2>Media Players</h2>\n";
+    echo '<p>Service currently used by '.count($players).' Dune media players.</p>'."\n";
 	echo "<table class=\"matrix\">\n";
-	echo '<tr><th>IP Address</th><th>Dune HD Media Player Serial</th><th>Laatst gezien</th></tr>'."\n";
-
+	echo '<tr><th>Dune HD Media Player Serial</th><th>Laatst gezien</th><th>IP Address</th><th># Favorieten</th></tr>'."\n";
 	foreach(getPlayers() as $player)
 	{
-		echo '<tr><td>'.long2ip($player[ip]).'</td><td>'.$player[serial].'</td><td>'.$player[lastSeen].'</td></tr>'."\n";
+		echo '<tr>';
+		echo '<td><pre>'.$player[serial].'</pre></td>';
+		echo '<td align="right">'.$player[lastSeen].'</td>';
+		echo '<td align="right">'.long2ip($player[ip]).'</td>';
+		echo '<td align="right">'.$player[favorites].'</td>';
+		echo "</tr>\n";
 	}
 	
 	echo "</table>\n";

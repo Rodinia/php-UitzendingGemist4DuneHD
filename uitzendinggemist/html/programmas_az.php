@@ -17,7 +17,7 @@
 	echo "<h1>Programma's A-Z</h1>\n";
 	
 	echo '<a href="http://www.uitzendinggemist.nl/programmas"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
-	echo '<a href="../dune/programmas_az.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
+	echo '<a href="../dune/programmas_az.php"><img src="img/dune_hd_logo.png" alt="Dune HD" title="Toon Dune HD meta data (DUNE_FOLDER.TXT MECHANISM)"/></a>'."\n";
 	
 	
 	echo "<table class=\"touch\">\n";

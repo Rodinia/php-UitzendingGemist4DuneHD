@@ -36,7 +36,7 @@ function registerMediaPlayer()
     $mysqli = connectToDb();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("REPLACE INTO dunehd_player (duneSerial, ipAddress, lastSeen, lang) VALUES(?, ?, NOW(), ?)") )
+    if( $stmt = $mysqli->prepare("REPLACE INTO dunehd_player (duneSerial, ipAddress, lastSeen, lang) VALUES(?, ?, UTC_TIMESTAMP(), ?)") )
     {
         $stmt->bind_param('sis', $duneSerial, ip2long(getRemoteIp()), $duneLang);
 
@@ -83,14 +83,14 @@ function getPlayersByRange($firstIp, $lastIp)
 	$result = array();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT duneSerial, ipAddress, lastSeen, lang FROM dunehd_player WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC LIMIT 1") )
+    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, lastSeen, lang, favorites FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen") )
     {
         $stmt->bind_param('ii', $firstIp, $lastIp);
 
         /* execute query */
         $stmt->execute();
         
-        $stmt->bind_result($duneSerial, $ipAddress, $lastSeen, $lang);
+        $stmt->bind_result($duneSerial, $ipAddress, $lastSeen, $lang, $favorites);
         
         $player = null;
         
@@ -101,6 +101,7 @@ function getPlayersByRange($firstIp, $lastIp)
             $player['ip'] = $ipAddress;
             $player['lastSeen'] = $lastSeen;
             $player['lang'] = $lang;
+			$player['favorites'] = $favorites;
 			$result[] = $player;
         }
 

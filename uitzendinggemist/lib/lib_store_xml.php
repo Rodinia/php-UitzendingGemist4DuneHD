@@ -87,4 +87,9 @@ function deleteFromFavorite($provider, $refid)
     $dom->save($xmlFile);
 }
 
+function getPlayers()
+{
+    die("Not supported in XML mode, requires MySQL mode.");
+}
+
 ?>
