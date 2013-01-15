@@ -44,7 +44,7 @@ async_icon_loading = yes
         $suffix = $_GET['suffix'];
         echo "# Programma's: $suffix\n";
         $series = wgetProgramsAZ($suffix, $maxPages, $pageOffset);
-		listSeries($series);
+		$num = listSeries($series);
         
         echo "\n";
         $pageOffset += $maxPages;
