@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__).'/lib/util.php';
+	require_once dirname(__FILE__).'/util.php';
 	
 	// -------------------- Functions ----------------------
 
@@ -212,7 +212,7 @@
 		while($numRedirects<$maxRedirects)
 		{
 			$newUrl = checkRedirectUrl($streamurl, $contentType);
-			// echo "#   content-type: $contentType\n";
+			//echo "#   content-type: $contentType\n";
 			if(!$newUrl)
 			{
 				// Would expect  video/x-ms-asf is returned for ASX, but typically UG returns video/x-ms-wmv
@@ -264,14 +264,10 @@
         $headers = explode("\n", $out);
         foreach($headers as $header)
         {
-            // echo "# header: $header\n";
+            //echo "# header: $header\n";
             if( startsWith($header, 'Location: ') )
             {
                 $location = substr($header, 10);
-            }
-            else if(  startsWith($header, 'Content-Type: ') )
-            {
-                $contentType = substr($header, 14);
             }
             else if(  startsWith($header, 'Content-Type: ') )
             {

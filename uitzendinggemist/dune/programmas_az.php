@@ -1,5 +1,5 @@
 <?php
-	require_once '../lib_ugemist.php';
+	require_once '../lib/lib_ugemist.php';
     require_once '../lib/dune.php';
     
     #Enable display errors

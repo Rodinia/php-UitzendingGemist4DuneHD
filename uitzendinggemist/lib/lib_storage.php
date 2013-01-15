@@ -1,7 +1,7 @@
 <?php
 // Provides access to storage of favorites
 
-require_once dirname(__FILE__).'/config.php';
+require_once dirname(__FILE__).'/../config.php';
 
 if($useMySQL)
 {

@@ -50,7 +50,7 @@
 		$result['location'] = $location->childNodes->item(0)->nodeValue;
 
 		$image = $tracklist->getElementsByTagName('image')->item(0);
-        if($image != null)
+        if($image != null && $image->childNodes->length > 0)
         {
             $result['image'] =  trim($image->childNodes->item(0)->nodeValue);
         }

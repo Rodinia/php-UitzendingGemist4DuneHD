@@ -1,6 +1,11 @@
 <?php
 // -------------------- XML Storage Functions ----------------------
 
+function findSerialByIP()
+{
+	return null;
+}
+
 # Suppress DOM warnings
 libxml_use_internal_errors(true);
     
@@ -34,7 +39,7 @@ function readXmlFavorites($filename)
         $entry = array();
         $entry['title'] = getElementValue($programma, 'caption');
         $entry['img'] = getElementValue($programma, 'banner');
-        $entry['id'] = getElementValue($programma, 'id');
+        $entry['refid'] = getElementValue($programma, 'id');
         
         $result[] = $entry;
     }

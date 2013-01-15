@@ -4,7 +4,7 @@
 	#Enable display errors
 	error_reporting(E_WARNING);
 
-	include_once '../lib_ugemist.php';
+	include_once '../lib/lib_ugemist.php';
 
 	//$epiid = $_GET['epiid'];
 	$program_id = $_GET['programid'];

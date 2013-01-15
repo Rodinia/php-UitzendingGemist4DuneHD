@@ -10,7 +10,7 @@ num_rows = 4
 async_icon_loading = yes
 
 <?php
-    require_once '../lib_ugemist.php';
+    require_once '../lib/lib_ugemist.php';
 	require_once '../lib/lib_storage.php';
     
     $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);

@@ -25,7 +25,7 @@
     }
 </script> 
 <?php
-	require_once '../lib_ugemist.php';
+	require_once '../lib/lib_ugemist.php';
     require_once '../lib/lib_storage.php';
     
     

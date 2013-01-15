@@ -7,7 +7,7 @@
 
 <body>
 <?php
-	require_once '../lib_ugemist.php';
+	require_once '../lib/lib_ugemist.php';
 
     #Enable display errors
 	//ini_set('display_errors',1);

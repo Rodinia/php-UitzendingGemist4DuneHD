@@ -2,7 +2,7 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
 	
-	include_once 'lib_ugemist.php';
+	include_once 'lib/lib_ugemist.php';
 
 	$streamurl = null;
 	if( isset($_GET['streamurl']) )

@@ -5,7 +5,7 @@
 
 	header('Content-type: text/plain; charset=utf-8'); // is this the best charset?
     
-    require_once '../lib_ugemist.php';
+    require_once '../lib/lib_ugemist.php';
 	require_once '../lib/dune.php';
 
 	echo "use_icon_view = no\n";

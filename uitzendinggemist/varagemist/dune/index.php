@@ -19,7 +19,7 @@ use_icon_view = no
             writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
             writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
             writeItem($nr++, "Recente programma's", $baseurl.'/?what=recprog', 'item');
-            writeItem($nr++, "Giel Rubrieken", $baseurl.'/?what=giel.rubrieken', 'item');
+            writeItem($nr++, "Giel Rubrieken", $baseurl.'/giel.php', 'item');
             exit;
     }
 
@@ -60,21 +60,7 @@ use_icon_view = no
 			vara_play($nr++, $fragment['caption'], $fragment['id'], 'play');
 		}
 	}
-    else if($what=='giel.rubrieken')
-	{
-		require_once('../lib_giel.php');
-        
-        foreach(getGielRubrieken() as $rubriek)
-		{
-			$caption = $rubriek->getAttribute('title');
-            $href = $rubriek->getAttribute('href');
-            $rubriek = trim(substr($href, 10), "/");
-            $url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/giel.php?rubriek='.urlencode($rubriek);
-            echo "\n";
-            writeItem($nr++, $caption, $url, 'item');
-		}
-	}
-
+    
 	function vara_play($nr, $title, $mediaid)
 	{
 		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$mediaid.'&hq=1';

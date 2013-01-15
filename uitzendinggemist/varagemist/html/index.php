@@ -37,7 +37,7 @@
 </head>
 
 <body>
-   <h1><img src="../img/vara-logo.png">Gemist</h1>
+   <h1><img src="../img/vara-logo.png" alt="VARA">Gemist</h1>
 <?php
 
     function writeDuneLink($what = null, $url = null)
@@ -56,11 +56,12 @@
     {
         ?>
         <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+		<a href="http://omroep.vara.nl/gemist">omroep.vara.nl/gemist</a>
         <ul>
             <li><a href="?what=dezeweek">Deze week</a></li>
             <li><a href="?what=favo">Favorieten</a></li>
             <li><a href="?what=recprog">Recente programma's</a></li>
-            <li><a href="?what=giel.rubrieken">Giel Rubrieken</a></li>
+            <li><a href="giel.php">Giel Rubrieken</a></li>
         <?php
     }
     else
@@ -122,21 +123,6 @@
                 vara_play($fragment['caption'], $fragment['id'], 'play');
             }
             echo "</table>\n";
-        }
-        else if($what=='giel.rubrieken')
-        {
-            require_once('../lib_giel.php');
-            
-            echo "<ul>\n";
-            foreach(getGielRubrieken() as $rubriek)
-            {
-                $caption = $rubriek->getAttribute('title');
-                $href = $rubriek->getAttribute('href');
-                $rubriek = trim(substr($href, 10), "/");
-                $url = 'giel.php?rubriek='.urlencode($rubriek);
-                echo '<li><a href="'.$url. '">'.$caption.'</a></li>'."\n";
-            }
-            echo "</ul>\n";
         }
     }
 ?>

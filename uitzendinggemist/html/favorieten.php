@@ -50,12 +50,11 @@
     <div id="header"><h1>Favoriete Programma's</h1></div>
 	<a href="../dune/favorites.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
 <?php
-    
-    $duneSerial = findSerialByIP();
-    
     if($publicMode)
     {
-        if($duneSerial)
+		$duneSerial = findSerialByIP();
+        
+		if($duneSerial)
         {
             echo "<table>";    
             echo '<tr><td>Dune HD Gevonden; Serial:</td><td>'.$duneSerial.'</td></tr>'."\n";

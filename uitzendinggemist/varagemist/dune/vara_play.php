@@ -4,7 +4,7 @@
 	error_reporting(E_WARNING);
 
 	require_once '../../lib/dune.php';
-    require_once '../../lib_ugemist.php';
+    require_once '../../lib/lib_ugemist.php';
     require_once '../lib_vara.php';
 
 	header('Content-type: text/plain');
@@ -33,8 +33,12 @@
     }
 
 	// Check for redirects
-	$mediaLocation = followRedirects($mediaLocation, $contentType, 1);
+	$mediaLocation = followRedirects($mediaLocation, $contentType, 2);
 
-	dunePlay($mediaLocation, 'video/mp4');
+	echo "# contentType = $contentType\n";
+	dunePlay($mediaLocation, $contentType);
+	
+	//echo "# contentType = $contentType\n";
+	//dunePlay($mediaLocation, 'video/mp4');
 
  ?>

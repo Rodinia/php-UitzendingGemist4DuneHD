@@ -8,21 +8,37 @@ error_reporting(E_WARNING);
 require_once '../lib_giel.php';
 require_once '../../lib/dune.php';
 
-$rubriek = $_GET['rubriek'];
-
 $nr = 0;
-foreach(getCarouselItems($rubriek) as $li)
+
+if( isset($_GET['rubriek']) )
 {
-    echo "\n";
-    $a = $li->getElementsByTagName('a')->item(0);
-    $href = $a->getAttribute('href');
-    echo "# href=$href\n";
-    $caption = $li->getElementsByTagName('div')->item(0)->nodeValue;
-    
-    $media_id=split ( "/", $href);
-    
-    $url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$media_id[3].'&hq=1';
-    writeItem($nr++, $caption, $url, 'play');
+	$rubriek = $_GET['rubriek'];
+	
+	foreach(getCarouselItems($rubriek) as $li)
+	{
+		echo "\n";
+		$a = $li->getElementsByTagName('a')->item(0);
+		$href = $a->getAttribute('href');
+		echo "# href=$href\n";
+		$caption = $li->getElementsByTagName('div')->item(0)->nodeValue;
+		
+		$media_id=split ( "/", $href);
+		
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$media_id[3].'&hq=1';
+		writeItem($nr++, $caption, $url, 'play');
+	}
+}
+else
+{
+	foreach(getGielRubrieken() as $rubriek)
+	{
+		$caption = $rubriek->getAttribute('title');
+		$href = $rubriek->getAttribute('href');
+		$rubriek = trim(substr($href, 10), "/");
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/giel.php?rubriek='.urlencode($rubriek);
+		echo "\n";
+		writeItem($nr++, $caption, $url, 'item');
+	}
 }
 
 ?>
