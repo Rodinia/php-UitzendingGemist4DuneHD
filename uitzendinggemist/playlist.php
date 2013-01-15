@@ -3,6 +3,8 @@
 	error_reporting(E_WARNING);
 	
 	include_once 'lib/lib_ugemist.php';
+	
+	$type = isset($_GET['type']) ? $_GET['type'] : 'asx';
 
 	$streamurl = null;
 	if( isset($_GET['streamurl']) )
@@ -33,10 +35,16 @@
 			break;
 		}
 	}
-
+	
 	if($streamurl)
 	{
-		writeAsx($streamurl);
+		echo "#type: $type\n";
+		switch($type)
+		{
+			case 'm3u': write_m3u($streamurl); break;
+			case 'asx':
+			default:    writeAsx($streamurl);  break;
+		}
 	}
 	else
 	{
@@ -51,6 +59,12 @@
 		echo "	<ref href=\"$href\" />\n";
 		echo "</Entry>\n";
 		echo "</ASX>\n";
+	}
+	
+	function write_m3u($url)
+	{
+		header('Content-type: audio/x-mpegurl'); // audio/x-mpegurl, audio/mpeg-url, application/x-winamp-playlist, audio/scpls, audio/x-scpls
+		echo $url."\n";
 	}
 
 	function writeError($error)

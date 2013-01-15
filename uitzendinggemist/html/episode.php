@@ -56,7 +56,7 @@
 		<tr><td>Meta Data</td><td><a href="<?php print $metaDataUrl; ?>">Meta Data Episode <?php print $epiid ?></a></td></tr>
 		<tr><td>Stream Info</td><td><a href="<?php print $streamInfoUrl; ?>">Meta Data Stream Episode <?php print $epiid ?></a></td></tr>
 		<tr><td>Meta Data: prid</td><td><?php print $metaData['prid']; ?></td></tr>
-		<tr><td>ASX</td><td><a href="<?php print "../asx.php?epiid=$epiid"; ?>">ASX</a></td></tr>
+		<tr><td>ASX</td><td><a href="<?php print "../playlist.php?type=asx&epiid=$epiid"; ?>">ASX</a></td></tr>
 		<tr><td>Dune</td><td><a href="<?php print "../dune/duneplay.php?epiid=$epiid"; ?>">Dune link</a></td></tr>
 		<tr><td>Player URL</td><td><a href="<?php print $playerUrl; ?>">Player URL</a></td></tr>
 		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/afleveringen/$localepiid"; ?>">Aflevering op Uitzending Gemist</a></td></tr>

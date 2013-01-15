@@ -18,12 +18,13 @@
 		// Switch to HQ stream (720x400 1.5 MBit/sec)
 		$mediaLocation = str_replace('.mp4', '-hq.mp4', $mediaLocation);
 		
-		$asxUrl = '../../asx.php?streamurl='.urlencode($mediaLocation);
+		$asxUrl = '../../playlist.php?streamurl='.urlencode($mediaLocation);
 		
 		echo "<tr>\n";
         echo '<td>'.$title.'</td>';
-        echo '<td><a href="'.$asxUrl.'"><img alt="play" src="../../html/img/button-play-icon_32.png"/></a></td>';
-        echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
+        echo '<td><a href="'.$asxUrl.'&type=asx"><img alt="play" src="../../html/img/windows_media_player_32.png"/></a></td>';
+		echo '<td><a href="'.$asxUrl.'&type=m3u"><img alt="play" src="../../html/img/media-playback-start_32.png"/></a></td>';
+		echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
 		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
         echo "</tr>\n";
 	}

@@ -26,7 +26,7 @@
 	function writeEpisodes($episodes, $program_id = 0)
 	{
 		echo "<table>\n";
-		echo "<tr><th>Caption</th><th>Play</th></tr>\n";
+		echo "<tr><th>Caption</th><th colspan=\"2\">Play</th></tr>\n";
 
 		foreach($episodes as $episode)
 		{
@@ -36,7 +36,8 @@
 			
 			echo '<tr>';
 			echo '<td>'.htmlspecialchars($episode['caption']).'</td>';
-			echo '<td><a href="../asx.php?'.$q_episode.'"><img alt="play" src="img/button-play-icon_32.png"/></a></td>';
+			echo '<td><a href="../playlist.php?type=asx&'.$q_episode.'"><img alt="play" src="img/windows_media_player_32.png"/></a></td>';
+			echo '<td><a href="../playlist.php?type=m3u&'.$q_episode.'"><img alt="play" src="img/media-playback-start_32.png"/></a></td>';
 			echo '<td><a href="episode.php?'.$q_episode.'">Meta Data</a></td>';
 			echo '<td><a href="../dune/duneplay.php?'.$q_episode.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
 			//echo '<td><a href="'.makeSerieMetaDataUrl($amd['serie_id'], $sessionKey).'">Meta Data Serie</a></td>';
