@@ -33,7 +33,7 @@
 	error_reporting(E_ALL);
 		
 	$pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
-    $maxPages = 2;
+    $maxPages = 6;
     
     $duneSerial = findSerialByIP();
 	
