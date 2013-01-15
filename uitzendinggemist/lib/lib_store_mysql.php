@@ -84,7 +84,7 @@ function getPlayerByIP()
         
         // if($result == null) return 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
         
-        return $result;
+        return $player;
     }
     else trigger_error('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
     
