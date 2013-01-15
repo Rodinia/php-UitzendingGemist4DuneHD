@@ -47,11 +47,18 @@ table.touch td
   width: 35px;
   text-align:center;
 }
-
-
 table.touch td:hover 
 { 
 	background-color: black !important;
+}
+
+table.matrix 
+{
+  border-collapse: collapse;
+}
+table.matrix th,td
+{
+  border: 1px solid black;
 }
 
 :focus 

@@ -1,12 +1,19 @@
 <?php
 // Provide access to store Media Player information in MySQL database
 
+function readDuneSerialFromHeader()
+{
+    //return 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
+    
+	$headers = apache_request_headers();
+    return $headers['X-Dune-Serial-Number'];
+}
+
 function lookupDuneSerial()
 {
-    $headers = apache_request_headers();
-    $serial = $headers['X-Dune-Serial-Number'];
-    if($serial == null) $serial = findSerialByIP();
-    return $serial;
+    $duneSerial = readDuneSerialFromHeader();
+    if($duneSerial == null) $duneSerial = findSerialByIP();
+    return $duneSerial;
 }
 
 function connectToDb()
@@ -22,9 +29,7 @@ function connectToDb()
 
 function registerMediaPlayer()
 {
-    $headers = apache_request_headers();
-    $duneSerial = $headers['X-Dune-Serial-Number'];
-    //$duneSerial = 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
+    $duneSerial = readDuneSerialFromHeader();
     
     if(!$duneSerial) return;
     
@@ -33,7 +38,7 @@ function registerMediaPlayer()
     /* create a prepared statement */
     if( $stmt = $mysqli->prepare("REPLACE INTO dunehd_player (duneSerial, ipAddress, lastSeen, lang) VALUES(?, ?, NOW(), ?)") )
     {
-        $stmt->bind_param('sis', $duneSerial, getRemoteIpAsInt(), $duneLang);
+        $stmt->bind_param('sis', $duneSerial, ip2long(getRemoteIp()), $duneLang);
 
         /* execute query */
         $stmt->execute();
@@ -56,23 +61,23 @@ function getPlayerByIP()
     $mysqli = connectToDb();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT duneSerial, lastSeen, lang FROM dunehd_player WHERE ipAddress=?") )
+    if( $stmt = $mysqli->prepare("SELECT duneSerial, lastSeen, lang FROM dunehd_player WHERE ipAddress=? ORDER BY lastSeen DESC LIMIT 1") )
     {
-        $stmt->bind_param('i', getRemoteIpAsInt());
+        $stmt->bind_param('i', ip2long(getRemoteIp()));
 
         /* execute query */
         $stmt->execute();
         
         $stmt->bind_result($duneSerial, $lastSeen, $lang);
         
-        $result = null;
+        $player = null;
         
         if($stmt->fetch())
         {
-            $result = array();
-            $result['serial'] = $duneSerial;
-            $result['lastSeen'] = $lastSeen;
-            $result['lang'] = $lang;
+            $player = array();
+            $player['serial'] = $duneSerial;
+            $player['lastSeen'] = $lastSeen;
+            $player['lang'] = $lang;
         }
 
         $stmt->close();
@@ -86,9 +91,45 @@ function getPlayerByIP()
     $mysqli->close();
 }
 
-function getRemoteIpAsInt()
+function getPlayers()
 {
-    return ip2long($_SERVER['REMOTE_ADDR']);
+    $mysqli = connectToDb();
+	$result = array();
+    
+    /* create a prepared statement */
+    if( $stmt = $mysqli->prepare("SELECT duneSerial, ipAddress, lastSeen, lang FROM dunehd_player ORDER BY lastSeen DESC LIMIT 1") )
+    {
+        /* execute query */
+        $stmt->execute();
+        
+        $stmt->bind_result($duneSerial, $ipAddress, $lastSeen, $lang);
+        
+        $player = null;
+        
+        while($stmt->fetch())
+        {
+            $player = array();
+            $player['serial'] = $duneSerial;
+            $player['ip'] = $ipAddress;
+            $player['lastSeen'] = $lastSeen;
+            $player['lang'] = $lang;
+			$result[] = $player;
+        }
+
+        $stmt->close();
+        
+        // if($result == null) return 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
+        
+        return $result;
+    }
+    else trigger_error('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+    
+    $mysqli->close();
+}
+
+function getRemoteIp()
+{
+    return $_SERVER['REMOTE_ADDR'];
 }
 
 // ---- Provides access to storage of favorites in MySQL database ---
