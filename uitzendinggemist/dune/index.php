@@ -30,5 +30,6 @@ async_icon_loading = yes
     writeIcon($num++, 'Gisteren', 'dune_'.$baseurl.'/afleveringen.php?when=gisteren', $imgdir.'/uitzendinggemist_250.png');
 	$varagemisturl = dirname($baseurl).'/varagemist/dune/';
     writeIcon($num++, 'VARA Gemist', 'dune_'.$varagemisturl, $imgdir.'/varagemist.png');
+    writeIcon($num++, 'Genres', 'dune_'.$baseurl.'/genres.php', null);
 
 ?>

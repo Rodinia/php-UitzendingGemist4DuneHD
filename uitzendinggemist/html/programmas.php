@@ -27,8 +27,8 @@
 <?php
 	require_once '../lib/lib_ugemist.php';
     require_once '../lib/lib_storage.php';
-    
-    
+
+
     #Enable display errors
 	error_reporting(E_ALL);
 		
@@ -41,7 +41,7 @@
 	{
 		global $duneSerial, $useMySQL;
 		
-		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
+ 		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 		echo '<a href="../dune/programmas.php?'.$_SERVER["QUERY_STRING"].'"><img src="img/dune_hd_logo.png" alt="Dune HD" class="favorite"/></a>'."\n";
 	
         if($duneSerial)
@@ -97,39 +97,53 @@
 
         echo "</table>\n";
 	}
-	
-	$suffix = isset($_GET['suffix']) ? $_GET['suffix'] : null;
-	$type = isset($_GET['type']) ? $_GET['type'] : null;
-	$omroep = isset($_GET['omroep']) ? $_GET['omroep'] : null;
-    
-    if($suffix)
+
+	if( isset($_GET['suffix']) )
     {
+        $suffix = $_GET['suffix'];
         echo "<h1>Programma lijst $suffix</h1>\n";
 		showLinks('http://www.uitzendinggemist.nl/programmas/'.$suffix);
         $series = wgetProgramsAZ($suffix, $maxPages, $pageOffset);
         $pageOffset += $maxPages;
         listSeries($series, 'suffix='.$suffix.'&page='.$pageOffset);
     }
-	else if($type)
+	else if( isset($_GET['type']) )
 	{
-		echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/$type-header.jpg\" alt=\"Programma's op $type\"/></h1>\n";
+		$type = $_GET['type'];
+        echo "<h1><img src=\"http://assets.www.uitzendinggemist.nl/assets/header/$type-header.jpg\" alt=\"Programma's op $type\"/></h1>\n";
         $urlug = 'http://www.uitzendinggemist.nl/'.$type.'?display_mode=detail';
         showLinks($urlug);
         $series = wgetPrograms($urlug, $maxPages, $pageOffset);
         $pageOffset += $maxPages;
         listSeries($series, 'type='.$type.'&page='.$pageOffset);
 	}
-	else if($omroep)
+	else if( isset($_GET['omroep']) )
 	{
-		echo "<h1>Omroep $omroep</h1>\n";
+		$omroep = $_GET['omroep'];
+        echo "<h1>Omroep $omroep</h1>\n";
 		$urlug = 'http://www.uitzendinggemist.nl/omroepen/'.$omroep.'?display_mode=detail-selected';
 		showLinks($urlug);
 		$elements = wgetPrograms($urlug, $maxPages, $pageOffset);
         $pageOffset += $maxPages;
 		listSeries($elements, 'omroep='.$omroep.'&page='.$pageOffset);
 	}
-
-
+    else if( isset($_GET['genre']) )
+    {
+        $genre = $_GET['genre'];
+        echo "<h1>Genre $genre</h1>\n";
+        $urlug = 'http://www.uitzendinggemist.nl/genres/'.$genre.'?display_mode=detail-selected';
+        //$urlug = 'http://www.uitzendinggemist.nl/genres/comedy';
+        showLinks($urlug);
+        $elements = wgetPrograms($urlug, $maxPages, $pageOffset);
+        listSeries($elements, 'genre='.$genre.'&page='.$pageOffset);
+    }
+//	else if($regio)
+//        {
+//                echo "<h1>Regio $regio</h1>\n";
+//                $urlug = 'http://www.uitzendinggemist.nl/regios/'.$regio.'?display_mode=detail-selected';
+//                showLinks($urlug);
+//                $elements = wgetPrograms($urlug, $maxPages, $pageOffset);
+//                listSeries($elements, 'genre='.$genre.'&page='.$pageOffset);
+//        }
 ?>
-
 </body>

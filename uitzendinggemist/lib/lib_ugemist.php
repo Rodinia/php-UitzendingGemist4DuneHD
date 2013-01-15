@@ -459,4 +459,31 @@
 		
 		return $result;
     }
+	function wgetGenres()
+    {
+                $query="/html/body//div[@id='genres-page']/ol[@class='genres']/li/a";
+                $xpath = getProgamHtmlXpath('http://www.uitzendinggemist.nl/genres', 1);
+
+                $result = array();
+                $nodeList = $xpath->query($query);
+
+                foreach ($nodeList as $href) $result[] = $href;
+
+                return $result;
+    }
+        function wgetRegios()
+    {
+		$query="/html/body//div[@id='broadcasters-page']/ol[@class='broadcasters']/li/a";
+
+                $xpath = getProgamHtmlXpath('http://www.uitzendinggemist.nl/omroepen/regio', 1);
+
+                $result = array();
+                $nodeList = $xpath->query($query);
+
+                foreach ($nodeList as $href) $result[] = $href;
+
+                return $result;
+    }
+
+
 ?>

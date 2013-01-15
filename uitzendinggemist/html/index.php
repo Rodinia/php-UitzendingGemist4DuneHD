@@ -24,6 +24,9 @@
 			<td><a href="afleveringen.php?when=gisteren"><img src="../img/uitzendinggemist_250.png"/>Gisteren</a/></td>
 			<td><a href="../varagemist/html/"><img src="../img/varagemist.png"/>VARA Gemist</a/></td>
 		</tr>
+		<tr>
+			<td><a href="genres.php">Genres</a/></td>
+		</tr>
       </table>
 
 
