@@ -39,28 +39,26 @@
 	
   	function showLinks($url_ug)
 	{
+		global $duneSerial, $useMySQL;
+		
 		echo '<a href="'.$url_ug.'"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 		echo '<a href="../dune/programmas.php?'.$_SERVER["QUERY_STRING"].'"><img src="img/dune_hd_logo.png" alt="Dune HD" class="favorite"/></a>'."\n";
 	
-        global $publicMode, $duneSerial;
-        if($publicMode)
-        {
-            if($duneSerial)
-            {
-                echo "<table>";    
-                echo '<tr><td>Dune HD Gevonden; Serial:</td><td>'.$duneSerial.'</td></tr>'."\n";
-                echo "</table>";
-            }
-            else
-            {
-                echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst verbinding met je Dune HD Media player verbonden bent geweest met deze Uitzending Gemist App.";
-            }        
-        }
+        if($duneSerial)
+		{
+			echo "<table>";    
+			echo '<tr><td>Dune HD Gevonden; Serial:</td><td>'.$duneSerial.'</td></tr>'."\n";
+			echo "</table>";
+		}
+		else if($useMySQL)
+		{
+			echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst verbinding met je Dune HD Media player verbonden bent geweest met deze Uitzending Gemist App.";
+		}
     }
 	
 	function listSeries($series, $nextQuery)
 	{
-		global $duneSerial;
+		global $duneSerial, $useMySQL;
         
         echo "<table class=\"touch\">\n";
         //echo "<tr><th>Programma</th><th>ID</th><th>Externe link</th></tr>\n";
@@ -88,7 +86,7 @@
 				echo '<img src="'.$imgsrc.'" />';
             echo $title;
 			echo '</a>';
-            if($duneSerial)
+            if(!$useMySQL || $duneSerial)
             {
                 echo '<a href="#" id="bottle" onclick="addToFavorites(\''.$programId.'\',\''.$title.'\',\''.$imgsrc.'\');return false;" >';
                 echo '<img src="img/add_to_favorite_22.png" alt="Add to favorite" class="actionIcon"/>';

@@ -1,142 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ugconfig version="1.0">
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Huisje Boompje Beestje</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/044/863/500x140.jpg</banner>
 		<id>244-huisje-boompje-beestje</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Koekeloere</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/220/695/500x140.jpg</banner>
 		<id>242-koekeloere</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Engels met Raaf</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/044/865/500x140.jpg</banner>
 		<id>1661-engels-met-raaf</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Leesdas Lettervos Boekentas</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/044/864/500x140.jpg</banner>
 		<id>1319-leesdas-lettervos-boekentas</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>De Schatkist</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/214/093/250x140.jpg</banner>
 		<id>2222-de-schatkast</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Aarde en Ruimte</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/236/913/500x140.jpg</banner>
 		<id>1842-aarde-en-ruimte</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>HoelaHoep</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/244/493/500x140.jpg</banner>
 		<id>248-hoelahoep</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Nieuws uit de Natuur</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/152/790/500x140.jpg</banner>
 		<id>1327-nieuws-uit-de-natuur</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Flip de beer</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/236/164/140x140.jpg</banner>
 		<id>2200-flip-de-beer</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Rekenenverhalen</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/152/696/500x140.jpg</banner>
 		<id>410-rekenverhalen</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Rekenen met Schooltv</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/217/895/500x140.jpg</banner>
 		<id>252-rekenen-met-schooltv</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Dip en Dap</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/235/953/250x140.jpg</banner>
 		<id>446-dip-en-dap</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Grobbebollen maken lol</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/002/226/250x140.jpg</banner>
 		<id>457-grobbebollen-maken-lol</id>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Het Zandkasteel</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/044/861/500x140.jpg</banner>
 		<id>354-het-zandkasteel</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>De Fabeltjeskrant</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/236/067/250x140.jpg</banner>
 		<id>6635-de-fabeltjeskrant</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Woezel &amp; Pip</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/061/559/250x140.jpg</banner>
 		<id>2678-woezel-en-pip</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Het Klokuis</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/035/804/500x140.jpg</banner>
 		<id>290-het-klokhuis</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>SpangaS</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/012/607/500x140.jpg</banner>
 		<id>1153-spangas</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>NOS Journaal</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/006/790/500x140.png</banner>
 		<id>6-nos-journaal</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Nieuwsuur</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/062/548/500x140.jpg</banner>
 		<id>975-nieuwsuur</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Zembla</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/235/594/250x140.jpg</banner>
 		<id>181-zembla</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>De wereld draait door</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/012/589/500x140.jpg</banner>
 		<id>989-de-wereld-draait-door</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption> Pauw en Witteman</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/012/604/500x140.jpg</banner>
 		<id>962-pauw-witteman</id>
 	</programma>
-	</programma>
-		<programma>
+	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Opgelicht</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/012/973/500x140.jpg</banner>
 		<id>994-opgelicht</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>De Rijdende Rechter</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/199/901/500x140.jpg</banner>
 		<id>535-de-rijdende-rechter</id>
-	</programma>	<programma>
+	</programma>
+        <provider>uitzendinggemist</provider>
 		<caption>PowNews</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/057/107/500x140.jpg</banner>
 		<id>1225-pownews</id>
 	</programma>
 	<programma>
+        <provider>uitzendinggemist</provider>
 		<caption>Koefnoen</caption>
 		<banner>http://mediadb.omroep.nl/assets/000/100/824/500x140.jpg</banner>
 		<id>1102-koefnoen</id>
 	</programma>
     <programma>
 		<caption>Reporter</caption>
-		<banner></banner>
+		<banner/>
 		<id>605-kro-reporter</id>
 	</programma>
 </ugconfig>

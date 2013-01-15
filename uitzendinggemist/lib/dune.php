@@ -3,8 +3,8 @@ require_once dirname(__FILE__).'/log.php';
 require_once dirname(__FILE__).'/util.php';
 require_once dirname(__FILE__).'/../config.php';
 
-global $publicMode;
-if($publicMode)
+global $useMySQL;
+if($useMySQL)
 {
     require_once dirname(__FILE__).'/lib_storage.php';
     registerMediaPlayer();

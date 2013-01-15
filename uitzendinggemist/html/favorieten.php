@@ -50,15 +50,13 @@
     <div id="header"><h1>Favoriete Programma's</h1></div>
 	<a href="../dune/favorites.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
 <?php
-    if($publicMode)
+    if($useMySQL)
     {
 		$duneSerial = findSerialByIP();
         
 		if($duneSerial)
         {
-            echo "<table>";    
-            echo '<tr><td>Dune HD Gevonden; Serial:</td><td>'.$duneSerial.'</td></tr>'."\n";
-            echo "</table>";
+            echo '<p><td>Dune HD media speler gevonden: '.$duneSerial.'</p>'."\n";
         }
         else
         {
@@ -67,6 +65,9 @@
     }
   
     echo "<table class=\"touch\">\n";
+	
+	echo '<p>Klik op het <img src="img/add_to_favorite_22.png" alt="rode hartje"/> bij de programma vermelding, om dat programma toe te voegen aan deze favorieten lijst.</p>'."\n";
+	
     foreach(readFavorites('uitzendinggemist') as $programma)
     {
         writeProgramma($programma['title'], $programma['img'], $programma['refid']);
@@ -78,7 +79,10 @@
 		$url = 'afleveringen.php?programid='.urlencode($programId);
         // bin-icon-32.png
 		echo '<tr>';
-		echo '<td><a href="'.$url.'"><img alt="'.$caption.'" src="'.$url_icon.'"/>'.$caption.'</a>';
+		echo '<td><a href="'.$url.'">';
+        if($url_icon)
+            echo '<img alt="'.$caption.'" src="'.$url_icon.'"/>';
+        echo $caption.'</a>';
         echo '<a href="#" id="bottle" onclick="removeFromFavorites(\''.$programId.'\');return false;" >';
         echo '<img src="img/bin-icon-32.png" alt="Add to favorite" class="actionIcon" title="Verwijderen"/>';
         echo '</a></td>';

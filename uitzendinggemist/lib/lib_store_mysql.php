@@ -58,47 +58,35 @@ function findSerialByIP()
     
 function getPlayerByIP()
 {
-    $mysqli = connectToDb();
-    
-    /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT duneSerial, lastSeen, lang FROM dunehd_player WHERE ipAddress=? ORDER BY lastSeen DESC LIMIT 1") )
-    {
-        $stmt->bind_param('i', ip2long(getRemoteIp()));
-
-        /* execute query */
-        $stmt->execute();
-        
-        $stmt->bind_result($duneSerial, $lastSeen, $lang);
-        
-        $player = null;
-        
-        if($stmt->fetch())
-        {
-            $player = array();
-            $player['serial'] = $duneSerial;
-            $player['lastSeen'] = $lastSeen;
-            $player['lang'] = $lang;
-        }
-
-        $stmt->close();
-        
-        // if($result == null) return 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
-        
-        return $player;
-    }
-    else trigger_error('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
-    
-    $mysqli->close();
+	$numIp = ip2long(getRemoteIp());
+	
+	if($numIp > -1062731776 && $numIp < -1062666241) // Private range: 192.168.0.0 .. 192.168.255.255
+		$players = getPlayersByRange(-1062731776, -1062666241);
+	else if($numIp > 167772160 && $numIp < 184549375) // Private range: 10.0.0.0 ..  10.255.255.255
+		$players = getPlayersByRange(167772160, 184549375);
+	else if($numIp > -1408237568 && $numIp < -1407188993) // Private range: 172.16.0.0 ..  172.31.255.255
+		$players = getPlayersByRange(-1408237568, -1407188993);
+	else // Public range
+		$players = getPlayersByRange($numIp, $numIp);
+	return isset($players[0]) ? $players[0] : null;
 }
 
 function getPlayers()
+{
+	// 128.0.0.0=-2147483648 255.255.255=2147483647
+	return getPlayersByRange(-2147483648, 2147483647);
+}
+
+function getPlayersByRange($firstIp, $lastIp)
 {
     $mysqli = connectToDb();
 	$result = array();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT duneSerial, ipAddress, lastSeen, lang FROM dunehd_player ORDER BY lastSeen DESC LIMIT 1") )
+    if( $stmt = $mysqli->prepare("SELECT duneSerial, ipAddress, lastSeen, lang FROM dunehd_player WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC LIMIT 1") )
     {
+        $stmt->bind_param('ii', $firstIp, $lastIp);
+
         /* execute query */
         $stmt->execute();
         
