@@ -4,7 +4,9 @@ Server side scripts to enabling watching Uitzending Gemist on Dune HD media play
 
 PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 
-## This application is hosted on the following location(s):
+## Use public Uitzending Gemist Dune HD service
+
+This application is hosted on the following location(s):
 - http://uitzendinggemist.comule.com/
 
 Create an empty folder such as 'Uitzending Gemist' and create a text-file 'dune_folder.txt'. 
