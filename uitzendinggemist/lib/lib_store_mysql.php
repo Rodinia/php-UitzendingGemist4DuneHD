@@ -5,7 +5,7 @@ require_once dirname(__FILE__).'/dune.php';
 
 function lookupDuneSerial()
 {
-    $duneSerial = readDuneSerialFromHeader();
+    $duneSerial = getDuneSerial();
     if($duneSerial == null) $duneSerial = findSerialByIP();
     return $duneSerial;
 }

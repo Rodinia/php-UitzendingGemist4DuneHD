@@ -11,7 +11,7 @@
 	
 	$players = getPlayers();
 	echo "<h2>Media Players</h2>\n";
-    echo '<p>Service currently used by '.count($players).' Dune media players.</p>'."\n";
+    echo '<p>'.count($players).' Dune media players hebben tot nu toe gebruik gemaakt van deze mirror.</p>'."\n";
 	echo "<table class=\"matrix\">\n";
 	echo '<tr><th>Dune HD Media Player Serial</th><th>Eerste bezoek</th><th>Laatst bezoek</th><th>IP Address</th><th>#Favorieten</th><th>User-Agent</th></tr>'."\n";
 	foreach(getPlayers() as $player)

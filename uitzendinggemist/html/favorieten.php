@@ -56,7 +56,7 @@
         
 		if($duneSerial)
         {
-            echo '<p><td>Dune HD media speler gevonden: '.$duneSerial.'</p>'."\n";
+            echo '<p>Dune HD media speler gevonden: '.$duneSerial.'</p>'."\n";
         }
         else
         {
@@ -64,9 +64,8 @@
         }        
     }
   
-    echo "<table class=\"touch\">\n";
-	
-	echo '<p>Klik op het <img src="img/add_to_favorite_22.png" alt="rode hartje"/> bij de programma vermelding, om dat programma toe te voegen aan deze favorieten lijst.</p>'."\n";
+    echo '<p>Klik op het <img src="img/add_to_favorite_22.png" alt="rode hartje"/> bij de programma vermelding, om dat programma toe te voegen aan deze favorieten lijst.</p>'."\n";
+	echo "<table class=\"touch\">\n";
 	
     foreach(readFavorites('uitzendinggemist') as $programma)
     {
