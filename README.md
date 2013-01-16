@@ -4,11 +4,23 @@ Server side scripts to enabling watching Uitzending Gemist on Dune HD media play
 
 PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 
-## How to use uitzendinggemist PHP script with Dune HD player.
+## This application is hosted on the following location(s):
+- http://uitzendinggemist.comule.com/
+
+Create an empty folder such as 'Uitzending Gemist' and create a text-file 'dune_folder.txt'. 
+Put the following text in 'dune_folder.txt':
+```
+# Link to Uitzending Gemist running on comule.com
+media_url = dune_http://uitzendinggemist.comule.com/dune/
+```
+
+See the Wiki (http://github.com/Rodinia/php-UitzendingGemist4DuneHD/wiki) how to create a link in favorites.
+
+## How host your own uitzendinggemist PHP script with Dune HD player.
  
 Requirements:
 - Dune HD Player
-- PHP Server
+- PHP Server (requires PHP Client URL Library component)
 
 I have tested it with a Synology NAS server and a Dune HD Smart B1 media player.
 The Synology NAS server has PHP enabled if you set up a web service.
@@ -23,12 +35,9 @@ Create an empty folder such as 'Uitzending gemist' and create a text-file 'dune_
 Put the following text in 'dune_folder.txt':
 
 ```
-# Redirected to your 'Uitzending Gemist' dune folder  
+# Link to my 'Uitzending Gemist'  
 media_url = dune_http://diskstation/uitzendinggemist/dune/
 ```
-
-Rather running your own, or look at the Wiki how you can use an externel hosted script: 
-http://github.com/Rodinia/php-UitzendingGemist4DuneHD/wiki
 
 Make sure you adjest media_url to you needs.
 It should start with 'dune_http://' and end the URL with 'dune/'.

@@ -83,7 +83,7 @@ function getPlayersByRange($firstIp, $lastIp)
 	$result = array();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, lastSeen, lang, favorites FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen") )
+    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, lastSeen, lang, favorites FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC") )
     {
         $stmt->bind_param('ii', $firstIp, $lastIp);
 
