@@ -1,13 +1,7 @@
 <?php
 // Provide access to store Media Player information in MySQL database
 
-function readDuneSerialFromHeader()
-{
-    //return 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
-    
-	$headers = apache_request_headers();
-    return $headers['X-Dune-Serial-Number'];
-}
+require_once dirname(__FILE__).'/dune.php';
 
 function lookupDuneSerial()
 {
@@ -29,21 +23,44 @@ function connectToDb()
 
 function registerMediaPlayer()
 {
-    $duneSerial = readDuneSerialFromHeader();
+    $duneSerial = getDuneSerial();
     
     if(!$duneSerial) return;
+	
+	$mysqli = connectToDb();
+	if( isRegistered($duneSerial) )
+	{
+		$stmt = $mysqli->prepare("UPDATE dunehd_player SET ipAddress=?, lastSeen=UTC_TIMESTAMP(), lang=?, userAgent=? WHERE duneSerial=?");
+		if(!stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+		$stmt->bind_param('isss', ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT'], $duneSerial);
+	}
+	else
+	{
+		$stmt = $mysqli->prepare("INSERT INTO dunehd_player (duneSerial, ipAddress, firstSeen, lastSeen, lang, userAgent) VALUES(?, ?, UTC_TIMESTAMP(), firstSeen, ?, ?)");
+        $stmt->bind_param('siss', $duneSerial, ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT']);
+		if(!stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+    }
+	/* execute query */
+	$stmt->execute();
+	$stmt->close();
+    $mysqli->close();
+}
+
+function isRegistered($duneSerial)
+{
+    if(!$duneSerial) return false;
     
     $mysqli = connectToDb();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("REPLACE INTO dunehd_player (duneSerial, ipAddress, lastSeen, lang) VALUES(?, ?, UTC_TIMESTAMP(), ?)") )
+    if( $stmt = $mysqli->prepare("SELECT ipAddress FROM dunehd_player WHERE duneSerial=?") )
     {
-        $stmt->bind_param('sis', $duneSerial, ip2long(getRemoteIp()), $duneLang);
-
+        $stmt->bind_param('s', $duneSerial);
         /* execute query */
         $stmt->execute();
-
+		$found = $stmt->fetch();
         $stmt->close();
+		return $found;
     }
     else die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
     
@@ -66,7 +83,7 @@ function getPlayerByIP()
 		$players = getPlayersByRange(167772160, 184549375);
 	else if($numIp > -1408237568 && $numIp < -1407188993) // Private range: 172.16.0.0 ..  172.31.255.255
 		$players = getPlayersByRange(-1408237568, -1407188993);
-	else // Public range
+	else // Public range, assume same IP address for player and HTML browser
 		$players = getPlayersByRange($numIp, $numIp);
 	return isset($players[0]) ? $players[0] : null;
 }
@@ -83,14 +100,14 @@ function getPlayersByRange($firstIp, $lastIp)
 	$result = array();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, lastSeen, lang, favorites FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC") )
+    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, firstSeen, lastSeen, lang, favorites, userAgent FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC") )
     {
         $stmt->bind_param('ii', $firstIp, $lastIp);
 
         /* execute query */
         $stmt->execute();
         
-        $stmt->bind_result($duneSerial, $ipAddress, $lastSeen, $lang, $favorites);
+        $stmt->bind_result($duneSerial, $ipAddress, $firstSeen, $lastSeen, $lang, $favorites, $userAgent);
         
         $player = null;
         
@@ -99,9 +116,11 @@ function getPlayersByRange($firstIp, $lastIp)
             $player = array();
             $player['serial'] = $duneSerial;
             $player['ip'] = $ipAddress;
-            $player['lastSeen'] = $lastSeen;
+            $player['firstSeen'] = $firstSeen;
+			$player['lastSeen'] = $lastSeen;
             $player['lang'] = $lang;
 			$player['favorites'] = $favorites;
+			$player['userAgent'] = $userAgent;
 			$result[] = $player;
         }
 
