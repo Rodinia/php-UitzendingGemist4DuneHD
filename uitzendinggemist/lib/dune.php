@@ -28,7 +28,7 @@ function writeIcon($num, $caption, $url, $url_icon = 0)
     echo "item.$num.caption = $caption\n";
     if($url_icon)
         echo "item.$num.icon_path = $url_icon\n";
-    echo "item.$num.scale_factor = 1\n";
+    //echo "item.$num.scale_factor = 1\n";
     echo "item.$num.media_url = $url\n";    
 }
 

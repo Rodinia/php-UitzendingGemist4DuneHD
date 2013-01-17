@@ -2,7 +2,9 @@ CREATE  TABLE IF NOT EXISTS `dunehd_player` (
   `duneSerial` CHAR(39) NOT NULL ,
   `ipAddress` INT NOT NULL ,
   `lastSeen` TIMESTAMP NOT NULL ,
+  `firstSeen` DATETIME NOT NULL ,
   `lang` VARCHAR(15) NULL ,
+  `userAgent` VARCHAR(512) NULL ,
   PRIMARY KEY (`duneSerial`) )
 ENGINE = InnoDB;
 

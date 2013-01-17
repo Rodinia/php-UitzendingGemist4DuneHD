@@ -13,23 +13,24 @@
 paint_captions = yes
 media_action = browse
 num_cols = 4
-num_rows = 2
+num_rows = 3
 async_icon_loading = yes
 <?php   
     $imgdir=dirname($baseurl).'/img';
 	echo "background_order=before_all\n";
 	echo "background_path=$imgdir/background.jpg\n";
 
-   
+    $varagemisturl = dirname($baseurl).'/varagemist/dune/';
+    
     writeIcon($num++, 'Favorieten', 'dune_'.$baseurl.'/favorites.php', $imgdir.'/favorites.png');
-    writeIcon($num++, 'Zapp (6 - 12 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zapp', $imgdir.'/zapp.png');
-    writeIcon($num++, 'Zappelin (2 - 5 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zappelin', $imgdir.'/zappelin.png');
-    writeIcon($num++, 'Omroepen', 'dune_'.$baseurl.'/omroepen.php', $imgdir.'/nlkijkt.png');
-    writeIcon($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas_az.php', $imgdir.'/a-z.png');
     writeIcon($num++, 'Vandaag', 'dune_'.$baseurl.'/afleveringen.php?when=vandaag', $imgdir.'/uitzendinggemist_250.png');
     writeIcon($num++, 'Gisteren', 'dune_'.$baseurl.'/afleveringen.php?when=gisteren', $imgdir.'/uitzendinggemist_250.png');
-	$varagemisturl = dirname($baseurl).'/varagemist/dune/';
+	writeIcon($num++, 'Genres', 'dune_'.$baseurl.'/genres.php', null);
+	writeIcon($num++, 'Zapp (6 - 12 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zapp', $imgdir.'/zapp.png');
+    writeIcon($num++, 'Zappelin (2 - 5 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zappelin', $imgdir.'/zappelin.png');
+    writeIcon($num++, 'Omroepen', 'dune_'.$baseurl.'/omroepen.php', $imgdir.'/nlkijkt.png');
+    writeIcon($num++, 'Regionale Omroepen', 'dune_'.$baseurl.'/regios.php', $imgdir.'/regionale_omroepen.png');
+    writeIcon($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas_az.php', $imgdir.'/a-z.png');
     writeIcon($num++, 'VARA Gemist', 'dune_'.$varagemisturl, $imgdir.'/varagemist.png');
-    writeIcon($num++, 'Genres', 'dune_'.$baseurl.'/genres.php', null);
-
+    
 ?>
