@@ -16,6 +16,7 @@
 	//header('Content-type: text/plain');
 	
 	echo "<h1>Genres</h1>\n";
+	echo '<a href="http://www.uitzendinggemist.nl/genres"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 	echo '<a href="../dune/genres.php" alt="Dune HD"/><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	
 	$elements = wgetGenres();

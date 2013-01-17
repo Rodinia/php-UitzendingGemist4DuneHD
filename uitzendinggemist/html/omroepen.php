@@ -16,6 +16,7 @@
 	//header('Content-type: text/plain');
 	
 	echo "<h1>Omroepen</h1>\n";
+	echo '<a href="http://www.uitzendinggemist.nl/omroepen"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 	echo '<a href="../dune/omroepen.php" alt="Dune HD"/><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	
 	$elements = wgetBroadcasters();

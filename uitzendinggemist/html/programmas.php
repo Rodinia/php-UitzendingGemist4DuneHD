@@ -137,13 +137,5 @@
         $elements = wgetPrograms($urlug, $maxPages, $pageOffset);
         listSeries($elements, 'genre='.$genre.'&page='.$pageOffset);
     }
-//	else if($regio)
-//        {
-//                echo "<h1>Regio $regio</h1>\n";
-//                $urlug = 'http://www.uitzendinggemist.nl/regios/'.$regio.'?display_mode=detail-selected';
-//                showLinks($urlug);
-//                $elements = wgetPrograms($urlug, $maxPages, $pageOffset);
-//                listSeries($elements, 'genre='.$genre.'&page='.$pageOffset);
-//        }
 ?>
 </body>

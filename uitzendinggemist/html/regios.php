@@ -7,7 +7,7 @@
 
 <body>
 <?php
-	require_once '../lib_ugemist.php';
+	require_once '../lib/lib_ugemist.php';
 
     #Enable display errors
 	//ini_set('display_errors',1);
@@ -16,6 +16,7 @@
 	//header('Content-type: text/plain');
 	
 	echo "<h1>Regios</h1>\n";
+	echo '<a href="http://www.uitzendinggemist.nl/omroepen/regio"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 	echo '<a href="../dune/regios.php" alt="Dune HD"/><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	
 	$elements = wgetRegios();
@@ -40,7 +41,7 @@
 		}
 		
 		echo '<td class="touch"><a href="programmas.php?omroep='.urlencode($regioId).'">'.'<img src="http:'.$imgsrc.'" alt="'.$title.'"/>'.$title.'</a></td>';
-		//echo '<td class="touch"><a href="programmas.php?genre=comedy">'.'<img src="http:'.$imgsrc.'" alt="'.$title.'"/></a></td>';
+		
 		//echo '<td><a href="http://www.uitzendinggemist.nl'.$href.'">Naar Uitzending Gemist</a></td>';
 		//echo "</tr>\n";
 	}
