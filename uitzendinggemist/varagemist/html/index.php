@@ -4,28 +4,6 @@
 	//ini_set('display_errors',1);
 	error_reporting(E_ALL);
 
-    function vara_play($title, $mediaid)
-	{
-		$configXmlUrl = makeConfigXmlUrl($mediaid);
-        $configXml = getConfigXml($configXmlUrl);
-		$videoConfigUrl = $configXml['file'];
-		$configVideo = getVideoConfigXml($videoConfigUrl);
-		$mediaLocation = $configVideo['location'];
-		
-		// Switch to HQ stream (720x400 1.5 MBit/sec)
-		$mediaLocation = str_replace('.mp4', '-hq.mp4', $mediaLocation);
-		
-		$asxUrl = '../../playlist.php?streamurl='.urlencode($mediaLocation);
-		
-		echo "<tr>\n";
-        echo '<td>'.$title.'</td>';
-		echo '<td><a href="'.$asxUrl.'&type=asx"><img alt="play" src="../../html/windows_media_player_32.png"/></a></td>';
-		echo '<td><a href="'.$asxUrl.'&type=m3u"><img alt="play" src="../../html/media-playback-start_32.png"/></a></td>';
-		echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
-		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
-        echo "</tr>\n";
-	}
-   
     function dune_url($mediaid)
 	{
 		return '../dune/vara_play.php?mediaid='.$mediaid;
@@ -77,7 +55,7 @@
             echo "<table>\n";
             foreach(getDezeWeek() as $item)
             {
-                vara_play($item['caption'], $item['id']);
+                write_vara_play_table_row($item['caption'], $item['id']);
             }
             echo "</table>\n";
             exit;
@@ -96,7 +74,7 @@
             echo "<table>\n";
             foreach(readFavorites('vara') as $programma)
             {
-                vara_play($programma['title'], $programma['id']);
+                write_vara_play_table_row($programma['title'], $programma['id']);
             }
             echo "</table>\n";
         }
@@ -109,7 +87,7 @@
             foreach(getVaraProgramList()->allProgramsAndSites as $program)
             {
                 $url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/?what=program&url='.urlencode($program->url);
-                vara_play($program->title, $url, 'item');
+                write_vara_play_table_row($program->title, $url, 'item');
             }
             echo "</table>\n";
         }
@@ -121,7 +99,7 @@
             echo "<table>\n";
             foreach(getVaraProgramFragments($url) as $fragment)
             {
-                vara_play($fragment['caption'], $fragment['id'], 'play');
+                write_vara_play_table_row($fragment['caption'], $fragment['id']');
             }
             echo "</table>\n";
         }
