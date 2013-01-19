@@ -64,6 +64,7 @@ function duneError($error)
 function getDuneSerial()
 {
     $headers = apache_request_headers();
+    //return "FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF";
     return $headers['X-Dune-Serial-Number'];
 }
 

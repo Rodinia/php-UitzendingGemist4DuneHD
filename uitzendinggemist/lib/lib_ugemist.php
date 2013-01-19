@@ -106,9 +106,7 @@
 	// Resolve remote-episode-ID base on local-episode-ID 
 	function wgetEpisodeId($localepiid)
 	{
-		$dom = new DOMDocument();
-		//echo "# wget Stream Info: $infoUrl\n";
-		$dom->loadHTMLFile('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
+		$dom = loadHtmlAsDom('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
 		$xpath = new DOMXpath($dom);
      	$domnodelist = $xpath->query("//span[@id='episode-data']");
 		return $domnodelist->item(0)->getAttribute('data-episode-id');
@@ -137,8 +135,9 @@
 
 		$dom = new DOMDocument();
 		//echo "# wget Stream Info: $infoUrl\n";
-		$html = $dom->loadHTMLFile($infoUrl);
-		
+		//$html = $dom->loadHTMLFile($infoUrl);
+		if( !$dom->loadXML(curlGet($infoUrl)) ) die('Failed to load XML stream info from: '.$infoUrl);
+				
 		$xpath = new DOMXpath($dom);
      	$domnodelist = $xpath->query("//stream");
 		// Convert to array
@@ -387,8 +386,7 @@
 	
 	function wgetSessionKey($sessionUrl)
 	{
-		$dom = new DOMDocument();
-		$html = $dom->loadHTMLFile($sessionUrl);
+		$dom = loadHtmlAsDom($sessionUrl); // ToDo: use XML methid
 		foreach($dom->getElementsByTagName('session') as $session)
 		{
 			foreach($session->getElementsByTagName('key') as $key)
@@ -403,11 +401,8 @@
     {
         $result = array();
 		
-		$ug_url = 'http://www.uitzendinggemist.nl/programmas/';
-
-		$doc = new DOMDocument();
-        $doc->loadHTMLFile($ug_url) || error('Failed to load HTML file: $ug_url');
-
+		$doc = loadHtmlAsDom('http://www.uitzendinggemist.nl/programmas/');
+        
 		$xpath = new DOMXpath($doc);
         $elements = $xpath->query("/html/body/div[@id='content']/div[@id='series-index']/div[1]/div[@id='series-index-letters']/ol/li/a");
 		

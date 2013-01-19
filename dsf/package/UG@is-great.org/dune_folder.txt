@@ -1,4 +1,4 @@
-media_url = dune_http://uitzendinggemist.comule.com/dune/
+media_url = dune_http://uitzendinggemist.is-great.org/dune/
 media_url_check = no
 icon_path = uitzendinggemist_160.png
 icon_valign = center

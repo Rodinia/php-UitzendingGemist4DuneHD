@@ -8,8 +8,8 @@
 
 	function getConfigXml($configXmlUrl)
 	{
-		$doc = new DOMDocument();
-		$doc->loadHTMLFile($configXmlUrl) || error('Failed to load HTML file: ' + $configXmlUrl);
+		$doc = loadHtmlAsDom($configXmlUrl);
+        
 		$result =  array();
 
 		foreach($doc->documentElement->getElementsByTagName('file') as $file)
@@ -28,7 +28,7 @@
 	function getVideoConfigXml($videoUrl)
 	{
 		// Fix XML (otherwise CDATA doesn't work)
-		$xml = file_get_contents($videoUrl);
+		$xml = curlGet($videoUrl);
 		$xml = '<?xml version="1.0"?>'."\n".$xml;
 
 		error_reporting(E_ALL);
@@ -143,21 +143,10 @@
 	
 	function write_vara_play_table_row($title, $mediaid)
 	{
-		$configXmlUrl = makeConfigXmlUrl($mediaid);
-        $configXml = getConfigXml($configXmlUrl);
-		$videoConfigUrl = $configXml['file'];
-		$configVideo = getVideoConfigXml($videoConfigUrl);
-		$mediaLocation = $configVideo['location'];
-		
-		// Switch to HQ stream (720x400 1.5 MBit/sec)
-		$mediaLocation = str_replace('.mp4', '-hq.mp4', $mediaLocation);
-		
-		$asxUrl = '../../playlist.php?streamurl='.urlencode($mediaLocation);
-		
 		echo "<tr>\n";
         echo '<td>'.$title.'</td>';
-        echo '<td><a href="'.$asxUrl.'&type=asx"><img alt="play" src="../../html/img/windows_media_player_32.png"/></a></td>';
-		echo '<td><a href="'.$asxUrl.'&type=m3u"><img alt="play" src="../../html/img/media-playback-start_32.png"/></a></td>';
+        echo '<td><a href="varaplay.php?mediaid='.$mediaid.'&type=asx"><img alt="play" src="../../html/img/windows_media_player_32.png"/></a></td>';
+		echo '<td><a href="varaplay.php?mediaid='.$mediaid.'&type=m3u"><img alt="play" src="../../html/img/media-playback-start_32.png"/></a></td>';
 		echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
 		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
         echo "</tr>\n";

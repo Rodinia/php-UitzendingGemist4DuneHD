@@ -6,6 +6,6 @@ gcc dsf_pack.c -o dsf_pack
 
 gzip dsf_uitzendinggemist.sh 
 ./dsf_pack -e dsf_uitzendinggemist.sh.gz 
-mv outfile.dsf dune_service_uitzendinggemist.dsf
+mv outfile.dsf "dune_service_UG@is-great.org.dsf"
 
 rm dsf_uitzendinggemist.sh.gz

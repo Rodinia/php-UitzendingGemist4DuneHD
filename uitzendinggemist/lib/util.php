@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__).'/../config.php';
+
 // Determine if the given numeric (use ip2long()) is in a IPv4 private range (RFC 1918)    
 function isPrivateRange($numIp)
 {
@@ -16,10 +18,49 @@ function startsWith($haystack, $needle)
 	return !strncmp($haystack, $needle, strlen($needle));
 }
 
+function curlGet($url)
+{
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+		$htmlContent = curl_exec($ch);
+		if(!$htmlContent)
+		{
+			die('Failed load HTML from URL: '.$url.', error message: '.$last_error['message']);
+		}
+		curl_close($ch);
+		return $htmlContent;
+}
+
+function loadXmlAsDom($url)
+{
+    global  $useCurlLoad;
+    $dom = new DOMDocument;
+	if( $useCurlLoad )
+    {
+        $xml = curlGet($url);
+        if(!$xml)
+		{
+			die('Failed to load XML from URL: '.$url.', error message: '.$last_error['message']);
+		}
+        $dom->loadXML($xml);
+    }
+    else
+    {
+        $dom->load($url);
+    }
+}
+
 // Work arround for PHP since character encoding does not working properly loading html into DOM
 function loadHtmlAsDom($url)
 {
-	$body = file_get_contents($url);
+	global  $useCurlLoad;
+	$body = $useCurlLoad ? curlGet($url) : file_get_contents($url);
+	if(!$body)
+	{
+		$last_error = error_get_last();
+		die('Failed load HTML from URL: '.$url.', error message: '.$last_error['message']);
+	}
 	
 	// Insert a head and meta tag immediately after the opening <html> to force UTF-8 encoding
 	$insertPoint = false;
@@ -38,6 +79,8 @@ function loadHtmlAsDom($url)
 	}
 	
 	$dom = new DOMDocument;
+    # Suppress DOM warnings
+    libxml_use_internal_errors(true);
 	$dom->loadHTML($body);
 	return $dom;
 }

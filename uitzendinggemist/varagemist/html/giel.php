@@ -2,7 +2,7 @@
 
     #Enable display errors
 	//ini_set('display_errors',1);
-	error_reporting(E_WARNING);
+	error_reporting(E_ALL);
 
     require_once '../lib_giel.php';
     require_once '../lib_vara.php';

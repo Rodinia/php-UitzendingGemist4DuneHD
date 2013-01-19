@@ -1,13 +1,10 @@
 <?php
 	// Enable display errors
-	error_reporting(E_WARNING);
+	error_reporting(E_ALL);
 	
 	header('content-type: text/html; charset=utf-8');
 
 	require_once '../lib/lib_ugemist.php';
-
-	$program_id = $_GET['programid'];
-	$when = $_GET['when'];
 
 	$pageOffset = isset($_GET['page']) ? $_GET['page'] : 1;
 	
@@ -46,8 +43,10 @@
 		echo "</table>\n";
 	}
     
-    if($program_id)
+    if( isset($_GET['programid']) )
 	{
+		$program_id = $_GET['programid'];
+
 		echo '<h1>'.$program_id."</h1>\n";
 		$url_ug = 'http://www.uitzendinggemist.nl/programmas/'.urlencode($program_id).'/';
 		
@@ -60,8 +59,9 @@
 		$pageOffset += $max_pages;
 		echo '<a href="?programid='.urlencode($program_id).'&page='.($pageOffset).'">Next Page</a>';
 	}
-    else if($when)
+    else if( isset($_GET['when']) )
     {
+		$when = $_GET['when'];
         if($when=='vandaag')
         {
             echo "<h1>Vandaag</h1>\n";
@@ -83,5 +83,5 @@
     }
 
 ?>
-
 </body>
+</html>

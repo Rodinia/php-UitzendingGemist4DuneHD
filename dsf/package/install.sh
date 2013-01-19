@@ -1,4 +1,6 @@
 #!/bin/sh
 
-rm -rf "/persistfs/main_screen_items/Uitzending Gemist"
-cp -rp "Uitzending Gemist" /persistfs/main_screen_items
+UGMIRROR="UG@is-great.org"
+
+rm -rf "/persistfs/main_screen_items/$UGMIRROR"
+cp -rp "$UGMIRROR" /persistfs/main_screen_items

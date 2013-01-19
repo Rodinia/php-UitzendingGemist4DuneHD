@@ -7,13 +7,14 @@ PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 ## Use public Uitzending Gemist Dune HD service
 
 This application is hosted on the following location(s):
-- http://uitzendinggemist.comule.com/ (Sorry, this MIRROR IS DOWN)
+* http://uitzendinggemist.is-great.org/dune/
+* http://uitzendinggemist.comule.com/ (Sorry, this MIRROR IS DOWN)
 
 Create an empty folder such as 'Uitzending Gemist' and create a text-file 'dune_folder.txt'. 
 Put the following text in 'dune_folder.txt':
 ```
 # Link to Uitzending Gemist running on comule.com
-media_url = dune_http://uitzendinggemist.comule.com/dune/
+media_url = dune_http://uitzendinggemist.is-great.org/dune/
 ```
 
 See the Wiki (http://github.com/Rodinia/php-UitzendingGemist4DuneHD/wiki) how to create a link in favorites.

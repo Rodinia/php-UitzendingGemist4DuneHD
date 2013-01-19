@@ -99,7 +99,7 @@
             echo "<table>\n";
             foreach(getVaraProgramFragments($url) as $fragment)
             {
-                write_vara_play_table_row($fragment['caption'], $fragment['id']');
+                write_vara_play_table_row($fragment['caption'], $fragment['id']);
             }
             echo "</table>\n";
         }

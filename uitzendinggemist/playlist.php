@@ -1,6 +1,7 @@
 <?php
 	//ini_set('display_errors',1);
 	error_reporting(E_WARNING);
+    include_once 'lib/playlist.php';
 	
 	include_once 'lib/lib_ugemist.php';
 	
@@ -36,46 +37,6 @@
 		}
 	}
 	
-	if($streamurl)
-	{
-		echo "#type: $type\n";
-		switch($type)
-		{
-			case 'm3u': write_m3u($streamurl); break;
-			case 'asx':
-			default:    writeAsx($streamurl);  break;
-		}
-	}
-	else
-	{
-		writeError("No supported stream found.");
-	}
-
-	function writeAsx($href)
-	{
-		header('Content-type: video/x-ms-asf');
-		echo "<ASX version=\"3\">\n";
-		echo "<Entry>\n";
-		echo "	<ref href=\"$href\" />\n";
-		echo "</Entry>\n";
-		echo "</ASX>\n";
-	}
+	writePlaylist($streamurl, $type);
 	
-	function write_m3u($url)
-	{
-		header('Content-type: audio/x-mpegurl'); // audio/x-mpegurl, audio/mpeg-url, application/x-winamp-playlist, audio/scpls, audio/x-scpls
-		echo $url."\n";
-	}
-
-	function writeError($error)
-	{
-		echo "<html>\n";
-		echo "<head>\n";
-		echo "  <title>Error</title>\n";
-		echo "</head>\n";
-		echo "<body>\n";
-		echo "  <h1>$error</h1>\n";
-		echo "</body>\n";
-		echo "</html>\n";
-	}
 ?>
