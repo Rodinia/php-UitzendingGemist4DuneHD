@@ -7,7 +7,7 @@ PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 ## Use public Uitzending Gemist Dune HD service
 
 This application is hosted on the following location(s):
-- http://uitzendinggemist.comule.com/
+- http://uitzendinggemist.comule.com/ (Sorry, this MIRROR IS DOWN)
 
 Create an empty folder such as 'Uitzending Gemist' and create a text-file 'dune_folder.txt'. 
 Put the following text in 'dune_folder.txt':
@@ -20,31 +20,26 @@ See the Wiki (http://github.com/Rodinia/php-UitzendingGemist4DuneHD/wiki) how to
 
 ## How host your own uitzendinggemist PHP script with Dune HD player.
  
-Requirements:
-- Dune HD Player
-- PHP Server (requires PHP Client URL Library component)
+### Requirements:
+* PHP >= 5.3 (+ PHP cURL library)
+* Dune HD Player
+* PHP Server (requires PHP Client URL Library component)
 
-I have tested it with a Synology NAS server and a Dune HD Smart B1 media player.
-The Synology NAS server has PHP enabled if you set up a web service.
-
-
-Copy the content of the 'uitzendinggemist' to a web folder.
-Test the script with a webbrowser, by going to the corresponding URL in my case ('http://diskstation/uitzendinggemist/')
-
-Create a folder on some media accessable by your Dune HD player.
-
-Create an empty folder such as 'Uitzending gemist' and create a text-file 'dune_folder.txt'. 
-Put the following text in 'dune_folder.txt':
-
+### How to install
+* Install Uitzending Gemist service
+ * Download latest version of php-UitzendingGemist4DuneHD (http://github.com/Rodinia/php-UitzendingGemist4DuneHD)
+ * Extract distribution to your PHP enabled web server.
+ * Edit `/lib/config.php` to fit yout need.
+* Create short-cut for the DuneHD to access the service
+ * Now create an empty folder on any media accessable by you Dsuch as 'Uitzending gemist' and create a text-file 'dune_folder.txt'. 
+ * Put the following text in 'dune_folder.txt':
 ```
 # Link to my 'Uitzending Gemist'  
 media_url = dune_http://diskstation/uitzendinggemist/dune/
 ```
 
 Make sure you adjest media_url to you needs.
-It should start with 'dune_http://' and end the URL with 'dune/'.
-
-Update 'ugconfig.xml' to your needs.
+It should start with 'dune_http://' and the URL should end with 'dune/'.
 
 Source code available at: https://github.com/Rodinia/php-UitzendingGemist4DuneHD
 
