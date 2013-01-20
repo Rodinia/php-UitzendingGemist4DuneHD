@@ -41,7 +41,7 @@ use_icon_view = no
         
         foreach(readFavorites('vara') as $programma)
         {
-            vara_play($nr++, $programma['caption'], $programma['id']);
+            vara_play($nr++, $programma['title'], $programma['refid']);
         }
     }
     else if($what=='recprog')
@@ -63,7 +63,7 @@ use_icon_view = no
     
 	function vara_play($nr, $title, $mediaid)
 	{
-		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$mediaid.'&hq=1';
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname(dirname($_SERVER['PHP_SELF'])).'/vara_stream.php?type=dune&mediaid='.$mediaid;
         echo "\n";
 		writeItem($nr, $title, $url, 'play');
  	}

@@ -24,7 +24,7 @@ if( isset($_GET['rubriek']) )
 		
 		$media_id=split ( "/", $href);
 		
-		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/vara_play.php?mediaid='.$media_id[3].'&hq=1';
+		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname(dirname($_SERVER['PHP_SELF'])).'/vara_stream.php?type=dune&mediaid='.$media_id[3];
 		writeItem($nr++, $caption, $url, 'play');
 	}
 }
