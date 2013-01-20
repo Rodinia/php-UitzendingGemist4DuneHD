@@ -218,8 +218,9 @@
 	{
 		$url = makeAfleveringMetaDataUrl($epiid, $secret);
 
-		$dom = new DOMDocument();
-		$html = $dom->loadHTMLFile($url);
+		//$dom = new DOMDocument();
+		//$html = $dom->loadHTMLFile($url);
+        $dom = loadHtmlAsDom($url);
 
 		$result =  array();
 		foreach($dom->getElementsByTagName('aflevering') as $aflevering)

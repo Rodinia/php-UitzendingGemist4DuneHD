@@ -16,7 +16,7 @@
 
 	$streamUrl = getStreamUrl($epiid, $sessionKey, 'wmv', 'bb');
 
-	$infoUrl = makeStreamInfoUrl($epiid, $secret);
+	$infoUrl = makeStreamInfoUrl($epiid, $sessionKey);
 
 	$metaDataUrl = makeAfleveringMetaDataUrl($epiid, $sessionKey);
 
@@ -24,7 +24,7 @@
 	$streamInfoUrl = makeStreamInfoUrl($epiid, $sessionKey);
 	$playlistSerieMetaDataUrl = makePlaylistSerieMetaDataUrl($metaData['serie_id'], $sessionKey);
 	
-	$playerUrl = 'http://player.omroep.nl/?aflID='.$epiid.'&md5='.$hash;
+	//$playerUrl = 'http://player.omroep.nl/?aflID='.$epiid.'&md5='.$hash;
 
 	$prid = $metaData['prid']; // NPS_1207084
 	$sko_dt = $metaData['sko_dt']; // 20120905
@@ -33,13 +33,13 @@
 
 	$streamServerUrl = 'http://cgi.omroep.nl/cgi-bin/streams?'.$mediaPath;
 
-	function makePlayerUrl($epiid, $secret)
+	function makePlayerUrl($epiid, $sessionKey)
 	{
-		$md5 = episodeHash($epiid, $secret);
+		$md5 = episodeHash($epiid, $sessionKey);
 		return 'http://player.omroep.nl/xml/metaplayer.xml.php?aflID='.$epiid.'&md5='.$md5;
 	}
 
-	$playerUrl = makePlayerUrl($epiid, $secret);
+	$playerUrl = makePlayerUrl($epiid, null);
 
 	?>
 	<head>
@@ -56,8 +56,8 @@
 		<tr><td>Meta Data</td><td><a href="<?php print $metaDataUrl; ?>">Meta Data Episode <?php print $epiid ?></a></td></tr>
 		<tr><td>Stream Info</td><td><a href="<?php print $streamInfoUrl; ?>">Meta Data Stream Episode <?php print $epiid ?></a></td></tr>
 		<tr><td>Meta Data: prid</td><td><?php print $metaData['prid']; ?></td></tr>
-		<tr><td>ASX</td><td><a href="<?php print "../playlist.php?type=asx&epiid=$epiid"; ?>">ASX</a></td></tr>
-		<tr><td>Dune</td><td><a href="<?php print "../dune/duneplay.php?epiid=$epiid"; ?>">Dune link</a></td></tr>
+		<tr><td>ASX</td><td><a href="<?php print "../ug_stream.php?type=asx&epiid=$epiid"; ?>">ASX</a></td></tr>
+		<tr><td>Dune</td><td><a href="<?php print "../ug_stream.php?type=dune&epiid=$epiid"; ?>">Dune link</a></td></tr>
 		<tr><td>Player URL</td><td><a href="<?php print $playerUrl; ?>">Player URL</a></td></tr>
 		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/afleveringen/$localepiid"; ?>">Aflevering op Uitzending Gemist</a></td></tr>
 		<tr><th colspan="2">Programma / Serie:</th></tr>
