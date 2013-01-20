@@ -34,7 +34,9 @@ function writeIcon($num, $caption, $url, $url_icon = 0)
 
 function dunePlay($duneurl, $contentType)
 {
-	echo "# Dune play content-type: $contentType\n";
+	header('Content-type: text/plain');
+    
+    echo "# Dune play content-type: $contentType\n";
 	echo "# Dune play streamurl:    $duneurl\n";
 
 	if($contentType == 'video/mp4')

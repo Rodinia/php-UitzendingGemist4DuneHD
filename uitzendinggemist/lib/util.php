@@ -39,6 +39,7 @@ function loadXmlAsDom($url)
 	if( $useCurlLoad )
     {
         $xml = curlGet($url);
+        // echo "$xml\n";
         if(!$xml)
 		{
 			die('Failed to load XML from URL: '.$url.', error message: '.$last_error['message']);
@@ -49,6 +50,7 @@ function loadXmlAsDom($url)
     {
         $dom->load($url);
     }
+    return $dom;
 }
 
 // Work arround for PHP since character encoding does not working properly loading html into DOM

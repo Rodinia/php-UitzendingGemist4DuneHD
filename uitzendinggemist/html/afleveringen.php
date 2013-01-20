@@ -33,10 +33,10 @@
 			
 			echo '<tr>';
 			echo '<td>'.htmlspecialchars($episode['caption']).'</td>';
-			echo '<td><a href="../playlist.php?type=asx&'.$q_episode.'"><img alt="play" src="img/windows_media_player_32.png"/></a></td>';
-			echo '<td><a href="../playlist.php?type=m3u&'.$q_episode.'"><img alt="play" src="img/media-playback-start_32.png"/></a></td>';
+			echo '<td><a href="../ug_stream.php?type=asx&'.$q_episode.'"><img alt="play" src="img/windows_media_player_32.png"/></a></td>';
+			echo '<td><a href="../ug_stream.php?type=m3u&'.$q_episode.'"><img alt="play" src="img/media-playback-start_32.png"/></a></td>';
 			echo '<td><a href="episode.php?'.$q_episode.'">Meta Data</a></td>';
-			echo '<td><a href="../dune/duneplay.php?'.$q_episode.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
+			echo '<td><a href="../ug_stream.php?type=dune&'.$q_episode.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
 			//echo '<td><a href="'.makeSerieMetaDataUrl($amd['serie_id'], $sessionKey).'">Meta Data Serie</a></td>';
 			echo "</tr>\n";
 		}

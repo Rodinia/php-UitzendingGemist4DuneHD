@@ -74,7 +74,7 @@
             echo "<table>\n";
             foreach(readFavorites('vara') as $programma)
             {
-                write_vara_play_table_row($programma['title'], $programma['id']);
+                write_vara_play_table_row($programma['title'], $programma['refid']);
             }
             echo "</table>\n";
         }

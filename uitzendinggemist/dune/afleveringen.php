@@ -23,16 +23,15 @@
 		foreach($episodes as $episode)
 		{
 			$localepiid = $episode['localepiid'];
-			//$url = 'http://dune-gemist.xoomsite.com/?epiid='.$epiid.'&stap=3&dune=true';
-			$url = 'dune_'.$baseurl.'/duneplay.php?localepiid='.$localepiid;
+			$url = 'dune_'.$baseurl.'/ug_stream.php?type=dune&localepiid='.$localepiid;
 			echo "\n";
 			writeItem($num++, $episode['caption'], $url, 'play');
 		}
 		return $num;
 	}
 
-    $baseurl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
-    $imgdir=dirname($baseurl).'/img';
+    $baseurl = dirname('http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']));
+    $imgdir = $baseurl.'/img';
 
 	if($program_id)
 	{

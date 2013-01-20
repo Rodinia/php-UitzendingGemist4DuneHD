@@ -31,7 +31,6 @@
 		$xml = curlGet($videoUrl);
 		$xml = '<?xml version="1.0"?>'."\n".$xml;
 
-		error_reporting(E_ALL);
 		$dom = new DOMDocument();
 		$dom->loadXML($xml);
 
@@ -145,10 +144,10 @@
 	{
 		echo "<tr>\n";
         echo '<td>'.$title.'</td>';
-        echo '<td><a href="varaplay.php?mediaid='.$mediaid.'&type=asx"><img alt="play" src="../../html/img/windows_media_player_32.png"/></a></td>';
-		echo '<td><a href="varaplay.php?mediaid='.$mediaid.'&type=m3u"><img alt="play" src="../../html/img/media-playback-start_32.png"/></a></td>';
+        echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png"/></a></td>';
+		echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png"/></a></td>';
 		echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
-		echo '<td><a href="'.dune_url($mediaid).'"><i>Dune</i></a></td>';
+		echo '<td><a href="../vara_stream.php?type=dune&mediaid='.$mediaid.'"><img src="../../html/img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
         echo "</tr>\n";
 	}
 
