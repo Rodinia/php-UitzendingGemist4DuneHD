@@ -31,7 +31,7 @@ function registerMediaPlayer()
 	if( isRegistered($duneSerial) )
 	{
 		$stmt = $mysqli->prepare("UPDATE dunehd_player SET ipAddress=?, lastSeen=UTC_TIMESTAMP(), lang=?, userAgent=? WHERE duneSerial=?");
-		if(!stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+		if(!$stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
 		$stmt->bind_param('isss', ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT'], $duneSerial);
 	}
 	else
@@ -39,11 +39,15 @@ function registerMediaPlayer()
 		$stmt = $mysqli->prepare("INSERT INTO dunehd_player (duneSerial, ipAddress, firstSeen, lastSeen, lang, userAgent) VALUES(?, ?, UTC_TIMESTAMP(), firstSeen, ?, ?)");
         $stmt->bind_param('siss', $duneSerial, ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT']);
 		if(!stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+
     }
 	/* execute query */
 	$stmt->execute();
 	$stmt->close();
     $mysqli->close();
+
+    // initialize favorites
+
 }
 
 function isRegistered($duneSerial)
@@ -137,7 +141,12 @@ function getPlayersByRange($firstIp, $lastIp)
 
 function getRemoteIp()
 {
-    return $_SERVER['REMOTE_ADDR'];
+    /*
+	if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '')
+    {
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }*/
+    return getenv('REMOTE_ADDR'); //$_SERVER['REMOTE_ADDR'];
 }
 
 // ---- Provides access to storage of favorites in MySQL database ---
@@ -164,16 +173,16 @@ function addToFavorite($provider, $type, $refid, $title, $img = null)
     $mysqli->close();
 }
     
-function deleteFromFavorite($provider, $refid)
+function deleteFromFavorite($provider, $type, $refid)
 {
     $duneSerial = lookupDuneSerial() or die('Dune HD serial number cannot be null');
     
     $mysqli = connectToDb();
  
    /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("DELETE FROM favorite WHERE duneSerial=? AND provider=? AND refid=?") )
+    if( $stmt = $mysqli->prepare("DELETE FROM favorite WHERE duneSerial=? AND provider=? AND type=? AND refid=?") )
     {
-        $stmt->bind_param('sss', $duneSerial, $provider, $refid);
+        $stmt->bind_param('ssss', $duneSerial, $provider, $type, $refid);
 
         /* execute query */
         $stmt->execute() or die('# Query Error (' . $mysqli->errno . ') '.  $mysqli->error);
@@ -185,7 +194,7 @@ function deleteFromFavorite($provider, $refid)
     $mysqli->close();
 }
     
-function readFavorites($provider)
+function readFavorites($provider, $type)
 {
     $mysqli = connectToDb();
     
@@ -197,14 +206,14 @@ function readFavorites($provider)
     $favorites = array();
         
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT provider, type, refid, title, img FROM favorite WHERE duneSerial=? AND provider=? ORDER by title") )
+    if( $stmt = $mysqli->prepare("SELECT provider, refid, title, img FROM favorite WHERE duneSerial=? AND provider=? AND type=? ORDER by title") )
     {
         $stmt->bind_param('ss', $duneSerial, $provider);
 
         /* execute query */
         $stmt->execute();
         
-        $stmt->bind_result($provider, $type, $refid, $title, $img);
+        $stmt->bind_result($provider, $refid, $title, $img);
         while($stmt->fetch())
         {
             $favorite['type'] = $type;

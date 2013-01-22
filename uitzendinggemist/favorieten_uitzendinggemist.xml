@@ -1,168 +1,246 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ugconfig version="1.0">
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Huisje Boompje Beestje</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/044/863/500x140.jpg</banner>
-		<id>244-huisje-boompje-beestje</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Koekeloere</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/220/695/500x140.jpg</banner>
-		<id>242-koekeloere</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Engels met Raaf</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/044/865/500x140.jpg</banner>
-		<id>1661-engels-met-raaf</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Leesdas Lettervos Boekentas</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/044/864/500x140.jpg</banner>
-		<id>1319-leesdas-lettervos-boekentas</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>De Schatkist</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/214/093/250x140.jpg</banner>
-		<id>2222-de-schatkast</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Aarde en Ruimte</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/236/913/500x140.jpg</banner>
-		<id>1842-aarde-en-ruimte</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>HoelaHoep</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/244/493/500x140.jpg</banner>
-		<id>248-hoelahoep</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Nieuws uit de Natuur</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/152/790/500x140.jpg</banner>
-		<id>1327-nieuws-uit-de-natuur</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Flip de beer</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/236/164/140x140.jpg</banner>
-		<id>2200-flip-de-beer</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Rekenenverhalen</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/152/696/500x140.jpg</banner>
-		<id>410-rekenverhalen</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Rekenen met Schooltv</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/217/895/500x140.jpg</banner>
-		<id>252-rekenen-met-schooltv</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Dip en Dap</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/235/953/250x140.jpg</banner>
-		<id>446-dip-en-dap</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Grobbebollen maken lol</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/002/226/250x140.jpg</banner>
-		<id>457-grobbebollen-maken-lol</id>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Het Zandkasteel</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/044/861/500x140.jpg</banner>
-		<id>354-het-zandkasteel</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>De Fabeltjeskrant</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/236/067/250x140.jpg</banner>
-		<id>6635-de-fabeltjeskrant</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Woezel &amp; Pip</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/061/559/250x140.jpg</banner>
-		<id>2678-woezel-en-pip</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Het Klokuis</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/035/804/500x140.jpg</banner>
-		<id>290-het-klokhuis</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>SpangaS</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/012/607/500x140.jpg</banner>
-		<id>1153-spangas</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>NOS Journaal</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/006/790/500x140.png</banner>
-		<id>6-nos-journaal</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Nieuwsuur</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/062/548/500x140.jpg</banner>
-		<id>975-nieuwsuur</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Zembla</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/235/594/250x140.jpg</banner>
-		<id>181-zembla</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>De wereld draait door</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/012/589/500x140.jpg</banner>
-		<id>989-de-wereld-draait-door</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption> Pauw en Witteman</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/012/604/500x140.jpg</banner>
-		<id>962-pauw-witteman</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Opgelicht</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/012/973/500x140.jpg</banner>
-		<id>994-opgelicht</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>De Rijdende Rechter</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/199/901/500x140.jpg</banner>
-		<id>535-de-rijdende-rechter</id>
-	</programma>
-        <provider>uitzendinggemist</provider>
-		<caption>PowNews</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/057/107/500x140.jpg</banner>
-		<id>1225-pownews</id>
-	</programma>
-	<programma>
-        <provider>uitzendinggemist</provider>
-		<caption>Koefnoen</caption>
-		<banner>http://mediadb.omroep.nl/assets/000/100/824/500x140.jpg</banner>
-		<id>1102-koefnoen</id>
-	</programma>
-    <programma>
-		<caption>Reporter</caption>
-		<banner/>
-		<id>605-kro-reporter</id>
-	</programma>
+	<favorites>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Huisje Boompje Beestje</title>
+			<img>http://mediadb.omroep.nl/assets/000/044/863/250x140.jpg</img>
+			<refid>244-huisje-boompje-beestje</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Koekeloere</title>
+			<img>http://mediadb.omroep.nl/assets/000/220/695/250x140.jpg</img>
+			<refid>242-koekeloere</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Engels met Raaf</title>
+			<img>http://mediadb.omroep.nl/assets/000/044/865/250x140.jpg</img>
+			<refid>1661-engels-met-raaf</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Leesdas Lettervos Boekentas</title>
+			<img>http://mediadb.omroep.nl/assets/000/044/864/250x140.jpg</img>
+			<refid>1319-leesdas-lettervos-boekentas</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>De Schatkist</title>
+			<img>http://mediadb.omroep.nl/assets/000/214/093/250x140.jpg</img>
+			<refid>2222-de-schatkast</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Aarde en Ruimte</title>
+			<img>http://mediadb.omroep.nl/assets/000/236/913/250x140.jpg</img>
+			<refid>1842-aarde-en-ruimte</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>HoelaHoep</title>
+			<img>http://mediadb.omroep.nl/assets/000/244/493/250x140.jpg</img>
+			<refid>248-hoelahoep</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Nieuws uit de Natuur</title>
+			<img>http://mediadb.omroep.nl/assets/000/152/790/250x140.jpg</img>
+			<refid>1327-nieuws-uit-de-natuur</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Flip de beer</title>
+			<img>http://mediadb.omroep.nl/assets/000/236/164/140x140.jpg</img>
+			<refid>2200-flip-de-beer</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Rekenenverhalen</title>
+			<img>http://mediadb.omroep.nl/assets/000/152/696/250x140.jpg</img>
+			<refid>410-rekenverhalen</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Rekenen met Schooltv</title>
+			<img>http://mediadb.omroep.nl/assets/000/217/895/250x140.jpg</img>
+			<refid>252-rekenen-met-schooltv</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Dip en Dap</title>
+			<img>http://mediadb.omroep.nl/assets/000/235/953/250x140.jpg</img>
+			<refid>446-dip-en-dap</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Grobbebollen maken lol</title>
+			<img>http://mediadb.omroep.nl/assets/000/002/226/250x140.jpg</img>
+			<refid>457-grobbebollen-maken-lol</refid>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Het Zandkasteel</title>
+			<img>http://mediadb.omroep.nl/assets/000/044/861/250x140.jpg</img>
+			<refid>354-het-zandkasteel</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>De Fabeltjeskrant</title>
+			<img>http://mediadb.omroep.nl/assets/000/236/067/250x140.jpg</img>
+			<refid>6635-de-fabeltjeskrant</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Woezel &amp; Pip</title>
+			<img>http://mediadb.omroep.nl/assets/000/061/559/250x140.jpg</img>
+			<refid>2678-woezel-en-pip</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Het Klokuis</title>
+			<img>http://mediadb.omroep.nl/assets/000/035/804/250x140.jpg</img>
+			<refid>290-het-klokhuis</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>SpangaS</title>
+			<img>http://mediadb.omroep.nl/assets/000/012/607/250x140.jpg</img>
+			<refid>1153-spangas</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>NOS Journaal</title>
+			<img>http://mediadb.omroep.nl/assets/000/006/790/250x140.png</img>
+			<refid>6-nos-journaal</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Nieuwsuur</title>
+			<img>http://mediadb.omroep.nl/assets/000/062/548/250x140.jpg</img>
+			<refid>975-nieuwsuur</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Zembla</title>
+			<img>http://mediadb.omroep.nl/assets/000/235/594/250x140.jpg</img>
+			<refid>181-zembla</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>De wereld draait door</title>
+			<img>http://mediadb.omroep.nl/assets/000/012/589/250x140.jpg</img>
+			<refid>989-de-wereld-draait-door</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title> Pauw en Witteman</title>
+			<img>http://mediadb.omroep.nl/assets/000/012/604/250x140.jpg</img>
+			<refid>962-pauw-witteman</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Opgelicht</title>
+			<img>http://mediadb.omroep.nl/assets/000/012/973/250x140.jpg</img>
+			<refid>994-opgelicht</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>De Rijdende Rechter</title>
+			<img>http://mediadb.omroep.nl/assets/000/199/901/250x140.jpg</img>
+			<refid>535-de-rijdende-rechter</refid>
+		</favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>PowNews</title>
+			<img>http://mediadb.omroep.nl/assets/000/057/107/250x140.jpg</img>
+			<refid>1225-pownews</refid>
+		</favorite>
+		<favorite>
+			<provider>uitzendinggemist</provider>
+			<type>programma</type>
+			<title>Koefnoen</title>
+			<img>http://mediadb.omroep.nl/assets/000/100/824/250x140.jpg</img>
+			<refid>1102-koefnoen</refid>
+		</favorite>
+		<favorite>
+			<title>Reporter</title>
+			<type>programma</type>
+			<refid>605-kro-reporter</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Will and the People: Sensimilla</title>
+            <img>http://media.vara.nl/files/thumbnails/297412_WillandthePeopleLIVESensimilla_680x383.jpg</img>
+			<refid>206277</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Triggerfinger: I Follow Rivers, maar dan met kopjes!</title>
+			<refid>84673</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Beth Hart - Bang Bang Boom Boom</title>
+			<refid>187251</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Beth Hart - I need a dollar</title>
+			<refid>187252</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Beth Hart - Baddest</title>
+			<refid>187258</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Chilly Gonzales LIVE: Knight Moves</title>
+			<refid>198932</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Jake Bugg: Country Song</title>
+			<refid>197809</refid>
+		</favorite>
+		<favorite>
+			<provider>vara</provider>
+			<type>media</type>
+			<title>Live@Giel: Qeaux Qeaux Joans LIVE: While The Whole World's Asleep</title>
+			<refid>197882</refid>
+		</favorite>
+    </favorites>
 </ugconfig>

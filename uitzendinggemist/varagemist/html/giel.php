@@ -20,6 +20,27 @@
 </head>
 
 <body>
+	<script type="text/javascript">
+		function addToFavorites(refid, title, img)
+		{
+			var form = document.favorite;
+			form.refid.value = refid;
+			form.title.value = title;
+			form.img.value = img;
+			
+			window.open('', 'formresult', 'scrollbars=no,menubar=no,height=200,width=400,resizable=yes,toolbar=no,status=no');
+			
+			form.submit();
+		}
+	</script>
+	<form name="favorite" method="post" target="formresult" action="../../html/post_favorite.php">
+		<input type="hidden" name="do" value="add"/>
+		<input type="hidden" name="provider" value="vara"/>
+		<input type="hidden" name="type" value="media"/>
+		<input type="hidden" name="refid"/>
+		<input type="hidden" name="title"/>
+		<input type="hidden" name="img"/>
+	</form>	
    <h1><img src="../img/giel-logo.png" alt="GIEL"></h1>
    
 <?php
@@ -51,10 +72,31 @@
 		{
 			$a = $li->getElementsByTagName('a')->item(0);
 			$href = $a->getAttribute('href');
-			$caption = $li->getElementsByTagName('div')->item(0)->nodeValue;
-			$media_id=explode( "/", $href);
-			$media_id=$media_id[3];
-			write_vara_play_table_row($caption, $media_id);
+			$title = $li->getElementsByTagName('div')->item(0)->nodeValue;
+			$mediaid=explode( "/", $href);
+			$mediaid=$mediaid[3];
+			//write_vara_play_table_row($caption, $media_id);
+			
+			if($useMySQL)
+			{
+				require_once '../../lib/lib_storage.php';
+				$duneSerial = findSerialByIP();
+			}
+			
+			echo "<tr>\n";
+			echo '<td>'.$title.'</td>';
+			echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
+			echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
+			if(!$useMySQL || $duneSerial)
+			{
+				echo '<td>';
+				echo '<a href="#" id="bottle" onclick="addToFavorites(\''.$mediaid.'\',\''.$title.'\',null);return false;" >';
+				echo '<img src="../../html/img/add_to_favorite_22.png" alt="Add to favorite" class="actionIcon" title="Voeg to aan favorieten"/>';
+				echo '</a>';
+				echo '</td>';
+			}
+			echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
+			echo '<td><a href="../vara_stream.php?type=dune&mediaid='.$mediaid.'"><img src="../../html/img/dune_hd_logo.png" alt="Dune HD" title="Show DuneHD data"/></a></td>';
 		}
 	   echo "</table>\n";
 	}

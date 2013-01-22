@@ -19,7 +19,7 @@ async_icon_loading = yes
 	echo "background_path=$imgdir/background.jpg\n";
 
     $num = 0;
-	foreach(readFavorites('uitzendinggemist') as $programma)
+	foreach(readFavorites('uitzendinggemist', 'programma') as $programma)
 	{
 		writeProgramma($baseurl, $num++, $programma['title'], $programma['img'], $programma['refid']);
 	}

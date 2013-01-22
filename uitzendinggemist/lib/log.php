@@ -17,10 +17,9 @@
   //X-Dune-Interface-Language: dutch
   
   $headers = apache_request_headers();
-  $duneSerial = $headers['X-Dune-Serial-Number'];
-  $language = $headers['X-Dune-Interface-Language'];
-
-  $logentry = "$h $l $u [$t] \"$r\" $s $b \"$referer\" \"$useragent\" \"$language\" \"$duneSerial\"\r\n";
+  $duneSerial = isset($headers['X-Dune-Serial-Number']) ? $headers['X-Dune-Serial-Number'] : "";
+  
+  $logentry = "$h $l $u [$t] \"$r\" $s $b \"$referer\" \"$useragent\" \"$duneSerial\"\r\n";
 
   # Note the log file below needs to be writeable by user "apache"
   error_log($logentry, 3, dirname(dirname(__FILE__)).'/log.txt');

@@ -5,17 +5,19 @@
   <link href="application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<form name="favorite" method="post" target="formresult" action="post.php">
-    <input type="hidden" name="do"/ value="addProgram"/>
-    <input type="hidden" name="programid"/>
+<form name="favorite" method="post" target="formresult" action="post_favorite.php">
+    <input type="hidden" name="do" value="add"/>
+    <input type="hidden" name="provider" value="uitzendinggemist"/>
+	<input type="hidden" name="type" value="programma"/>
+	<input type="hidden" name="refid"/>
     <input type="hidden" name="title"/>
     <input type="hidden" name="img"/>
 </form>
 <script type="text/javascript">
-    function addToFavorites(programId, title, img)
+    function addToFavorites(refid, title, img)
     {
         var form = document.favorite;
-        form.programid.value = programId;
+        form.refid.value = refid;
         form.title.value = title;
         form.img.value = img;
         

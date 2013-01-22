@@ -142,13 +142,21 @@
 	
 	function write_vara_play_table_row($title, $mediaid)
 	{
-		echo "<tr>\n";
-        echo '<td>'.$title.'</td>';
-        echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png"/></a></td>';
-		echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png"/></a></td>';
+       echo  '<td>'.$title.'</td>';
+        echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
+		echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
 		echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
-		echo '<td><a href="../vara_stream.php?type=dune&mediaid='.$mediaid.'"><img src="../../html/img/dune_hd_logo.png" alt="Dune HD"/></a></td>';
-        echo "</tr>\n";
-	}
-
+		echo '<td><a href="../vara_stream.php?type=dune&mediaid='.$mediaid.'"><img src="../../html/img/dune_hd_logo.png" alt="Dune HD" title="Show DuneHD data"/></a></td>';
+ 	}
+	
+	/*
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`, `img`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '206277', 'Live@Giel: Will and the People: Sensimilla', 'http://media.vara.nl/files/thumbnails/297412_WillandthePeopleLIVESensimilla_680x383.jpg');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '84673', 'Live@Giel: Triggerfinger: I Follow Rivers, maar dan met kopjes!');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '187251', 'Live@Giel: Beth Hart: Bang Bang Boom Boom');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '187252', 'Live@Giel: Beth Hart - I need a dollar');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '187258', 'Live@Giel: Beth Hart - Baddest');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '198932', 'Live@Giel: Chilly Gonzales LIVE: Knight Moves');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '197809', 'Live@Giel: Jake Bugg: Country Song');
+	INSERT INTO `ug`.`favorite` (`duneSerial`, `provider`, `type`, `refid`, `title`) VALUES ('8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494', 'vara', 'media', '197882', 'Live@Giel: Qeaux Qeaux Joans LIVE: While The Whole World\'s Asleep');
+	*/
  ?>

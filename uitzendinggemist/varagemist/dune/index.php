@@ -8,24 +8,38 @@ use_icon_view = no
 	
 	require_once '../../lib/dune.php';
 	
-    $what = $_GET['what'];
     
     $nr = 0;
     
     $baseurl = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
     
+	if( isset($_POST['do']) )
+    {
+        $do = $_POST['do'];
+        $programId = $_POST['programid'];
+        if($do == 'delete')
+        {
+            deleteFromFavorite('vara', $programId);
+        }
+        else if($do == 'save')
+        {
+            echo "do=$do\n";
+        }
+        header( 'Location: '.$_POST['URL'] ) ;
+    }
+	
     if(!isset($_GET['what']))
     {
-            writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
-            writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
-            writeItem($nr++, "Recente programma's", $baseurl.'/?what=recprog', 'item');
-            writeItem($nr++, "Giel Rubrieken", $baseurl.'/giel.php', 'item');
-            exit;
+		$what = $_GET['what'];
+		writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
+		writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
+		writeItem($nr++, "Recente programma's", $baseurl.'/?what=recprog', 'item');
+		writeItem($nr++, "Giel Rubrieken", $baseurl.'/giel.php', 'item');
+		exit;
     }
-
+	$what = $_GET['what'];
+	
     require_once '../lib_vara.php';
-    
-    $what = $_GET['what'];
     
     if($what=='dezeweek')
     {
@@ -37,9 +51,9 @@ use_icon_view = no
     }
     if($what=='favo')
     {
-        require_once '../../lib/lib_store_xml.php';
+        require_once '../../lib/lib_storage.php';
         
-        foreach(readFavorites('vara') as $programma)
+        foreach(readFavorites('vara', 'media') as $programma)
         {
             vara_play($nr++, $programma['title'], $programma['refid']);
         }
