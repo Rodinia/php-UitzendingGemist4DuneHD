@@ -67,8 +67,7 @@ function getDuneSerial()
 {
     $headers = apache_request_headers();
     //return "FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF";
-	return "8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494";
-    return $headers['X-Dune-Serial-Number'];
+	return $headers['X-Dune-Serial-Number'];
 }
 
 function getDuneLang()

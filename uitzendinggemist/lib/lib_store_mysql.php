@@ -208,7 +208,7 @@ function readFavorites($provider, $type)
     /* create a prepared statement */
     if( $stmt = $mysqli->prepare("SELECT provider, refid, title, img FROM favorite WHERE duneSerial=? AND provider=? AND type=? ORDER by title") )
     {
-        $stmt->bind_param('ss', $duneSerial, $provider);
+        $stmt->bind_param('sss', $duneSerial, $provider, $type);
 
         /* execute query */
         $stmt->execute();
