@@ -7,7 +7,7 @@ PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 ## Use public Uitzending Gemist Dune HD service
 
 This application is hosted on the following location(s):
-* http://uitzendinggemist.is-great.org/dune/
+* http://uitzendinggemist.is-great.org/
 * http://uitzendinggemist.comule.com/ (Sorry, this MIRROR IS DOWN)
 
 Create an empty folder such as 'Uitzending Gemist' and create a text-file 'dune_folder.txt'. 
