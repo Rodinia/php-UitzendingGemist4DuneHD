@@ -34,7 +34,8 @@
 		return '../dune/vara_play.php?mediaid='.$mediaid;
 	}
 
-?><html>
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
   <title>VARA Gemist</title>
   <link href="varagemist.css" media="screen" rel="stylesheet" type="text/css" />
@@ -66,12 +67,10 @@ function writeDuneLink($what = null, $url = null)
     {
         $href .='?what='.$what;
         if($url)
-            $url .='&what='.$url;
+            $href .='&what='.$url;
     }
     echo '<a href="'.$href.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>';
 }
-
-
 
 if(!isset($_GET['what']))
 {
@@ -82,7 +81,7 @@ if(!isset($_GET['what']))
         <li><a href="?what=dezeweek">Deze week</a></li>
         <li><a href="?what=favo">Favorieten</a></li>
         <li><a href="?what=recprog">Recente programma's</a></li>
-        <li><a href="giel.php">Giel Rubrieken</a></li>
+        <li><a href="giel.php">Giel</a></li>
     <?php
 }
 else

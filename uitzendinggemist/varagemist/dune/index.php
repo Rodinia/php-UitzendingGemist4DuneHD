@@ -34,7 +34,7 @@ use_icon_view = no
 		writeItem($nr++, "Deze week", $baseurl.'/?what=dezeweek', 'item');
 		writeItem($nr++, "Favorieten", $baseurl.'/?what=favo', 'item');
 		writeItem($nr++, "Recente programma's", $baseurl.'/?what=recprog', 'item');
-		writeItem($nr++, "Giel Rubrieken", $baseurl.'/giel.php', 'item');
+		writeItem($nr++, "Giel", $baseurl.'/giel.php', 'item');
 		exit;
     }
 	$what = $_GET['what'];

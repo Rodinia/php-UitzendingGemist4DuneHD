@@ -2,7 +2,7 @@
 
     #Enable display errors
 	//ini_set('display_errors',1);
-	error_reporting(E_ALL);
+	error_reporting(E_ALL & ~E_NOTICE);
 
     require_once '../lib_giel.php';
     require_once '../lib_vara.php';
@@ -13,7 +13,8 @@
 		return '../dune/vara_play.php?mediaid='.$mediaid;
 	}
     
-?><html>
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
   <title>GIEL</title>
   <link href="varagemist.css" media="screen" rel="stylesheet" type="text/css" />
@@ -45,68 +46,84 @@
    
 <?php
 
-    function writeDuneLink($rubriek = null)
+    function writeDuneLink($vara_path)
     {
-        if($rubriek)
-		{
-			echo '<a href="../dune/giel.php?rubriek='.$rubriek.'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>';
-			echo '<a href="http://giel.vara.nl/rubrieken/'.$rubriek.'/">giel.vara.nl/rubrieken/'.$rubriek.'/</a>';
-		}
-		else
-		{
-			echo '<a href="../dune/giel.php"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>';
-			echo '<a href="http://giel.vara.nl/rubrieken/">giel.vara.nl/rubrieken/</a>';
-		}
-		echo "\n";
+        echo "<div>\n";
+        echo '<a href="../dune/giel.php?'.$_SERVER['QUERY_STRING'].'"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
+        echo '<a href="http://giel.vara.nl/'.$vara_path.'">giel.vara.nl/'.$vara_path.'</a>'."\n";
+        echo "</div>\n";
 	}
+
+    function writeCarouselItems($path)
+    {
+        echo "<table>\n";
+        foreach(getCarouselItems('http://giel.vara.nl/'.$path) as $li)
+        {
+            $a = $li->getElementsByTagName('a')->item(0);
+            $href = $a->getAttribute('href');
+            $title = $li->getElementsByTagName('div')->item(0)->nodeValue;
+            $mediaid=end(explode( "/", $href));
+
+            if($useMySQL)
+            {
+                require_once '../../lib/lib_storage.php';
+                $duneSerial = findSerialByIP();
+            }
+
+            echo "<tr>\n";
+            echo '<td>'.$title.'</td>';
+            echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
+            echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
+            if(!$useMySQL || $duneSerial)
+            {
+                echo '<td>';
+                echo '<a href="#" id="bottle" onclick="addToFavorites(\''.$mediaid.'\',\''.$title.'\',null);return false;" >';
+                echo '<img src="../../html/img/add_to_favorite_22.png" alt="Add to favorite" class="actionIcon" title="Voeg to aan favorieten"/>';
+                echo '</a>';
+                echo '</td>';
+            }
+            echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
+            echo '<td><a href="../vara_stream.php?type=dune&mediaid='.$mediaid.'"><img src="../../html/img/dune_hd_logo.png" alt="Dune HD" title="Show DuneHD data"/></a></td>';
+        }
+        echo "</table>\n";
+    }
 	
-	if( isset($_GET['rubriek']) )
+	if( isset($_GET['rubriek']) ) // GIEL Rubriek
 	{
-		// GIEL Rubriek
-		
 		$rubriek = $_GET['rubriek'];
-    
 		writeDuneLink($rubriek );
-		echo "<table>\n";
-		foreach(getCarouselItems($rubriek) as $li)
-		{
-			$a = $li->getElementsByTagName('a')->item(0);
-			$href = $a->getAttribute('href');
-			$title = $li->getElementsByTagName('div')->item(0)->nodeValue;
-			$mediaid=explode( "/", $href);
-			$mediaid=$mediaid[3];
-			//write_vara_play_table_row($caption, $media_id);
-			
-			if($useMySQL)
-			{
-				require_once '../../lib/lib_storage.php';
-				$duneSerial = findSerialByIP();
-			}
-			
-			echo "<tr>\n";
-			echo '<td>'.$title.'</td>';
-			echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
-			echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
-			if(!$useMySQL || $duneSerial)
-			{
-				echo '<td>';
-				echo '<a href="#" id="bottle" onclick="addToFavorites(\''.$mediaid.'\',\''.$title.'\',null);return false;" >';
-				echo '<img src="../../html/img/add_to_favorite_22.png" alt="Add to favorite" class="actionIcon" title="Voeg to aan favorieten"/>';
-				echo '</a>';
-				echo '</td>';
-			}
-			echo '<td><a href=http://omroep.vara.nl/media/'.$mediaid.'>omroep.vara.nl</a></td>';
-			echo '<td><a href="../vara_stream.php?type=dune&mediaid='.$mediaid.'"><img src="../../html/img/dune_hd_logo.png" alt="Dune HD" title="Show DuneHD data"/></a></td>';
-		}
-	   echo "</table>\n";
+
+        writeCarouselItems('rubrieken/'.$rubriek.'/');
+
 	}
-	else
+    else if( isset($_GET['artiest']) )
+    {
+        $artiest = $_GET['artiest'];
+        writeDuneLink('artiesten/artiest-detail/artikel/'.$artiest);
+        echo "<h3>$artiest</h3>\n"; // 'http://giel.vara.nl/artiesten/artiest-detail/artikel/'.$artiest
+        writeCarouselItems('artiesten/artiest-detail/artikel/'.$artiest.'/');
+    }
+    else if( isset($_GET['artiesten']) )
+    {
+        writeDuneLink('artiesten');
+        echo "<h3>Artiesten</h3>\n"; // 'http://giel.vara.nl/artiesten'
+        echo "<ul>\n";
+        foreach(getArtiesten() as $link)
+        {
+            $title = $link->nodeValue;
+            $href = $link->getAttribute('href');
+            $artiest = trim(substr($href, 33), "/");
+            $url = 'giel.php?artiest='.urlencode( $artiest);
+            echo '<li><a href="'.$url. '">'.$title.'</a></li>'."\n";
+        }
+        echo "</ul>\n";
+    }
+   	else if( isset($_GET['rubrieken']) )
 	{
 		// GIEL Rubrieken
 		
-		require_once('../lib_giel.php');
-		
-		writeDuneLink();
+		writeDuneLink('rubrieken/');
+		echo "<h3>Rubrieken</h3>\n";
 		echo "<ul>\n";
 		foreach(getGielRubrieken() as $rubriek)
 		{
@@ -117,10 +134,19 @@
 			echo '<li><a href="'.$url. '">'.$caption.'</a></li>'."\n";
 		}
 		echo "</ul>\n";
-	}
-    
-    
- ?> 
+
+        echo '<li><a href="giel.php?artiesten">Artiesten</a></li>'."\n";
+    }
+    else
+    {
+       // GIEL main
+       writeDuneLink('');
+       echo "<ul>\n";
+       echo '<li><a href="giel.php?rubrieken">Rubrieken</a></li>'."\n";
+       echo '<li><a href="giel.php?artiesten">Artiesten</a></li>'."\n";
+       echo "</ul>\n";
+    }
+ ?>
  </body>
 </html>
 
