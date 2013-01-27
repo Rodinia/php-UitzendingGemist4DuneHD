@@ -15,6 +15,7 @@ $baseurl = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
 function writeCarouselItems($path)
 {
     global $baseurl;
+    $vara_stream_url = dirname($baseurl).'/vara_stream.php?type=dune&mediaid=';
     $nr = 0;
     foreach(getCarouselItems('http://giel.vara.nl/'.$path) as $li)
     {
@@ -23,7 +24,7 @@ function writeCarouselItems($path)
         $title = $li->getElementsByTagName('div')->item(0)->nodeValue;
         $mediaid=end(explode( "/", $href));
 
-        $url = $baseurl.'/vara_stream.php?type=dune&mediaid='.$mediaid;
+        $url = $vara_stream_url.$mediaid;
         writeItem($nr++, $title, $url, 'play');
     }
 }
