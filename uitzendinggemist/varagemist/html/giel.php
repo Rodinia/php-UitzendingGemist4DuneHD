@@ -74,6 +74,7 @@
             echo '<td>'.$title.'</td>';
             echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
             echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
+            echo '<td><a href="../vara_stream.php?type=redirect&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/download.png" title="Direct link to media stream"/></a></td>';
             if(!$useMySQL || $duneSerial)
             {
                 echo '<td>';

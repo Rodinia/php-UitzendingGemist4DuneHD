@@ -6,7 +6,7 @@
      *   epiid = <Uitzending Gemist episode / aflevering ID>
      */
     
-    error_reporting(E_WARNING);
+    error_reporting(E_ALL & ~E_NOTICE);
     require_once 'lib/playlist.php';
 	require_once 'lib/lib_ugemist.php';
 	

@@ -12,11 +12,19 @@ function writePlaylist($streamurl, $type = 'asx', $contentType = false)
         case 'm3u': 
             write_m3u($streamurl);
             break;
+        case 'redirect':
+            redirectToUrl($streamurl);
+            break;
         case 'asx':
         default:    
             writeAsx($streamurl);
             break;
     }
+}
+
+function redirectToUrl($url)
+{
+    header('Location: '.$url);
 }
 
 function writeAsx($href)
@@ -94,7 +102,7 @@ function checkRedirectUrl($url, &$contentType)
     $headers = explode("\n", $out);
     foreach($headers as $header)
     {
-        //echo "# header: $header\n";
+        //echo "#[$url] header: $header\n";
         if( startsWith($header, 'Location: ') )
         {
             $location = substr($header, 10);
