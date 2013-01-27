@@ -66,8 +66,8 @@ function duneError($error)
 function getDuneSerial()
 {
     $headers = apache_request_headers();
-    //return "FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF";
-	return $headers['X-Dune-Serial-Number'];
+    //return isset($headers['X-Dune-Serial-Number']) ? $headers['X-Dune-Serial-Number'] : "FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF";
+    return $headers['X-Dune-Serial-Number'];
 }
 
 function getDuneLang()

@@ -32,12 +32,12 @@ function registerMediaPlayer()
 	{
 		$stmt = $mysqli->prepare("UPDATE dunehd_player SET ipAddress=?, lastSeen=UTC_TIMESTAMP(), lang=?, userAgent=?, hits=hits+1 WHERE duneSerial=?");
 		if(!$stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
-		$stmt->bind_param('isss', ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT'], $duneSerial);
+		$stmt->bind_param('isss', ip2long32(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT'], $duneSerial);
 	}
 	else
 	{
 		$stmt = $mysqli->prepare("INSERT INTO dunehd_player (duneSerial, ipAddress, firstSeen, lastSeen, lang, userAgent) VALUES(?, ?, UTC_TIMESTAMP(), firstSeen, ?, ?)");
-        $stmt->bind_param('siss', $duneSerial, ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT']);
+        $stmt->bind_param('siss', $duneSerial, ip2long32(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT']);
 		if(!stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
 
     }
@@ -79,7 +79,7 @@ function findSerialByIP()
     
 function getPlayerByIP()
 {
-	$numIp = ip2long(getRemoteIp());
+	$numIp = ip2long32(getRemoteIp());
 	
 	if($numIp > -1062731776 && $numIp < -1062666241) // Private range: 192.168.0.0 .. 192.168.255.255
 		$players = getPlayersByRange(-1062731776, -1062666241);
@@ -148,6 +148,19 @@ function getRemoteIp()
         return $_SERVER['HTTP_X_FORWARDED_FOR'];
     }*/
     return getenv('REMOTE_ADDR'); //$_SERVER['REMOTE_ADDR'];
+}
+
+function ip2long32($ipstr)
+{
+    $ip = ip2long($ipstr);
+    if (PHP_INT_SIZE == 8)
+    {
+        if ($ip>0x7FFFFFFF)
+        {
+            $ip-=0x100000000;
+        }
+    }
+    return $ip;
 }
 
 // ---- Provides access to storage of favorites in MySQL database ---

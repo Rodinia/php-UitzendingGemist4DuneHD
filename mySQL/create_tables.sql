@@ -1,15 +1,5 @@
 delimiter ;
 
-CREATE TABLE IF NOT EXISTS `dunehd_player` (
-  `duneSerial` CHAR(39) NOT NULL ,
-  `ipAddress` INT NOT NULL ,
-  `lastSeen` TIMESTAMP NOT NULL ,
-  `firstSeen` DATETIME NOT NULL ,
-  `lang` VARCHAR(15) NULL ,
-  `userAgent` VARCHAR(512) NULL ,
-  PRIMARY KEY (`duneSerial`) )
-ENGINE = InnoDB;
-
 CREATE TABLE `dunehd_player` (
   `duneSerial` char(39) NOT NULL,
   `ipAddress` int(11) NOT NULL,
@@ -20,3 +10,15 @@ CREATE TABLE `dunehd_player` (
   `userAgent` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`duneSerial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `favorite` (
+  `duneSerial` char(39) NOT NULL,
+  `provider` varchar(25) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `refid` varchar(80) NOT NULL,
+  `title` varchar(80) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`duneSerial`,`provider`,`type`,`refid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
