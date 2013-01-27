@@ -8,12 +8,12 @@ PHP script for indexing 'Uitzending Gemist' on Dune HD media player
 
 This application is hosted on the following location(s):
 * http://uitzendinggemist.is-great.org/
-* http://uitzendinggemist.comule.com/ (Sorry, this MIRROR IS DOWN)
+* Please contact us if you are willing to host a public mirror.
 
 Create an empty folder such as 'Uitzending Gemist' and create a text-file 'dune_folder.txt'. 
 Put the following text in 'dune_folder.txt':
 ```
-# Link to Uitzending Gemist running on comule.com
+# Link to Uitzending Gemist running on is-great.org (www.0fees.net)
 media_url = dune_http://uitzendinggemist.is-great.org/dune/
 ```
 
