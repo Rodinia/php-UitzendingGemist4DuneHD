@@ -155,31 +155,6 @@ else
 }
 ?>
 
- <?php
- 	/*
-	$json = getVaraProgramList();
-    echo "<pre>";
-	//var_dump($json);
-    echo "</pre>";
-
-	foreach(getVaraProgramList()->allProgramsAndSites as $program)
-    {
-		echo "<pre>";
-		//var_dump($program);
-		echo "</pre>";
-		$id=substr($program->url, 28);
-		str_replace('http://omroep.vara.nl/media/', '', $program->url);
-        echo "<tr>\n";
-        echo '<td><a href="vara_programma.php?url='.urlencode($program->url).'">'.$program->title.'</a></td>';
-        //echo '<td>'.$program->tvChannelIndex || "".'</td>';
-        //echo '<td>'.$program->radioChannelIndex || "".'</td>';
-		echo '<td><a href="'.$program->url.'">omroep.vara.nl</a></td>';
-        echo "</tr>\n";
-    }*/
-
-
- ?>
-
   </body>
 </html>
 
