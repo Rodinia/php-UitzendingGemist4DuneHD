@@ -30,7 +30,7 @@ function registerMediaPlayer()
 	$mysqli = connectToDb();
 	if( isRegistered($duneSerial) )
 	{
-		$stmt = $mysqli->prepare("UPDATE dunehd_player SET ipAddress=?, lastSeen=UTC_TIMESTAMP(), lang=?, userAgent=? WHERE duneSerial=?");
+		$stmt = $mysqli->prepare("UPDATE dunehd_player SET ipAddress=?, lastSeen=UTC_TIMESTAMP(), lang=?, userAgent=?, hits=hits+1 WHERE duneSerial=?");
 		if(!$stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
 		$stmt->bind_param('isss', ip2long(getRemoteIp()), getDuneLang(), $_SERVER['HTTP_USER_AGENT'], $duneSerial);
 	}
@@ -104,14 +104,14 @@ function getPlayersByRange($firstIp, $lastIp)
 	$result = array();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, firstSeen, lastSeen, lang, favorites, userAgent FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC") )
+    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, firstSeen, lastSeen, hits, lang, favorites, userAgent FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC") )
     {
         $stmt->bind_param('ii', $firstIp, $lastIp);
 
         /* execute query */
         $stmt->execute();
         
-        $stmt->bind_result($duneSerial, $ipAddress, $firstSeen, $lastSeen, $lang, $favorites, $userAgent);
+        $stmt->bind_result($duneSerial, $ipAddress, $firstSeen, $lastSeen, $hits, $lang, $favorites, $userAgent);
         
         $player = null;
         
@@ -122,6 +122,7 @@ function getPlayersByRange($firstIp, $lastIp)
             $player['ip'] = $ipAddress;
             $player['firstSeen'] = $firstSeen;
 			$player['lastSeen'] = $lastSeen;
+			$player['hits'] = $hits;
             $player['lang'] = $lang;
 			$player['favorites'] = $favorites;
 			$player['userAgent'] = $userAgent;

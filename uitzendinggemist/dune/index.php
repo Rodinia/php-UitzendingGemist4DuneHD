@@ -29,9 +29,9 @@ async_icon_loading = yes
 	writeIcon($num++, 'Omroepen', 'dune_'.$baseurl.'/omroepen.php', $imgdir.'/nlkijkt.jpg');
     writeIcon($num++, 'Regionale Omroepen', 'dune_'.$baseurl.'/regios.php', $imgdir.'/regionale_omroepen.png');
     writeIcon($num++, 'Programm\'s A..Z', 'dune_'.$baseurl.'/programmas_az.php', $imgdir.'/a-z.png');
-    writeIcon($num++, 'Zapp (6 - 12 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zapp', $imgdir.'/zapp.png');
-    writeIcon($num++, 'Zappelin (2 - 5 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zappelin', $imgdir.'/zappelin.png');
     writeIcon($num++, 'VARA Gemist', 'dune_'.$varagemisturl.'dune/', $imgdir.'/varagemist.png');
     writeIcon($num++, 'Giel', 'dune_'.$varagemisturl.'dune/giel.php', $varagemisturl.'/img/giel-logo.png');
+    writeIcon($num++, 'Zapp (6 - 12 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zapp', $imgdir.'/zapp.png');
+    writeIcon($num++, 'Zappelin (2 - 5 jaar)', 'dune_'.$baseurl.'/programmas.php?type=zappelin', $imgdir.'/zappelin.png');
     
 ?>

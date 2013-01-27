@@ -13,7 +13,7 @@
 	echo "<h2>Media Players</h2>\n";
     echo '<p>'.count($players).' Dune media players hebben tot nu toe gebruik gemaakt van deze mirror.</p>'."\n";
 	echo "<table class=\"matrix\">\n";
-	echo '<tr><th>Dune HD Media Player Serial</th><th>IP Address</th><th>Eerste bezoek</th><th>Laatst bezoek</th><th>#Favorieten</th><th>Language</th><th>DuneHD User-Agent</th></tr>'."\n";
+	echo '<tr><th>Dune HD Media Player Serial</th><th>IP Address</th><th>Eerste bezoek</th><th>Laatst bezoek</th><th>Hits</th><th>#Favorieten</th><th>Language</th><th>DuneHD User-Agent</th></tr>'."\n";
 	foreach(getPlayers() as $player)
 	{
 		echo '<tr>';
@@ -21,6 +21,7 @@
 		echo '<td align="middle">'.long2ip($player[ip]).'</td>';
 		echo '<td align="right">'.$player['firstSeen'].'</td>';
 		echo '<td align="right">'.$player['lastSeen'].'</td>';
+		echo '<td align="right">'.$player['hits'].'</td>';
 		echo '<td align="right">'.$player['favorites'].'</td>';
 		echo '<td>'.$player['lang'].'</td>';
 		echo '<td>'.$player['userAgent'].'</td>';
