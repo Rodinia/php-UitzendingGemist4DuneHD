@@ -3,7 +3,6 @@
 header('Content-type: text/plain; charset=utf-8');
 
 #Enable display errors
-error_reporting(E_WARNING);
 
 require_once '../lib_giel.php';
 require_once '../../lib/dune.php';
@@ -12,26 +11,22 @@ $nr = 0;
 
 $baseurl = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
 
-function writeCarouselItems($path)
+function writeCarouselItems($path, $imgXpath)
 {
     global $baseurl;
     $vara_stream_url = dirname($baseurl).'/vara_stream.php?type=dune&mediaid=';
     $nr = 0;
-    foreach(getCarouselItems('http://giel.vara.nl/'.$path) as $li)
+    foreach(getCarouselItems('http://giel.vara.nl/'.$path, $imgXpath) as $item)
     {
-        $a = $li->getElementsByTagName('a')->item(0);
-        $href = $a->getAttribute('href');
-        $title = $li->getElementsByTagName('div')->item(0)->nodeValue;
-        $mediaid=end(explode( "/", trim($href, '/')));
-
-        $url = $vara_stream_url.$mediaid;
-        writeItem($nr++, $title, $url, 'play');
+        writeItem($nr++, $item['title'], $vara_stream_url.$item['mediaid'], 'play', $item['imgsrc']);
     }
 }
 
 if( isset($_GET['rubriek']) )
 {
-	writeCarouselItems('rubrieken/'.$_GET['rubriek'].'/');
+	echo "use_icon_view = exlist\n";
+    echo "async_icon_loading = yes\n";
+    writeCarouselItems('rubrieken/'.$_GET['rubriek'].'/', 'img');
 }
 else if( isset($_GET['artiesten']) )
 {
@@ -47,7 +42,9 @@ else if( isset($_GET['artiesten']) )
 }
 else if( isset($_GET['artiest']) )
 {
-    writeCarouselItems('artiesten/artiest-detail/artikel/'.$_GET['artiest'].'/');
+	echo "use_icon_view = exlist\n";
+    echo "async_icon_loading = yes\n";
+    writeCarouselItems('artiesten/artiest-detail/artikel/'.$_GET['artiest'].'/', 'img[0]');
 }
 else if( isset($_GET['rubrieken']) )
 {

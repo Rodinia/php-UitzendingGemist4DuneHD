@@ -4,7 +4,6 @@ use_icon_view = no
 	header('Content-type: text/plain; charset=utf-8');
 
     #Enable display errors
-	error_reporting(E_WARNING);
 	
 	require_once '../../lib/dune.php';
 	
@@ -52,10 +51,12 @@ use_icon_view = no
     if($what=='favo')
     {
         require_once '../../lib/lib_storage.php';
-        
-        foreach(readFavorites('vara', 'media') as $programma)
+        echo "use_icon_view = exlist\n";
+        echo "async_icon_loading = yes\n";
+    
+        foreach(readFavorites('vara', 'media') as $favo)
         {
-            vara_play($nr++, $programma['title'], $programma['refid']);
+            vara_play($nr++, $favo['title'], $favo['refid'], $favo['img']);
         }
     }
     else if($what=='recprog')
@@ -75,11 +76,12 @@ use_icon_view = no
 		}
 	}
     
-	function vara_play($nr, $title, $mediaid)
+	function vara_play($nr, $title, $mediaid, $imgsrc = false)
 	{
 		$url = 'dune_http://'.$_SERVER['SERVER_NAME'].dirname(dirname($_SERVER['PHP_SELF'])).'/vara_stream.php?type=dune&mediaid='.$mediaid;
         echo "\n";
-		writeItem($nr, $title, $url, 'play');
+		echo "# img=$imgsrc\n";
+        writeItem($nr, $title, $url, 'play', $imgsrc);
  	}
 
 ?>

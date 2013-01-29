@@ -20,7 +20,23 @@ function getArtiest($url)
 
 function getCarouselItems($url)
 {
-    return getHttpItems($url, "//ul[@id='ankeilercarousel']/li");
+    $result = array();
+    foreach(getHttpItems($url, "//ul[@id='ankeilercarousel']/li") as $li)
+    {
+        $item = array();
+        $a = $li->getElementsByTagName('a')->item(0);
+        $item['href'] = $a->getAttribute('href');
+        $item['title'] = $li->getElementsByTagName('div')->item(0)->nodeValue;
+        $item['mediaid'] = end( explode("/", trim($item['href'], '/')) );
+        $item['url'] = $vara_stream_url.$mediaid;
+        $imgList = $a->getElementsByTagName('img');
+        if($imgList->length > 0 )
+        {
+            $item['imgsrc'] = $imgList->item(0)->getAttribute('src');
+        }
+        $result[] = $item;
+    }
+    return $result;
 }
 
 function getHttpItems($url, $xpathQuery)

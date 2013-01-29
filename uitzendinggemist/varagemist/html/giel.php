@@ -57,12 +57,9 @@
     function writeCarouselItems($path)
     {
         echo "<table>\n";
-        foreach(getCarouselItems('http://giel.vara.nl/'.$path) as $li)
+        foreach(getCarouselItems('http://giel.vara.nl/'.$path) as $item)
         {
-            $a = $li->getElementsByTagName('a')->item(0);
-            $href = $a->getAttribute('href');
-            $title = $li->getElementsByTagName('div')->item(0)->nodeValue;
-            $mediaid=end(explode( "/", trim($href, '/')));
+            $mediaid = $item['mediaid'];
             
             if($useMySQL)
             {
@@ -71,14 +68,14 @@
             }
 
             echo "<tr>\n";
-            echo '<td>'.$title.'</td>';
+            echo '<td>'.$item['title'].'</td>';
             echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
             echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
             echo '<td><a href="../vara_stream.php?type=redirect&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/download.png" title="Direct link to media stream"/></a></td>';
             if(!$useMySQL || $duneSerial)
             {
                 echo '<td>';
-                echo '<a href="#" id="bottle" onclick="addToFavorites(\''.$mediaid.'\',\''.$title.'\',null);return false;" >';
+                echo '<a href="#" id="bottle" onclick="addToFavorites(\''.$mediaid.'\',\''.$item['title'].'\',null);return false;" >';
                 echo '<img src="../../html/img/add_to_favorite_22.png" alt="Add to favorite" class="actionIcon" title="Voeg to aan favorieten"/>';
                 echo '</a>';
                 echo '</td>';

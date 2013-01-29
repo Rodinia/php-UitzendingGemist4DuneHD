@@ -10,13 +10,15 @@ if($useMySQL)
     registerMediaPlayer();
 }
 
-function writeItem($nr, $caption, $url, $action = 0)
+function writeItem($nr, $caption, $url, $action = false, $icon_url = false)
 {
 	$caption = str_replace("\n", ' ', $caption);
 	$caption = str_replace("\r", '', $caption);
 	echo "item.$nr.caption = $caption\n";
 	echo "item.$nr.media_url = $url\n";
 	if($action)
+		echo "item.$nr.icon_path = $icon_url\n";
+	if($icon_url)
 		echo "item.$nr.media_action = $action\n";
 }
 
