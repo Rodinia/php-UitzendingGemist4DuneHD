@@ -22,7 +22,7 @@ function writeCarouselItems($path)
         $a = $li->getElementsByTagName('a')->item(0);
         $href = $a->getAttribute('href');
         $title = $li->getElementsByTagName('div')->item(0)->nodeValue;
-        $mediaid=end(explode( "/", $href));
+        $mediaid=end(explode( "/", trim($href, '/')));
 
         $url = $vara_stream_url.$mediaid;
         writeItem($nr++, $title, $url, 'play');
