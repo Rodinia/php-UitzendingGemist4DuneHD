@@ -62,8 +62,8 @@
             $a = $li->getElementsByTagName('a')->item(0);
             $href = $a->getAttribute('href');
             $title = $li->getElementsByTagName('div')->item(0)->nodeValue;
-            $mediaid=end(explode( "/", $href));
-
+            $mediaid=end(explode( "/", trim($href, '/')));
+            
             if($useMySQL)
             {
                 require_once '../../lib/lib_storage.php';
@@ -92,10 +92,9 @@
 	if( isset($_GET['rubriek']) ) // GIEL Rubriek
 	{
 		$rubriek = $_GET['rubriek'];
-		writeDuneLink($rubriek );
-
-        writeCarouselItems('rubrieken/'.$rubriek.'/');
-
+        $path = 'rubrieken/'.$rubriek.'/';
+		writeDuneLink($path);
+        writeCarouselItems($path);
 	}
     else if( isset($_GET['artiest']) )
     {
