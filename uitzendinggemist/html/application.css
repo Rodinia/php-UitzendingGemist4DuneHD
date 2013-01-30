@@ -24,6 +24,11 @@ body
 	width: auto;
 }
 
+table
+{
+    border-collapse:collapse;
+} 
+
 table.touch
 {
 	border-spacing: 10px;

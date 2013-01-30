@@ -20,13 +20,17 @@
 		$itemQueries['program'] = "h2/a";
 		$itemQueries['episode'] = "h3/a";
 		$itemQueries['href'] = "h3/a/@href";
+        $itemQueries['data-images'] = "../div[@class='image']/a/img/@data-images";
 
 		$result = privWgetEpisodes($ug_search_url, "//li[@class='broadcast active']/div[@class='info']", $itemQueries, $max_pages, $page_offset);
 		foreach($result as $item)
 		{
-			$episodes[] = array(
-				'localepiid' => substr($item['href'], 14),
-				'caption' => $item['program'].' - '.$item['episode']
+			$images = explode(',', trim($item['data-images'], '[]'));
+            $img = trim($images[0], '"');
+            $episodes[] = array(
+				'refid' => substr($item['href'], 14),
+				'title' => $item['program'].' - '.$item['episode'],
+                'img'   => str_replace('140x79', '280x148', $img)
 			);
 		}
 		return $episodes;
