@@ -68,7 +68,8 @@
             }
 
             echo "<tr>\n";
-            echo '<td>'.$item['title'].'</td>';
+            echo '<td rowspan="2"><img src="'.$item['imgsrc'].'" alt="" title="'.$item['title'].'"/></td>';
+            echo '<td colspan="6">'.$item['title'].'</td></tr><tr>';
             echo '<td><a href="../vara_stream.php?type=asx&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/windows_media_player_32.png" title="Play using Windows Media Player"/></a></td>';
             echo '<td><a href="../vara_stream.php?type=m3u&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/media-playback-start_32.png" title="M3U Playlist"/></a></td>';
             echo '<td><a href="../vara_stream.php?type=redirect&mediaid='.$mediaid.'"><img alt="play" src="../../html/img/download.png" title="Direct link to media stream"/></a></td>';
