@@ -65,9 +65,8 @@
 	//echo "<p>Message: $message</p>";
     if($useMySQL)
     {
-		$duneSerial = findSerialByIP();
-        
-		if($duneSerial)
+		$duneSerial = isset($_GET['serial']) ? $_GET['serial'] : findSerialByIP();
+        if($duneSerial)
         {
             echo '<p>Dune HD media speler gevonden: '.$duneSerial.'</p>'."\n";
         }
@@ -80,7 +79,7 @@
     echo '<p>Klik op het <img src="img/add_to_favorite_22.png" alt="rode hartje"/> bij de programma vermelding, om dat programma toe te voegen aan deze favorieten lijst.</p>'."\n";
 	echo "<table class=\"touch\">\n";
 	
-    foreach(readFavorites('uitzendinggemist', 'programma') as $programma)
+    foreach(readFavorites('uitzendinggemist', 'programma', $duneSerial) as $programma)
     {
         writeProgramma($programma['title'], $programma['img'], $programma['refid']);
     }

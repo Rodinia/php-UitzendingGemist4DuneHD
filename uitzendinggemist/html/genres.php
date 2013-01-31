@@ -9,13 +9,7 @@
 <?php
 	require_once '../lib/lib_ugemist.php';
 
-    #Enable display errors
-	//ini_set('display_errors',1);
-	error_reporting(E_ALL);
-	
-	//header('Content-type: text/plain');
-	
-	echo "<h1>Genres</h1>\n";
+    echo "<h1>Genres</h1>\n";
 	echo '<a href="http://www.uitzendinggemist.nl/genres"><img src="img/ug-header-logo.png" alt="Uitzending Gemist: $program_id"/></a>'."\n";
 	echo '<a href="../dune/genres.php" alt="Dune HD"/><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>'."\n";
 	
@@ -41,9 +35,6 @@
 		}
 		
 		echo '<td class="touch"><a href="programmas.php?genre='.urlencode($genreId).'">'.'<img src="http:'.$imgsrc.'" alt="'.$title.'"/>'.$title.'</a></td>';
-		//echo '<td class="touch"><a href="programmas.php?genre=comedy">'.'<img src="http:'.$imgsrc.'" alt="'.$title.'"/></a></td>';
-		//echo '<td><a href="http://www.uitzendinggemist.nl'.$href.'">Naar Uitzending Gemist</a></td>';
-		//echo "</tr>\n";
 	}
 
 	echo "</table>\n";

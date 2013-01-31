@@ -26,12 +26,13 @@ body
 
 table
 {
-    border-collapse:collapse;
+    border-collapse: collapse;
 } 
 
 table.touch
 {
-	border-spacing: 10px;
+	border-collapse: separate;
+    border-spacing: 10px;
 }
 
 img.actionIcon

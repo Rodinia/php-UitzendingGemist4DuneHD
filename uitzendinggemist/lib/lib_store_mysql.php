@@ -208,14 +208,14 @@ function deleteFromFavorite($provider, $type, $refid)
     $mysqli->close();
 }
     
-function readFavorites($provider, $type)
+function readFavorites($provider, $type, $duneSerial = false)
 {
     $mysqli = connectToDb();
     
     require_once dirname(__FILE__).'/dune.php';
     
-    $duneSerial = lookupDuneSerial();
-    if($duneSerial == null) die('Failed to resolve Dune HD Serial');
+    if(!$duneSerial) $duneSerial = lookupDuneSerial();
+    if(!$duneSerial) die('Failed to resolve Dune HD Serial');
   
     $favorites = array();
         

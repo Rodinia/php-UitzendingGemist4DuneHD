@@ -22,7 +22,7 @@
 		echo '<td align="right">'.$player['firstSeen'].'</td>';
 		echo '<td align="right">'.$player['lastSeen'].'</td>';
 		echo '<td align="right">'.$player['hits'].'</td>';
-		echo '<td align="right">'.$player['favorites'].'</td>';
+		echo '<td align="right"><a href="favorieten.php?serial='.$player['serial'].'">'.$player['favorites'].'</a></td>';
 		echo '<td>'.$player['lang'].'</td>';
 		echo '<td>'.$player['userAgent'].'</td>';
 		echo "</tr>\n";
