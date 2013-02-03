@@ -7,8 +7,14 @@
 
    <body>
       <h1><img src="img/uitzendinggemist_60.png"/>Uitzending Gemist</h1>
-	  <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD"/></a>
+	  <a href="../dune/"><img src="img/dune_hd_logo.png" alt="Dune HD" title="DuneHD data (DUNE_FOLDER.TXT mechanism)"/></a>
 
+      <div id="searchbar">
+		<form method="get" action="programmas.php" id="wideZoek">
+			<input type="text" name="search" class="zoekterm" value="" /> <input type="image" src="img/zoekbutton.png" class="zoekbutton" alt="Zoek" />
+		</form>
+      </div>
+      
       <table class="touch">
 		<tr>
 			<td><a href="favorieten.php"><img src="../img/favorites.png">Favorieten</a/></td>

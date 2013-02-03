@@ -6,13 +6,7 @@
     # Suppress DOM warnings
     libxml_use_internal_errors(true);
     
-    function wgetEpisodesByProgramId($programId, $max_pages, $page_offset = 1)
-	{
-		$ug_search_url = 'http://www.uitzendinggemist.nl/programmas/'.$programId.'/afleveringen?';
-        return wgetEpisodes($ug_search_url, $max_pages, $page_offset);
-	}
-	
-	function wgetEpisodesWeekarchief($ug_search_url, $max_pages, $page_offset = 1)
+    function wgetEpisodesWeekarchief($ug_search_url, $max_pages, $page_offset = 1)
 	{
 		$episodes = array(); // result
 
@@ -40,18 +34,17 @@
 	{
 		$episodes = array(); // result
 
-		$itemQueries = array(); // result
-		$itemQueries['episode'] = "h3/a";
-		$itemQueries['href'] = "h3/a/@href";
-		//$itemQueries['data-remote-id'] = "@data-remote-id";
+		$itemQueries = array(
+            'episode' => 'h3/a',
+            'href'    => 'h3/a/@href');
 
 		$result = privWgetEpisodes($ug_search_url, "//ul/li[@class='episode active knav']/div[@class='description']", $itemQueries, $max_pages, $page_offset);
 		foreach($result as $item)
 		{
 			$episodes[] = array(
-				'localepiid' => substr($item['href'], 14),
+				'refid' => substr($item['href'], 14),
 				//'remoteepiid' => $item['data-remote-id'],
-				'caption' => $item['episode']
+				'title' => $item['episode']
 			);
 		}
 		return $episodes;
@@ -73,6 +66,18 @@
 		
         return privWgetEpisodes($ug_search_url, $query, $itemQueries, $max_pages, $page_offset);
     }
+    
+    function wgetSearchPrograms($ug_search_url, $max_pages = 1, $page_offset = 1)
+    {
+        $itemQueries = array(); // result
+		$itemQueries['name'] = "h3/a";
+		$itemQueries['href'] = "h3/a/@href";
+        $itemQueries['data-images'] = "div[@class='img']/a/img/@data-images";
+        
+        $query="//ul[@id='series-result']/li[@class='series knav']/div[@class='wrapper']";
+		
+        return privWgetEpisodes($ug_search_url, $query, $itemQueries, $max_pages, $page_offset);
+    }
 	
 	function privWgetEpisodes($ug_search_url, $query, $itemQueries, $max_pages, $page_offset = 1)
 	{
@@ -85,7 +90,7 @@
 		do
 		{
 			$url = $ug_search_url.(strpos($ug_search_url, '?') ? '&':'?').'page='.$page++;
-			//echo "<p>url = $url</p>\n";
+			//echo "<p>Read from url = $url</p>\n";
 			$dom = loadHtmlAsDom($url);
 			$xpath = new DOMXpath($dom);
             $pagefound = false;

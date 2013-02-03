@@ -97,3 +97,40 @@ table.touch a
 	color: #FFA31A;
 }
 
+#searchbar {
+    height: 36px;
+    left: 380px;
+    position: absolute;
+    top: 30px;
+    width: 394px;
+}
+
+
+#searchbar form {
+    position: relative;
+}
+form {
+    margin: 0;
+    padding: 0;
+}
+
+
+#searchbar input.zoekterm {
+    background-image: url("img/vergrootglas.png");
+    background-repeat: no-repeat;
+    height: 22px;
+    left: 0;
+    line-height: 20px;
+    padding-left: 20px;
+    padding-top: 3px;
+    position: absolute;
+    top: 2px;
+    width: 279px;
+}
+
+#searchbar input.zoekbutton {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+

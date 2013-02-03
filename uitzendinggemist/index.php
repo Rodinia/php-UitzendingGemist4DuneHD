@@ -6,12 +6,8 @@
  </head>
 
   <body>
-    <h1><img src="html/img/ug-header-logo.png" width="50"/>Uitzending Gemist</h1>
-    <h2>HTML Pages</h2>
-    <p>Click on the Dune HD logo, to view the corresponding page in Dune HD 'meta data'.</p> 
-	<ul>
-	  <li><a href="html/">Uitzending Gemist</a/></li>
-	</ul>
+    <h1><img src="html/img/ug-header-logo.png" width="50" title="DuneHD data (DUNE_FOLDER.TXT mechanism)"/>Uitzending Gemist</h1>
+    <h2>HTML Pagina's: <a href="html/">Uitzending Gemist</a/></h2>
 
      <h2>Dune Installatie</h2>
      <p>Maak in op bron, waar de Dune media speler toegang toe heeft, een folder aan 'Uitzending gemist'.

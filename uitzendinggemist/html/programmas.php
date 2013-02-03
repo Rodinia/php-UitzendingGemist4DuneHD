@@ -62,6 +62,8 @@
 	{
 		global $duneSerial, $useMySQL;
         
+        //echo "<p>Series:".var_dump($series)."</p>\n";
+
         echo "<table class=\"touch\">\n";
         //echo "<tr><th>Programma</th><th>ID</th><th>Externe link</th></tr>\n";
 
@@ -100,7 +102,26 @@
         echo "</table>\n";
 	}
 
-	if( isset($_GET['suffix']) )
+    if( isset($_GET['search']) )
+    {
+        $search = $_GET['search'];
+        echo '<h1><img src="img/uitzendinggemist_60.png"/>Uitzending Gemist</h1>';
+        echo '<div id="searchbar">';
+		echo '<form method="get" action="programmas.php" id="wideZoek">';
+		echo '<input type="text" name="search" class="zoekterm" value="'.$search.'" /> <input type="image" src="img/zoekbutton.png" class="zoekbutton" alt="Zoek" />';
+		echo '</form>';
+        echo '</div>';
+        
+        $urlug = 'http://www.uitzendinggemist.nl/zoek?q='.urlencode($search);
+        
+        $maxPages = 1;
+        $series = wgetSearchPrograms($urlug, $maxPages, $pageOffset);
+        $pageOffset += $maxPages;
+        listSeries($series, '&page='.$pageOffset);
+        
+        showLinks($urlug);
+    }
+	else if( isset($_GET['suffix']) )
     {
         $suffix = $_GET['suffix'];
         echo "<h1>Programma lijst $suffix</h1>\n";
