@@ -33,18 +33,25 @@
 		$episodes = array(); // result
 
         $itemQueries = array(
-            'episode' => 'h3/a',
-            'href'    => 'h3/a/@href',
-            'data-images' => "../div[@class='image']/a/img/@data-images");
+            'episode'     => 'h3/a',
+            'href'        => 'h3/a/@href',
+            'data-images' => "../div[@class='image']/a/img/@data-images",
+            'description' =>  ".");
 
 		$result = privWgetEpisodes($ug_search_url, "//ul/li[@class='episode active knav']/div[@class='description']", $itemQueries, $max_pages, $page_offset);
 		foreach($result as $item)
 		{
-			$episodes[] = array(
+			$description = false;
+            foreach(preg_split("/((\r?\n)|(\r\n?))/", trim($item['description'])) as $line)
+            {
+                $description = trim($line);
+            }
+            
+            $episodes[] = array(
 				'refid' => substr($item['href'], 14),
                 'img' => getImgSrcFromDataImages($item['data-images']),
-				'title' => $item['episode']
-			);
+				'title' => $item['episode'],
+				'description' => $description);
 		}
 		return $episodes;
 	}

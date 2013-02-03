@@ -10,16 +10,18 @@ if($useMySQL)
     registerMediaPlayer();
 }
 
-function writeItem($nr, $caption, $url, $action = false, $icon_url = false)
+function writeItem($nr, $caption, $url, $action = false, $icon_url = false, $detailed_info = false)
 {
 	$caption = str_replace("\n", ' ', $caption);
 	$caption = str_replace("\r", '', $caption);
 	echo "item.$nr.caption = $caption\n";
 	echo "item.$nr.media_url = $url\n";
-	if($action)
-		echo "item.$nr.icon_path = $icon_url\n";
-	if($icon_url)
-		echo "item.$nr.media_action = $action\n";
+    if($action)        echo "item.$nr.icon_path = $icon_url\n";
+	if($icon_url)      echo "item.$nr.media_action = $action\n";
+    if($detailed_info) echo "item.$nr.item_detailed_info = $detailed_info\n";
+
+    //echo "item.$nr.item_small_icon_name = video_file\n";
+    //echo "item.$nr.folder_small_icon_name = video_file\n";
 }
 
 function writeIcon($num, $caption, $url, $url_icon = 0)
