@@ -19,12 +19,10 @@
 		$result = privWgetEpisodes($ug_search_url, "//li[@class='broadcast active']/div[@class='info']", $itemQueries, $max_pages, $page_offset);
 		foreach($result as $item)
 		{
-			$images = explode(',', trim($item['data-images'], '[]'));
-            $img = trim($images[0], '"');
-            $episodes[] = array(
+			$episodes[] = array(
 				'refid' => substr($item['href'], 14),
 				'title' => $item['program'].' - '.$item['episode'],
-                'img'   => str_replace('140x79', '280x148', $img)
+                'img'   =>  getImgSrcFromDataImages($item['data-images'])
 			);
 		}
 		return $episodes;
@@ -34,21 +32,29 @@
 	{
 		$episodes = array(); // result
 
-		$itemQueries = array(
+        $itemQueries = array(
             'episode' => 'h3/a',
-            'href'    => 'h3/a/@href');
+            'href'    => 'h3/a/@href',
+            'data-images' => "../div[@class='image']/a/img/@data-images");
 
 		$result = privWgetEpisodes($ug_search_url, "//ul/li[@class='episode active knav']/div[@class='description']", $itemQueries, $max_pages, $page_offset);
 		foreach($result as $item)
 		{
 			$episodes[] = array(
 				'refid' => substr($item['href'], 14),
-				//'remoteepiid' => $item['data-remote-id'],
+                'img' => getImgSrcFromDataImages($item['data-images']),
 				'title' => $item['episode']
 			);
 		}
 		return $episodes;
 	}
+    
+    function getImgSrcFromDataImages($data_images)
+    {
+        $images = explode(',', trim($data_images, '[]'));
+        $img = trim($images[0], '"');
+        return str_replace('140x79', '280x148', $img);
+    }
     
     function wgetProgramsAZ($suffix, $max_pages, $page_offset)
     {
