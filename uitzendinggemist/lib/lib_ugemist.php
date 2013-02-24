@@ -38,7 +38,7 @@
             'data-images' => "../div[@class='image']/a/img/@data-images",
             'description' =>  ".");
 
-		$result = privWgetEpisodes($ug_search_url, "//ul/li[@class='episode active knav']/div[@class='description']", $itemQueries, $max_pages, $page_offset);
+		$result = privWgetEpisodes($ug_search_url, "//ul/li[@class='episode active']/div[@class='description']", $itemQueries, $max_pages, $page_offset);
 		foreach($result as $item)
 		{
 			$description = false;
