@@ -131,7 +131,8 @@
 		$dom = loadHtmlAsDom('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
 		$xpath = new DOMXpath($dom);
      	$domnodelist = $xpath->query("//span[@id='episode-data']");
-		return $domnodelist->item(0)->getAttribute('data-episode-id');
+		//return $domnodelist->item(0)->getAttribute('data-episode-id');
+		return $domnodelist->item(0)->getAttribute('data-player-id');
 	}
 	
 	// compressie_formaat should be one of:  wmv|mov|wvc1
