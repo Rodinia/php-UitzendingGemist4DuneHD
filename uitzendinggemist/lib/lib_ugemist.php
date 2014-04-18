@@ -132,6 +132,7 @@
 		//echo '#   url = http://www.uitzendinggemist.nl/afleveringen/'.$localepiid."\n";
 		$dom = loadHtmlAsDom('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
 		$xpath = new DOMXpath($dom);
+<<<<<<< HEAD
      	$ed = $xpath->query("//span[@id='episode-data']")->item(0);
 		$eda = array();
 		foreach ($ed->attributes as $name => $value) $eda[$name] = $value->value;
@@ -144,6 +145,12 @@
         $epData = wgetEpisodeData($localepiid);
 		return $epData['data-episode-id'];
     }
+=======
+     	$domnodelist = $xpath->query("//span[@id='episode-data']");
+		//return $domnodelist->item(0)->getAttribute('data-episode-id');
+		return $domnodelist->item(0)->getAttribute('data-player-id');
+	}
+>>>>>>> fa0dcc354e476fcfa828c8af6c24ecef47dc0050
 	
 	// compressie_formaat should be one of:  wmv|mov|wvc1
 	// compressie_kwaliteit  should be one of: sb|bb|std (low to high)
