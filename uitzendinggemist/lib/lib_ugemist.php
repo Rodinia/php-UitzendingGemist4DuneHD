@@ -124,15 +124,26 @@
 
 		return $episodes;
 	}
-    
+     
 	// Resolve remote-episode-ID base on local-episode-ID 
-	function wgetEpisodeId($localepiid)
+	function wgetEpisodeData($localepiid)
 	{
+		//echo "# wgetEpisodeId($localepiid)\n";
+		//echo '#   url = http://www.uitzendinggemist.nl/afleveringen/'.$localepiid."\n";
 		$dom = loadHtmlAsDom('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
 		$xpath = new DOMXpath($dom);
-     	$domnodelist = $xpath->query("//span[@id='episode-data']");
-		return $domnodelist->item(0)->getAttribute('data-episode-id');
-	}
+     	$ed = $xpath->query("//span[@id='episode-data']")->item(0);
+		$eda = array();
+		foreach ($ed->attributes as $name => $value) $eda[$name] = $value->value;
+		//print_r($eda);
+		return $eda;
+    }
+    
+    function wgetEpisodeId($localepiid)
+    {
+        $epData = wgetEpisodeData($localepiid);
+		return $epData['data-episode-id'];
+    }
 	
 	// compressie_formaat should be one of:  wmv|mov|wvc1
 	// compressie_kwaliteit  should be one of: sb|bb|std (low to high)
@@ -151,9 +162,65 @@
 	
 	// stream attribute "compressie_formaat"   should is likely one of: wmv|mov|wvc1
 	// stream attribute "compressie_kwaliteit" should is likely one of: sb|bb|std    (low to high)
-	function getStreams($epiid, $secret)
+	function getStreams($ed)
 	{
-		$infoUrl = makeStreamInfoUrl($epiid, $secret);
+		//print_r($ed);
+        if( $ed['data-episode-id'] != null )
+        {
+            $secret = getSessionKey();
+            return getStreamsByEpisodeId($ed['data-episode-id'], $secret);
+        }
+        else
+        {
+            return getStreamsByPlayerId($ed['data-player-id']);
+        }
+    }
+    // http://ida.omroep.nl/odi/?prid=VPWON_1219719&puboptions=adaptive,h264_bb,h264_sb,h264_std&adaptive=yes&part=1&token=gbq5f6ov0jqv05u5lj5t98p5j3&callback=jQuery18207517273030243814_1395569608767&_=1395569609791
+
+    function getStreamsByPlayerId($playerid)
+	{
+        //echo "# getStreamsByPlayerId($playerid)\n";
+        
+        $token = getPlayerToken();
+        $time = time();
+        //echo "#   token = $token\n";
+        //echo "#   time  = $time\n";
+        
+        $url ='http://ida.omroep.nl/odi/?prid='.$playerid.
+            '&puboptions=adaptive,h264_bb,h264_sb,h264_std,wmv_bb,wmv_sb,wvc1_std'.
+			'&adaptive=no'.
+			'&part=1'.
+			'&token='.$token.
+            '&callback=cb'.
+            '&_='.$time;
+
+        //echo "#   url   = $url\n";
+        return getJson($url);
+    }
+    
+    function getJson($url)
+    {
+        $contents = file_get_contents($url); 
+        $contents = utf8_encode($contents);
+        preg_match('#\((.*?)\)#', $contents, $matches); // Keep oonly JSON structure
+        return json_decode($matches[1], true);
+    }
+
+    function getPlayerToken()
+    {
+        $contents = file_get_contents('http://ida.omroep.nl/npoplayer/i.js'); 
+        $contents = utf8_encode($contents); 
+        //preg_match('/"((?:\\"|[^"])*)"/', $contents, $matches);
+        preg_match('/"([^"]*)"/', $contents, $matches); 
+        return $matches[1]; 
+    }
+
+    function getStreamsByEpisodeId($epiid, $secret)
+	{    
+        //echo "# getStreams($epiid, $secret)\n";
+        $infoUrl = makeStreamInfoUrl($epiid, $secret);
+       
+		//echo "# infoUrl=$infoUrl\n";
 
 		$dom = new DOMDocument();
 		//echo "# wget Stream Info: $infoUrl\n";
@@ -228,6 +295,7 @@
 	
 	function makeStreamInfoUrl($epiid, $secret)
 	{
+		//echo "# makeStreamUrl(epiid=$epiid, secret=$secret)\n";
 		return 'http://pi.omroep.nl/info/stream/aflevering/'. $epiid .'/'. episodeHash($epiid, $secret);
 	}
 
@@ -270,6 +338,7 @@
 
 	function makeStreamUrl($epiid, $secret)
 	{
+		//echo "# makeStreamUrl(epiid=$epiid, secret=$secret)\n";
 		return 'http://pi.omroep.nl/info/stream/aflevering/'. $epiid .'/'. episodeHash($epiid, $secret);
 	}
 

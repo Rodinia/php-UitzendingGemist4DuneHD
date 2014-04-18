@@ -1,6 +1,7 @@
 <?php
 	#Enable display errors
-	
+	error_reporting(E_WARNING);
+    
 	header('Content-type: text/plain; charset=utf-8'); // is this the best charset?
     
     require_once '../lib/lib_ugemist.php';

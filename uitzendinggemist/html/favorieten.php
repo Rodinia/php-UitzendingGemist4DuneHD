@@ -1,7 +1,7 @@
 <?php
     
     #Enable display errors
-	error_reporting(E_WARNING);
+	error_reporting(E_ALL);
     require_once '../lib/lib_storage.php';
 	
 	if(isset($_POST['do']))
@@ -72,7 +72,7 @@
         }
         else
         {
-            echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst verbinding met je Dune HD Media player verbonden bent geweest met deze Uitzending Gemist App.";
+            echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst je Dune HD Media player verbonden is geweest met deze Uitzending Gemist App.";
         }        
     }
   

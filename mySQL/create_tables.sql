@@ -2,7 +2,7 @@ delimiter ;
 
 CREATE TABLE `dunehd_player` (
   `duneSerial` char(39) NOT NULL,
-  `ipAddress` int(11) NOT NULL,
+  `ipAddress` varchar(39) NOT NULL,
   `lastSeen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `firstSeen` timestamp NULL DEFAULT NULL,
   `hits` int(10) unsigned NOT NULL DEFAULT '1',
