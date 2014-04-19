@@ -62,7 +62,7 @@
 <p>
 Op deze pagina kun je een koppeling tussen maken je browser waarmee je de favorieten beheert en jouw Dune HD waarmee je je favorieten op afspeelt.
 </p>
-<p>Dit pas mogelijk nadat je Dune HD Media player minstens één maal verbonden is geweest met deze Uitzending Gemist App.</p>
+<p>Dit pas mogelijk nadat je Dune HD Media player minstens &#233;&#233;n maal verbonden is geweest met deze Uitzending Gemist App.</p>
 
 <?php 
 	function getMessage($error)

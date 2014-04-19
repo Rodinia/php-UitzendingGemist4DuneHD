@@ -97,11 +97,11 @@ function isRegistered($duneSerial)
 function findSerialByIP()
 {
     $player = getPlayerByIP();
-	if(!$player)
+	if(isset($player['serial']))
 	{
-		return getSerialByBrowser();
+		return $player['serial'];
 	}
-	return $player['serial'];
+	return getSerialByBrowser();
 }
     
 function getPlayerByIP($remoteIp = null)
@@ -143,6 +143,44 @@ function getPlayerByIP($remoteIp = null)
         $stmt->close();
         
         // if($result == null) return 'FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF';
+        
+        return $result;
+    }
+    else throw Exception('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+    
+    $mysqli->close();
+}
+
+function getPlayers()
+{
+    $mysqli = connectToDb();
+	$result = array();
+    
+    /* create a prepared statement */
+    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, firstSeen, lastSeen, hits, lang, favorites, userAgent FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial ORDER BY lastSeen DESC") )
+    {
+        /* execute query */
+        $stmt->execute();
+        
+        $stmt->bind_result($duneSerial, $ipAddress, $firstSeen, $lastSeen, $hits, $lang, $favorites, $userAgent);
+        
+        $player = null;
+        
+        while($stmt->fetch())
+        {
+            $player = array();
+            $player['serial'] = $duneSerial;
+            $player['ip'] = $ipAddress;
+            $player['firstSeen'] = $firstSeen;
+			$player['lastSeen'] = $lastSeen;
+			$player['hits'] = $hits;
+            $player['lang'] = $lang;
+			$player['favorites'] = $favorites;
+			$player['userAgent'] = $userAgent;
+			$result[] = $player;
+        }
+
+        $stmt->close();
         
         return $result;
     }
