@@ -18,7 +18,7 @@
 	{
 		echo '<tr>';
 		echo '<td><pre>'.$player['serial'].'</pre></td>';
-		echo '<td align="middle">'.long2ip($player[ip]).'</td>';
+		echo '<td align="middle">'.$player['ip'].'</td>';
 		echo '<td align="right">'.$player['firstSeen'].'</td>';
 		echo '<td align="right">'.$player['lastSeen'].'</td>';
 		echo '<td align="right">'.$player['hits'].'</td>';
