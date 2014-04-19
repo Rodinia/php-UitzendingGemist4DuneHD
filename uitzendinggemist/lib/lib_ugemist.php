@@ -132,8 +132,7 @@
 		//echo '#   url = http://www.uitzendinggemist.nl/afleveringen/'.$localepiid."\n";
 		$dom = loadHtmlAsDom('http://www.uitzendinggemist.nl/afleveringen/'.$localepiid);
 		$xpath = new DOMXpath($dom);
-<<<<<<< HEAD
-     	$ed = $xpath->query("//span[@id='episode-data']")->item(0);
+		$ed = $xpath->query("//span[@id='episode-data']")->item(0);
 		$eda = array();
 		foreach ($ed->attributes as $name => $value) $eda[$name] = $value->value;
 		//print_r($eda);
@@ -145,12 +144,6 @@
         $epData = wgetEpisodeData($localepiid);
 		return $epData['data-episode-id'];
     }
-=======
-     	$domnodelist = $xpath->query("//span[@id='episode-data']");
-		//return $domnodelist->item(0)->getAttribute('data-episode-id');
-		return $domnodelist->item(0)->getAttribute('data-player-id');
-	}
->>>>>>> fa0dcc354e476fcfa828c8af6c24ecef47dc0050
 	
 	// compressie_formaat should be one of:  wmv|mov|wvc1
 	// compressie_kwaliteit  should be one of: sb|bb|std (low to high)
@@ -167,39 +160,54 @@
 		return NULL;
 	}
 	
-	// stream attribute "compressie_formaat"   should is likely one of: wmv|mov|wvc1
-	// stream attribute "compressie_kwaliteit" should is likely one of: sb|bb|std    (low to high)
 	function getStreams($ed)
 	{
 		//print_r($ed);
-        if( $ed['data-episode-id'] != null )
+        if( $ed['data-player-id'] != null )
+        {
+            return getStreamsByPlayerId($ed['data-player-id']);
+        }
+        else
         {
             $secret = getSessionKey();
             return getStreamsByEpisodeId($ed['data-episode-id'], $secret);
         }
-        else
-        {
-            return getStreamsByPlayerId($ed['data-player-id']);
-        }
     }
     // http://ida.omroep.nl/odi/?prid=VPWON_1219719&puboptions=adaptive,h264_bb,h264_sb,h264_std&adaptive=yes&part=1&token=gbq5f6ov0jqv05u5lj5t98p5j3&callback=jQuery18207517273030243814_1395569608767&_=1395569609791
 
-    function getStreamsByPlayerId($playerid)
+	function makePlayerStreamInfoUrl($playerid, $token = null, $adaptive = false)
 	{
-        //echo "# getStreamsByPlayerId($playerid)\n";
-        
-        $token = getPlayerToken();
-        $time = time();
-        //echo "#   token = $token\n";
-        //echo "#   time  = $time\n";
-        
-        $url ='http://ida.omroep.nl/odi/?prid='.$playerid.
+		$time = time();
+		if($token === null)
+			$token = getPlayerToken();
+        return 'http://ida.omroep.nl/odi/?prid='.$playerid.
             '&puboptions=adaptive,h264_bb,h264_sb,h264_std,wmv_bb,wmv_sb,wvc1_std'.
-			'&adaptive=no'.
+			'&adaptive='.($adaptive ? 'yes' : 'no').
 			'&part=1'.
 			'&token='.$token.
-            '&callback=cb'.
             '&_='.$time;
+	}
+	
+	function get_M3U8_url($playerid, $token = null)
+	{
+		$url = makePlayerStreamInfoUrl($playerid, null, true);
+		$json = getJson($url);
+		if($json['success'] == 1)
+		{
+			$streamInfoUrl = $json['streams'][0];
+			$streamInfoUrl = str_replace('type=jsonp&callback=?', 'json', $streamInfoUrl); // enforce pure JSON
+			$json = getJson($streamInfoUrl);
+			if($json['errorcode'] == 0)
+			{
+				return $json['url'];
+			}
+		}
+		return null;
+	}
+	
+    function getStreamsByPlayerId($playerid, $token = null)
+	{
+        $url = makePlayerStreamInfoUrl($playerid, $token);
 
         //echo "#   url   = $url\n";
         return getJson($url);
@@ -207,20 +215,23 @@
     
     function getJson($url)
     {
-        $contents = file_get_contents($url); 
+        $contents = curlGet($url); 
         $contents = utf8_encode($contents);
-        preg_match('#\((.*?)\)#', $contents, $matches); // Keep oonly JSON structure
-        return json_decode($matches[1], true);
+		return json_decode($contents, true);
     }
 
     function getPlayerToken()
     {
-        $contents = file_get_contents('http://ida.omroep.nl/npoplayer/i.js'); 
-        $contents = utf8_encode($contents); 
-        //preg_match('/"((?:\\"|[^"])*)"/', $contents, $matches);
-        preg_match('/"([^"]*)"/', $contents, $matches); 
-        return $matches[1]; 
+        $js = file_get_contents('http://ida.omroep.nl/npoplayer/i.js'); // Is there a way to get the token directly in JSON?
+        return jsToJson(utf8_encode($js)); 
     }
+	
+	// Strips wrapping function to only the JSON content
+	function jsToJson($js)
+	{
+		preg_match('/"([^"]*)"/', $js, $matches); 
+        return $matches[1]; 
+	}
 
     function getStreamsByEpisodeId($epiid, $secret)
 	{    
@@ -395,6 +406,7 @@
 	
 	function wgetSessionKey($sessionUrl)
 	{
+		echo "# wgetSessionKey $sessionUrl\n";
 		$dom = loadXmlAsDom($sessionUrl);
         $xpath = new DOMXpath($dom);
         return $xpath->query("/session/key")->item(0)->nodeValue;

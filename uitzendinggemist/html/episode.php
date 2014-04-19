@@ -8,25 +8,19 @@
 
 	include_once '../lib/lib_ugemist.php';
 
-	//$epiid = $_GET['epiid'];
 	$program_id = $_GET['programid'];
 	$localepiid = $_GET['localepiid'];
 	
-	$ed = wgetEpisodeData($localepiid);
-	//echo "# epiid=$epiid\n";
+	$token = getPlayerToken();
+	$ed = wgetEpisodeData($localepiid, $token);
+    //print_r($ed);
 
-	$sessionKey = getSessionKey();
+	$streamData = getStreams($ed);
 
-	$streamUrl = getStreams($ed);
-
-	//$playerUrl = 'http://player.omroep.nl/?aflID='.$epiid.'&md5='.$hash;
-
-	$prid = $metaData['prid']; // NPS_1207084
-	$sko_dt = $metaData['sko_dt']; // 20120905
-
-	$mediaPath = '/public/ug-od/wm/3/media/wm3c2/ceres/1/teleacnot/rest/2012/'.$prid.'/std.'.$sko_dt.'.wmv';
-
-	$streamServerUrl = 'http://cgi.omroep.nl/cgi-bin/streams?'.$mediaPath;
+	function printKeyValueRow($key, $value)
+	{
+		echo "<tr><td>$key</td><td>$value</tr>\n";
+	}
 
 	?>
 	<head>
@@ -43,6 +37,33 @@ foreach($ed as $name => $value)
 	echo '<tr><td>'.$name.'</td><td>'.$value."</td></tr>\n";
 }
 
+if($ed['data-player-id'])
+{
+?>
+		<tr><th colspan="2">Based on player ID:</th></tr>
+<?php		
+	$playerid = $ed['data-player-id'];
+
+	printKeyValueRow('Token', $token);
+
+	$streamInfoUrl = makePlayerStreamInfoUrl($playerid, $token, $time);
+	printKeyValueRow('Stream info URL', "<a href=\"$streamInfoUrl\">$streamInfoUrl</a>");
+	
+	foreach($streamData['streams'] as $index => $streamInfoUrl)
+	{        
+		$streamInfoUrl = str_replace('type=jsonp&callback=?', 'json', $streamInfoUrl); // enforce pure JSON
+		
+		printKeyValueRow("Stream #$index", "<a href=\"$streamInfoUrl.\">$streamInfoUrl</a>");
+        $json = getJson($streamInfoUrl);
+		$streamVideoUrl = $json['url'];
+		printKeyValueRow("Stream #$index video", "<a href=\"$streamVideoUrl\">$streamVideoUrl</a>");
+		
+		$m3u8_url = get_M3U8_url($playerid, $token);
+		printKeyValueRow("Stream #$index M3U8", "<a href=\"$m3u8_url\">$m3u8_url</a>");
+	}
+
+} 
+
 if($ed['data-episode-id']){ 
 
 	$sessionKey = getSessionKey();
@@ -54,6 +75,18 @@ if($ed['data-episode-id']){
 	$metaData = getAfleveringMetaDataUrl($epiid, $sessionKey);
 	$streamInfoUrl = makeStreamInfoUrl($epiid, $sessionKey);
 	$playlistSerieMetaDataUrl = makePlaylistSerieMetaDataUrl($metaData['serie_id'], $sessionKey);
+
+	$sessionKey = getSessionKey();
+
+
+	//$playerUrl = 'http://player.omroep.nl/?aflID='.$epiid.'&md5='.$hash;
+
+	$prid = $metaData['prid']; // NPS_1207084
+	$sko_dt = $metaData['sko_dt']; // 20120905
+
+	$mediaPath = '/public/ug-od/wm/3/media/wm3c2/ceres/1/teleacnot/rest/2012/'.$prid.'/std.'.$sko_dt.'.wmv';
+
+	$streamServerUrl = 'http://cgi.omroep.nl/cgi-bin/streams?'.$mediaPath;
 
 	function makePlayerUrl($epiid, $sessionKey)
 	{
@@ -78,12 +111,6 @@ if($ed['data-episode-id']){
 		<tr><td>Uitzending Gemist URL</td><td><a href="<?php print "http://www.uitzendinggemist.nl/programmas/$program_id"; ?>">Programma op Uitzending Gemist</a></td></tr>
 <? }; 
 
-echo "		<tr><th colspan=\"2\">Streams:</th></tr>\n";
-
-foreach($streamUrl['streams'] as $index => $stream)
-{        
-    echo "<tr><td>Stream info $index</td><td><a href=\"$stream\">$stream</td></tr>\n";
-}
 
 ?>
 		<tr><th colspan="2">Dune:</th></tr>

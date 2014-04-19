@@ -30,15 +30,16 @@
 	//print_r($ed);
     
     $streams = getStreams($ed);
-    
+
 	if(isset($streams['success'] ))
     {
     	// New way
         foreach($streams['streams'] as $stream)
         {
-	        $json = getJson($stream);
-            $streamurl = $json['url'];
-            $contentType = 'video/mp4';
+	        $stream  = str_replace('type=jsonp&callback=?', 'json', $stream ); // Enforce pure JSON 
+            $json = getJson($stream);
+			$streamurl = $json['url'];
+			$contentType = 'video/mp4';
             break;
         }
     }

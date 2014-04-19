@@ -49,12 +49,13 @@ function curlGet($url)
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
 		$htmlContent = curl_exec($ch);
-		if(!$htmlContent)
+		$ch_info = curl_getinfo($ch);
+		if($ch_info['http_code'] == 200)
 		{
-			die('Failed load HTML from URL: '.$url.', error message: '.$last_error['message']);
+			return $htmlContent;
 		}
-		curl_close($ch);
-		return $htmlContent;
+		//print_r($ch_info);
+		throw new Exception('Failed load HTML from URL: '.$url.', http-code: '.$ch_info['http_code']);
 }
 
 function loadXmlAsDom($url)
@@ -64,10 +65,10 @@ function loadXmlAsDom($url)
 	if( $useCurlLoad )
     {
         $xml = curlGet($url);
-        // echo "$xml\n";
+        echo "$xml\n";
         if(!$xml)
 		{
-			die('Failed to load XML from URL: '.$url.', error message: '.$last_error['message']);
+			throw new Exception('Failed to load XML from URL: '.$url.', error message: '.$last_error['message']);
 		}
         $dom->loadXML($xml);
     }
