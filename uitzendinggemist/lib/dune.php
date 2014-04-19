@@ -70,14 +70,14 @@ function duneError($error)
 function getDuneSerial()
 {
     $headers = apache_request_headers();
-    //return isset($headers['X-Dune-Serial-Number']) ? $headers['X-Dune-Serial-Number'] : "FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF-FFFF";
-    return $headers['X-Dune-Serial-Number'];
+    $headers = array_change_key_case($headers, CASE_UPPER); 
+    return $headers['X-DUNE-SERIAL-NUMBER'];
 }
 
 function getDuneLang()
 {
     $headers = apache_request_headers();
-    return $headers['X-Dune-Interface-Language'];
+    return $headers['X-DUNE-INTERFACE-LANGUAGE'];
 }
 
 ?>
