@@ -68,12 +68,15 @@
 		$duneSerial = isset($_GET['serial']) ? $_GET['serial'] : findSerialByIP();
         if($duneSerial)
         {
-            echo '<p>Dune HD media speler gevonden: '.$duneSerial.'</p>'."\n";
+            echo '<div class="success">Dune HD media speler gevonden: '.$duneSerial.'</div>'."\n";
         }
         else
         {
-            echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst je Dune HD Media player verbonden is geweest met deze Uitzending Gemist App.";
-        }        
+            echo "<div class=\"error\">Dune HD serie nummer niet gevonden.</div>";
+            echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst je Dune HD Media player verbonden is geweest met deze Uitzending Gemist App.</p>";
+			echo "<p>Als je al verbonden bent geweest met je Dune HD, maar vanaf een ander IP je favorieten probeert te bewerken, die je eerst dat IP adres te <a href=\"register.php\">registreren</a>.</p>";
+			exit();
+		}        
     }
   
     echo '<p>Klik op het <img src="img/add_to_favorite_22.png" alt="rode hartje"/> bij de programma vermelding, om dat programma toe te voegen aan deze favorieten lijst.</p>'."\n";

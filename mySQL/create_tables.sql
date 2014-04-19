@@ -22,3 +22,12 @@ CREATE TABLE `favorite` (
   PRIMARY KEY (`duneSerial`,`provider`,`type`,`refid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `browser` (
+  `remoteIp` varchar(39) NOT NULL,
+  `duneSerial` varchar(39) NOT NULL,
+  `firstSeen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastSeen` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `hits` int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`remoteIp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

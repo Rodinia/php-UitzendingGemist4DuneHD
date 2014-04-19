@@ -31,16 +31,40 @@ function registerMediaPlayer()
 	if( isRegistered($duneSerial) )
 	{
 		$stmt = $mysqli->prepare("UPDATE dunehd_player SET ipAddress=?, lastSeen=UTC_TIMESTAMP(), lang=?, userAgent=?, hits=hits+1 WHERE duneSerial=?");
-		if(!$stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+		if(!$stmt) throw Exception('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
 		$stmt->bind_param('ssss', getRemoteIp(), getDuneLang(), $_SERVER['HTTP_USER_AGENT'], $duneSerial);
 	}
 	else
 	{
 		$stmt = $mysqli->prepare("INSERT INTO dunehd_player (duneSerial, ipAddress, firstSeen, lastSeen, lang, userAgent) VALUES(?, ?, UTC_TIMESTAMP(), firstSeen, ?, ?)");
         $stmt->bind_param('ssss', $duneSerial, getRemoteIp(), getDuneLang(), $_SERVER['HTTP_USER_AGENT']);
-		if(!stmt) die('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+		if(!stmt) throw Exception('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
 
     }
+	/* execute query */
+	$stmt->execute();
+	$stmt->close();
+    $mysqli->close();
+
+    // initialize favorites
+}
+
+function registerBrowser($duneSerial, $remoteIp = null)
+{
+    if(!$duneSerial) throw Exception("Cannot register browser without DuneHD serial");
+	
+	if($remoteIp == null)
+	{
+		$remoteIp = getRemoteIp();
+	}
+	
+	echo "<p>serial=$duneSerial, ip=$remoteIp</p>\n";
+        
+	$mysqli = connectToDb();
+	$stmt = $mysqli->prepare("INSERT INTO browser(remoteIp, duneSerial, firstSeen, lastSeen) VALUES(?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP())");
+	$stmt->bind_param('ss', $remoteIp, $duneSerial);
+	if(!stmt) throw Exception('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+	
 	/* execute query */
 	$stmt->execute();
 	$stmt->close();
@@ -72,42 +96,28 @@ function isRegistered($duneSerial)
 
 function findSerialByIP()
 {
-    return '8C50-5FE6-146A-F7E7-1D1A-C163-EF74-F494';
-    //$player = getPlayerByIP();
-    //return $player['serial'];
+    $player = getPlayerByIP();
+	if(!$player)
+	{
+		return getSerialByBrowser();
+	}
+	return $player['serial'];
 }
     
-function getPlayerByIP()
+function getPlayerByIP($remoteIp = null)
 {
-    echo "<!-- rem-IP=".getRemoteIp()."-->\n";
-	$numIp = ip2long32(getRemoteIp());
-    
-    if($numIp > -1062731776 && $numIp < -1062666241) // Private range: 192.168.0.0 .. 192.168.255.255
-		$players = getPlayersByRange(-1062731776, -1062666241);
-	else if($numIp > 167772160 && $numIp < 184549375) // Private range: 10.0.0.0 ..  10.255.255.255
-		$players = getPlayersByRange(167772160, 184549375);
-	else if($numIp > -1408237568 && $numIp < -1407188993) // Private range: 172.16.0.0 ..  172.31.255.255
-		$players = getPlayersByRange(-1408237568, -1407188993);
-	else // Public range, assume same IP address for player and HTML browser
-		$players = getPlayersByRange($numIp, $numIp);
-	return isset($players[0]) ? $players[0] : null;
-}
+    if($remoteIp == null)
+	{
+		$remoteIp = getenv('REMOTE_ADDR');
+	}
 
-function getPlayers()
-{
-	// 128.0.0.0=-2147483648 255.255.255=2147483647
-	return getPlayersByRange(-2147483648, 2147483647);
-}
-
-function getPlayersByRange($firstIp, $lastIp)
-{
     $mysqli = connectToDb();
 	$result = array();
     
     /* create a prepared statement */
-    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, firstSeen, lastSeen, hits, lang, favorites, userAgent FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress>=? AND ipAddress<=? ORDER BY lastSeen DESC") )
+    if( $stmt = $mysqli->prepare("SELECT mp.duneSerial, ipAddress, firstSeen, lastSeen, hits, lang, favorites, userAgent FROM dunehd_player mp LEFT JOIN( SELECT duneSerial, COUNT(*) favorites FROM favorite GROUP BY duneSerial ) fav ON fav.duneSerial=mp.duneSerial WHERE ipAddress=? ORDER BY lastSeen DESC") )
     {
-        $stmt->bind_param('ii', $firstIp, $lastIp);
+        $stmt->bind_param('s', $remoteIp);
 
         /* execute query */
         $stmt->execute();
@@ -136,19 +146,50 @@ function getPlayersByRange($firstIp, $lastIp)
         
         return $result;
     }
-    else trigger_error('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+    else throw Exception('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
+    
+    $mysqli->close();
+}
+
+function getSerialByBrowser($remoteIp = null)
+{
+    if($remoteIp == null)
+	{
+		$remoteIp = getenv('REMOTE_ADDR');
+	}
+
+    $mysqli = connectToDb();
+	$result = array();
+    
+    /* create a prepared statement */
+    if( $stmt = $mysqli->prepare("SELECT duneSerial FROM browser WHERE remoteIp=?") )
+    {
+        $stmt->bind_param('s', $remoteIp);
+
+        /* execute query */
+        $stmt->execute();
+        
+        $stmt->bind_result($duneSerial);
+        
+        $player = null;
+        
+        while($stmt->fetch())
+        {
+            return $duneSerial;
+        }
+
+        $stmt->close();
+        
+        return null;
+    }
+    else throw Exception('Prepare statement error (' . $mysqli->errno . ') '. $mysqli->error);
     
     $mysqli->close();
 }
 
 function getRemoteIp()
 {
-    /*
-	if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '')
-    {
-        return $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }*/
-    return getenv('REMOTE_ADDR'); //$_SERVER['REMOTE_ADDR'];
+	return getenv('REMOTE_ADDR');
 }
 
 function ip2long32($ipstr)
