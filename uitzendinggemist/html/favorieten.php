@@ -1,7 +1,7 @@
 <?php
     
     #Enable display errors
-	error_reporting(E_ALL);
+	error_reporting(E_WARNING);
     require_once '../lib/lib_storage.php';
 	
 	if(isset($_POST['do']))
