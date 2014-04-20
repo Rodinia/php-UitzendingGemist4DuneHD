@@ -48,13 +48,12 @@
 	
         if($duneSerial)
 		{
-			echo "<table>";    
-			echo '<tr><td>Dune HD Gevonden; Serial:</td><td>'.$duneSerial.'</td></tr>'."\n";
-			echo "</table>";
+			echo '<div class="success"><tr><td>Dune HD Gevonden, serie nummer: '.$duneSerial.'</div>'."\n";
 		}
 		else if($useMySQL)
 		{
-			echo "<p>Je kunt pas favorieten aanmaken, nadat je eerst verbinding met je Dune HD Media player verbonden bent geweest met deze Uitzending Gemist App.";
+			echo '<div class="error">Je kunt pas favorieten aanmaken, nadat je eerst, met je Dune HD Media player, verbonden bent geweest met deze Uitzending Gemist App.</div>';
+			echo 'Mogelijk moet je je browser <a href="register.php">registreren</a>.';
 		}
     }
 	
